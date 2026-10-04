@@ -1,0 +1,240 @@
+{%- comment -%}
+  ONX — FAQ en accordéons natifs (<details>, sans JavaScript) + données structurées FAQPage.
+  Seules les questions réellement remplies sont publiées (et balisées pour Google).
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign intro = s.intro
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if intro contains '['
+      assign intro = ''
+    endif
+  endif
+  assign shown = 0
+  assign json_items = ''
+-%}
+{%- capture items -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign q = block.settings.question
+      assign a = block.settings.answer
+      assign is_ph = false
+      if q contains '[' or a contains '['
+        assign is_ph = true
+      endif
+      if is_ph and dm == false
+        continue
+      endif
+      if q == blank or a == blank
+        continue
+      endif
+      assign shown = shown | plus: 1
+      unless is_ph
+        capture item_json
+          echo '{"@type":"Question","name":'
+          echo q | strip_html | json
+          echo ',"acceptedAnswer":{"@type":"Answer","text":'
+          echo a | strip_html | json
+          echo '}}'
+        endcapture
+        if json_items != ''
+          assign json_items = json_items | append: ','
+        endif
+        assign json_items = json_items | append: item_json
+      endunless
+    -%}
+    <details class="onx-faq__item" {{ block.shopify_attributes }}{% if forloop.first and s.open_first %} open{% endif %}>
+      <summary class="onx-faq__q">
+        <span>{% render 'onx-text', text: q %}</span>
+        <span class="onx-faq__toggle" aria-hidden="true">{% render 'onx-icon', icon: 'plus', size: 18 %}</span>
+      </summary>
+      <div class="onx-faq__a rte">{% if is_ph %}<span class="onx-ph">{{ a }}</span>{% else %}{{ a }}{% endif %}</div>
+    </details>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if shown > 0 -%}
+<section class="onx-faq onx-section onx-scheme--{{ s.scheme }}" data-onx-section="faq">
+  <div class="onx-container onx-faq__inner">
+    <div class="onx-faq__head">
+      {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+      {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      {%- if intro != blank -%}<p class="onx-muted">{% render 'onx-text', text: intro %}</p>{%- endif -%}
+      {%- if s.contact_label != blank and s.contact_link != blank -%}
+        <a class="onx-btn onx-btn--ghost onx-btn--sm" href="{{ s.contact_link }}">{% render 'onx-icon', icon: 'chat', size: 18 %}{{ s.contact_label | escape }}</a>
+      {%- endif -%}
+    </div>
+    <div class="onx-faq__list">{{ items }}</div>
+  </div>
+</section>
+{%- if s.schema_markup and json_items != '' -%}
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ json_items }}]}</script>
+{%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — FAQ",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Vos questions, nos réponses"
+    },
+    {
+      "type": "text",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "Une autre question ? Notre équipe vous répond."
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Bouton contact",
+      "default": "Nous contacter"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Lien contact",
+      "info": "Ex. votre page Contact."
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Ouvrir la 1re question",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "schema_markup",
+      "label": "Données structurées FAQ (SEO)",
+      "default": true,
+      "info": "Désactivez si une autre section FAQ de la même page les génère déjà."
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "light",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "[Question]"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Réponse",
+          "default": "<p>[Réponse précise, vérifiée.]</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — FAQ",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>[Préparation sous X jours ouvrés, livraison en X à X jours ouvrés en France métropolitaine.]</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>[Un e-mail avec votre numéro de suivi vous est envoyé dès l'expédition.]</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner un article ?",
+            "answer": "<p>[Vous disposez de X jours après réception. Voir notre politique de retour.]</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Quels moyens de paiement acceptez-vous ?",
+            "answer": "<p>[Carte bancaire, Apple Pay, Google Pay, PayPal… — selon les moyens activés.]</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Comment choisir ma taille ?",
+            "answer": "<p>[Renvoyez vers votre guide des tailles ou supprimez cette question.]</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Comment vous contacter ?",
+            "answer": "<p>[Par e-mail à contact@… ou via le formulaire de contact. Réponse sous X h.]</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

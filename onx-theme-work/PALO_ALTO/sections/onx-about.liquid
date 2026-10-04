@@ -1,0 +1,142 @@
+{%- comment -%} ONX — Mini « À propos » : humaniser la marque en 2–4 lignes. {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign text = s.text
+  assign sign = s.signature
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if text contains '['
+      assign text = ''
+    endif
+    if sign contains '['
+      assign sign = ''
+    endif
+  endif
+-%}
+{%- if title != blank or text != blank or dm -%}
+<section class="onx-about onx-section onx-scheme--{{ s.scheme }}{% if s.image_right %} onx-about--reverse{% endif %}" data-onx-section="about">
+  <div class="onx-container onx-about__inner{% if s.image == blank and dm == false %} onx-about__inner--text{% endif %}">
+    {%- if s.image != blank or dm -%}
+    <div class="onx-about__media">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1400 | image_tag: widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', class: 'onx-cover' }}
+      {%- else -%}
+        <div class="onx-hero__frame--placeholder">{{ 'lifestyle-1' | placeholder_svg_tag: 'onx-placeholder-svg' }}{% if dm %}<span class="onx-ph onx-ph--badge">[PHOTO ÉQUIPE / ATELIER / FONDATEUR]</span>{% endif %}</div>
+      {%- endif -%}
+      <span class="onx-about__mark" aria-hidden="true">{{ settings.onx_wordmark | default: shop.name | escape }}</span>
+    </div>
+    {%- endif -%}
+    <div class="onx-about__copy">
+      {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+      {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      {%- if text != blank -%}<div class="onx-about__text">{% render 'onx-text', text: text %}</div>{%- endif -%}
+      {%- if sign != blank -%}<p class="onx-about__sign">— {% render 'onx-text', text: sign %}</p>{%- endif -%}
+      {%- if s.cta_label != blank and s.cta_link != blank -%}
+        <a class="onx-btn onx-btn--primary" href="{{ s.cta_link }}">{{ s.cta_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — À propos (mini)",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_right",
+      "label": "Image à droite",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "L'histoire d'ONX"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Notre mission"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte (2 à 4 lignes)",
+      "default": "<p>[Pourquoi ONX existe, pour qui, et ce que vous refusez de faire comme les autres. 2 à 4 lignes, sincères.]</p>"
+    },
+    {
+      "type": "text",
+      "id": "signature",
+      "label": "Signature (optionnelle)",
+      "default": "[Prénom, fondateur d'ONX]"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton",
+      "default": "Découvrir notre histoire"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton",
+      "info": "Ex. votre page « À propos ». Le bouton reste masqué tant qu'aucun lien n'est choisi (pas de lien cassé)."
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "surface",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — À propos (mini)"
+    }
+  ]
+}
+{% endschema %}

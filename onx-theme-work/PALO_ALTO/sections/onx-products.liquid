@@ -1,0 +1,209 @@
+{%- comment -%}
+  ONX — Produits (best-sellers / nouveautés / promotions) en onglets.
+  Réutilise la carte produit du thème (snippets/product-grid-item) :
+  quick view, ajout rapide, swatches, badges et notes restent fonctionnels.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+  endif
+  assign tabs = section.blocks
+  assign limit = s.limit
+-%}
+
+<section class="onx-products onx-section onx-scheme--{{ s.scheme }} onx-products--{{ s.mobile_layout }}"
+  id="onx-products-{{ section.id }}"
+  data-onx-section="products"
+  data-onx-tabs
+  data-onx-product-grid
+  data-section-id="{{ section.id }}">
+  <div class="onx-container">
+    <div class="onx-section__head onx-section__head--row">
+      <div>
+        {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+        {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      </div>
+
+      {%- if tabs.size > 1 -%}
+        <div class="onx-tabs" role="tablist" aria-label="{{ title | strip_html | escape }}">
+          {%- for block in tabs -%}
+            <button type="button" class="onx-tabs__btn" role="tab"
+              id="onx-tab-{{ block.id }}"
+              aria-controls="onx-panel-{{ block.id }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              {% unless forloop.first %}tabindex="-1"{% endunless %}
+              data-onx-tab
+              {{ block.shopify_attributes }}>
+              {{ block.settings.label | default: block.settings.collection.title | escape }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- for block in tabs -%}
+      {%- comment -%} Sans collection choisie : repli sur « Tous les produits » (jamais de grille vide en ligne) {%- endcomment -%}
+      {%- assign collection = block.settings.collection | default: collections.all -%}
+      <div class="onx-products__panel" role="tabpanel"
+        id="onx-panel-{{ block.id }}"
+        aria-labelledby="onx-tab-{{ block.id }}"
+        data-onx-panel
+        {% unless forloop.first %}hidden{% endunless %}>
+        {%- if collection != blank and collection.products_count > 0 -%}
+          <div class="onx-products__track" data-onx-scroller>
+            {%- for product in collection.products limit: limit -%}
+              {%- render 'product-grid-item', product: product, animation_delay: forloop.index0, collection: collection, section: section -%}
+            {%- endfor -%}
+          </div>
+          <div class="onx-products__foot">
+            <a class="onx-btn onx-btn--primary" href="{{ collection.url }}">
+              {{ block.settings.cta_label | default: 'Voir tout' | escape }}
+              {% render 'onx-icon', icon: 'arrow-right', size: 18 %}
+            </a>
+          </div>
+        {%- else -%}
+          <div class="onx-products__track" data-onx-scroller>
+            {%- for i in (1..4) -%}
+              <div class="product-grid-item onx-skeleton-card">
+                <div class="onx-skeleton-card__img">{{ 'product-' | append: i | placeholder_svg_tag: 'onx-placeholder-svg' }}</div>
+                <p class="onx-skeleton-card__title">{% if dm %}[PRODUIT — choisissez une collection]{% endif %}</p>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ONX — Produits à onglets",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "ONX SELECT"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Les plus populaires"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Produits par onglet",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Affichage mobile",
+      "default": "scroll",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Carrousel horizontal (glisser)"
+        },
+        {
+          "value": "grid",
+          "label": "Grille 2 colonnes"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "light",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Onglet",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "Best-sellers"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Astuce : collection automatique triée par « Meilleures ventes »."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Texte du bouton",
+          "default": "Voir tous les best-sellers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Produits à onglets",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Best-sellers",
+            "cta_label": "Voir tous les best-sellers"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Nouveautés",
+            "cta_label": "Voir les nouveautés"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

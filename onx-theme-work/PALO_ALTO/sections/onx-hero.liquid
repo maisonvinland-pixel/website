@@ -1,0 +1,412 @@
+{%- comment -%}
+  ONX — Hero conversion.
+  Objectif : en < 3 s → quoi, pourquoi, preuve, action.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign subtitle = s.subtitle
+  assign proof = s.proof_text
+  assign offer = s.offer_text
+  if dm == false
+    if offer contains '['
+      assign offer = ''
+    endif
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if subtitle contains '['
+      assign subtitle = ''
+    endif
+    if proof contains '['
+      assign proof = ''
+    endif
+  endif
+
+  comment
+    Mot-clé du titre mis en valeur (dégradé glacé). Le titre reste du texte (SEO).
+  endcomment
+  assign title_html = title | escape
+  if s.title_highlight != blank and title contains s.title_highlight
+    assign hl = s.title_highlight | escape
+    assign hl_html = '<em>' | append: hl | append: '</em>'
+    assign title_html = title_html | replace_first: hl, hl_html
+  endif
+
+  assign img = s.image
+  assign img_alt = img.alt | default: s.title | strip_html | escape
+  assign img_mobile = s.image_mobile | default: s.image
+  assign layout = s.layout
+  assign has_media = false
+  if s.video != blank or img != blank or dm
+    assign has_media = true
+  endif
+-%}
+
+<section class="onx-hero onx-hero--{{ layout }} onx-scheme--{{ s.scheme }}{% unless has_media %} onx-hero--no-media{% endunless %}"
+  id="onx-hero-{{ section.id }}"
+  data-onx-section="hero"
+  {% if s.test_id != blank %}data-onx-test="{{ s.test_id | escape }}"{% endif %}>
+  <div class="onx-hero__inner onx-container">
+    <div class="onx-hero__content">
+      {%- if eyebrow != blank or proof != blank -%}
+        <div class="onx-hero__top">
+          {%- if eyebrow != blank -%}
+            <p class="onx-hero__label">{% render 'onx-text', text: eyebrow %}</p>
+          {%- endif -%}
+          {%- if proof != blank -%}
+            <span class="onx-hero__proof">
+              {%- if s.show_stars -%}<span class="onx-stars" aria-hidden="true">★★★★★</span>{%- endif -%}
+              <span>{% render 'onx-text', text: proof %}</span>
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if title != blank -%}
+        {%- capture title_out -%}{%- if title contains '[' -%}{% render 'onx-text', text: title %}{%- else -%}{{ title_html }}{%- endif -%}{%- endcapture -%}
+        {%- if s.title_is_h1 -%}
+          <h1 class="onx-hero__title onx-display">{{ title_out }}</h1>
+        {%- else -%}
+          <h2 class="onx-hero__title onx-display">{{ title_out }}</h2>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if subtitle != blank -%}
+        <p class="onx-hero__subtitle onx-lead">{% render 'onx-text', text: subtitle %}</p>
+      {%- endif -%}
+
+      {%- assign has_benefits = false -%}
+      {%- capture benefits -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'benefit' -%}
+            {%- assign b = block.settings.text -%}
+            {%- if b != blank -%}
+              {%- unless b contains '[' and dm == false -%}
+                {%- assign has_benefits = true -%}
+                <li class="onx-checklist__item" {{ block.shopify_attributes }}>
+                  <span class="onx-checklist__icon">{% render 'onx-icon', icon: 'check', size: 16 %}</span>
+                  <span>{% render 'onx-text', text: b %}</span>
+                </li>
+              {%- endunless -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if has_benefits -%}
+        <ul class="onx-checklist onx-hero__benefits" role="list">{{ benefits }}</ul>
+      {%- endif -%}
+
+      {%- if offer != blank -%}
+        {%- if s.offer_link != blank -%}<a class="onx-hero__offer" href="{{ s.offer_link }}" data-onx-track="hero_offer_click">{%- else -%}<p class="onx-hero__offer">{%- endif -%}
+          {% render 'onx-icon', icon: 'snowflake', size: 18 %}<span>{% render 'onx-text', text: offer %}</span>
+        {%- if s.offer_link != blank -%}</a>{%- else -%}</p>{%- endif -%}
+      {%- endif -%}
+
+      <div class="onx-hero__ctas">
+        {%- if s.cta_label != blank -%}
+          <a href="{{ s.cta_link | default: routes.all_products_collection_url }}"
+            class="onx-btn onx-btn--{{ s.cta_style }} onx-btn--lg"
+            data-onx-track="hero_cta_click" data-onx-track-label="primary">
+            <span>{{ s.cta_label | escape }}</span>
+            {% render 'onx-icon', icon: 'arrow-right', size: 18 %}
+          </a>
+        {%- endif -%}
+        {%- if s.cta2_label != blank -%}
+          <a href="{{ s.cta2_link | default: routes.collections_url }}"
+            class="onx-btn onx-btn--link onx-btn--lg"
+            data-onx-track="hero_cta_click" data-onx-track-label="secondary">
+            {{ s.cta2_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 16 %}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if s.micro_text != blank -%}
+        {%- unless s.micro_text contains '[' and dm == false -%}
+          <p class="onx-hero__micro">{% render 'onx-icon', icon: 'lock', size: 14 %}<span>{% render 'onx-text', text: s.micro_text %}</span></p>
+        {%- endunless -%}
+      {%- endif -%}
+    </div>
+
+    {%- if has_media -%}
+    <div class="onx-hero__media">
+      {%- if s.video != blank -%}
+        <div class="onx-hero__frame">
+          {{ s.video | video_tag: image_size: '1200x', autoplay: true, loop: true, muted: true, controls: false, playsinline: true, preload: 'metadata', class: 'onx-hero__video' }}
+        </div>
+      {%- elsif img != blank -%}
+        <div class="onx-hero__frame">
+          <picture>
+            <source media="(max-width: 767px)" srcset="{{ img_mobile | image_url: width: 600 }} 600w, {{ img_mobile | image_url: width: 900 }} 900w, {{ img_mobile | image_url: width: 1200 }} 1200w" sizes="100vw">
+            {{ img | image_url: width: 1800 | image_tag:
+              widths: '700, 1000, 1400, 1800',
+              sizes: '(min-width: 990px) 52vw, 100vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              class: 'onx-hero__img',
+              alt: img_alt }}
+          </picture>
+        </div>
+      {%- else -%}
+        <div class="onx-hero__frame onx-hero__frame--placeholder">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'onx-placeholder-svg' }}
+          {%- if dm -%}<span class="onx-ph onx-ph--badge">[IMAGE HERO — 1600×2000 recommandé]</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if s.media_badge != blank -%}
+        {%- unless s.media_badge contains '[' and dm == false -%}
+          <div class="onx-hero__media-badge">{% render 'onx-text', text: s.media_badge %}</div>
+        {%- endunless -%}
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ONX — Hero",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Mise en page",
+      "default": "split",
+      "options": [
+        {
+          "value": "split",
+          "label": "Texte + visuel côte à côte"
+        },
+        {
+          "value": "overlay",
+          "label": "Texte sur image plein écran"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "winter",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Petit label",
+      "default": "ONX / Collection hiver",
+      "info": "Ex. ONX / COLLECTION HIVER. Texte entre [ ] = masqué en ligne."
+    },
+    {
+      "type": "text",
+      "id": "proof_text",
+      "label": "Preuve sociale courte",
+      "default": "[4,8/5 — basé sur XXX avis vérifiés]",
+      "info": "Uniquement des chiffres réels."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Afficher les étoiles devant la preuve",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre (headline)",
+      "default": "L'hiver, sans compromis."
+    },
+    {
+      "type": "text",
+      "id": "title_highlight",
+      "label": "Mot(s) à mettre en valeur dans le titre",
+      "default": "sans compromis",
+      "info": "Doit apparaître tel quel dans le titre. Rendu en dégradé glacé."
+    },
+    {
+      "type": "checkbox",
+      "id": "title_is_h1",
+      "label": "Utiliser comme H1 de la page",
+      "default": true,
+      "info": "Un seul H1 par page (SEO)."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Sous-titre orienté bénéfice",
+      "default": "[Une phrase claire : ce que vend ONX et ce que le client y gagne face au froid.]"
+    },
+    {
+      "type": "header",
+      "content": "Boutons"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA principal",
+      "default": "Découvrir la collection"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien CTA principal"
+    },
+    {
+      "type": "select",
+      "id": "cta_style",
+      "label": "Style CTA principal",
+      "default": "signal",
+      "options": [
+        {
+          "value": "signal",
+          "label": "Bleu ONX (recommandé)"
+        },
+        {
+          "value": "primary",
+          "label": "Bleu profond"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "CTA secondaire",
+      "default": "Voir les best-sellers"
+    },
+    {
+      "type": "url",
+      "id": "cta2_link",
+      "label": "Lien CTA secondaire"
+    },
+    {
+      "type": "text",
+      "id": "offer_text",
+      "label": "Offre du moment (pourquoi maintenant)",
+      "default": "[Offre hiver : -XX % avec le code XXXX]",
+      "info": "Uniquement une offre réelle. Masquée si vide."
+    },
+    {
+      "type": "url",
+      "id": "offer_link",
+      "label": "Lien de l'offre (optionnel)"
+    },
+    {
+      "type": "text",
+      "id": "micro_text",
+      "label": "Micro-réassurance sous les boutons",
+      "default": "Paiement sécurisé · [Livraison suivie] · [Retours simples]"
+    },
+    {
+      "type": "header",
+      "content": "Média"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (desktop)",
+      "info": "Format portrait 4:5 recommandé (1600×2000)."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (mobile, optionnelle)"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Vidéo (optionnelle, remplace l'image)",
+      "info": "Courte boucle muette < 8 Mo."
+    },
+    {
+      "type": "text",
+      "id": "media_badge",
+      "label": "Pastille sur l'image",
+      "default": "[-XX % cette semaine]"
+    },
+    {
+      "type": "header",
+      "content": "Tests A/B"
+    },
+    {
+      "type": "text",
+      "id": "test_id",
+      "label": "Identifiant de variante (optionnel)",
+      "info": "Ex. hero-v2. Ajouté aux événements de mesure."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Bénéfice",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Bénéfice",
+          "default": "[Bénéfice concret n°1]"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Hero",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "[Bénéfice concret n°1]"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "[Bénéfice concret n°2]"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "[Bénéfice concret n°3]"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

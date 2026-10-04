@@ -1,0 +1,224 @@
+{%- comment -%}
+  ONX — UGC / vidéos verticales type Reels/TikTok.
+  - Lecture sur place au clic (son activé), pause au 2e clic, une seule vidéo à la fois
+  - preload="none" : aucune vidéo téléchargée avant interaction (performance)
+  - Lien produit optionnel sous chaque vidéo (« shop the look »)
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+  endif
+  assign shown = 0
+-%}
+{%- capture items -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign v = block.settings.video
+      assign p = block.settings.product
+      assign cap = block.settings.caption
+      if dm == false and cap contains '['
+        assign cap = ''
+      endif
+      if v == blank and dm == false
+        continue
+      endif
+      assign shown = shown | plus: 1
+    -%}
+    <article class="onx-ugc__item" {{ block.shopify_attributes }}>
+      <div class="onx-ugc__frame" data-onx-video>
+        {%- if v != blank -%}
+          {%- if block.settings.poster != blank -%}
+            {%- assign poster_url = block.settings.poster | image_url: width: 720 -%}
+          {%- else -%}
+            {%- assign poster_url = v.preview_image | image_url: width: 720 -%}
+          {%- endif -%}
+          <video class="onx-ugc__video" playsinline loop preload="none" poster="{{ poster_url }}" data-onx-video-el>
+            {%- liquid
+              assign src_url = ''
+              for source in v.sources
+                if source.mime_type == 'video/mp4' and source.height <= 1280
+                  assign src_url = source.url
+                  break
+                endif
+              endfor
+              if src_url == ''
+                for source in v.sources
+                  if source.mime_type == 'video/mp4'
+                    assign src_url = source.url
+                    break
+                  endif
+                endfor
+              endif
+            -%}
+            {%- if src_url != '' -%}<source src="{{ src_url }}" type="video/mp4">{%- endif -%}
+          </video>
+          <button type="button" class="onx-ugc__play" data-onx-video-toggle aria-label="{{ 'general.onx.play_video' | t }}" data-label-play="{{ 'general.onx.play_video' | t }}" data-label-pause="{{ 'general.onx.pause_video' | t }}" data-onx-track="ugc_play" data-onx-track-label="{{ block.settings.handle | default: forloop.index | escape }}">
+            <span class="onx-ugc__play-icon onx-ugc__play-icon--play">{% render 'onx-icon', icon: 'play', size: 26 %}</span>
+            <span class="onx-ugc__play-icon onx-ugc__play-icon--pause">{% render 'onx-icon', icon: 'pause', size: 26 %}</span>
+          </button>
+          <button type="button" class="onx-ugc__mute" data-onx-video-mute aria-label="{{ 'general.onx.mute' | t }}" aria-pressed="false">
+            <span class="onx-ugc__mute-on">{% render 'onx-icon', icon: 'volume', size: 18 %}</span>
+            <span class="onx-ugc__mute-off">{% render 'onx-icon', icon: 'mute', size: 18 %}</span>
+          </button>
+        {%- else -%}
+          <div class="onx-ugc__empty">{% render 'onx-icon', icon: 'play', size: 30 %}<span class="onx-ph">[VIDÉO UGC verticale 9:16]</span></div>
+        {%- endif -%}
+        {%- if block.settings.handle != blank -%}<span class="onx-ugc__handle">{{ block.settings.handle | escape }}</span>{%- endif -%}
+      </div>
+      {%- if cap != blank -%}<p class="onx-ugc__caption">{% render 'onx-text', text: cap %}</p>{%- endif -%}
+      {%- if p != blank -%}
+        <a class="onx-ugc__product" href="{{ p.url }}" data-onx-track="ugc_product_click" data-onx-track-label="{{ p.handle }}">
+          {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 96 | image_tag: loading: 'lazy', width: 44, height: 44, class: 'onx-ugc__product-img' }}{%- endif -%}
+          <span class="onx-ugc__product-info">
+            <span class="onx-ugc__product-title">{{ p.title | escape }}</span>
+            <span class="onx-ugc__product-price">{{ p.price | money }}{% if p.compare_at_price > p.price %} <s>{{ p.compare_at_price | money }}</s>{% endif %}</span>
+          </span>
+          <span class="onx-ugc__product-cta">{% render 'onx-icon', icon: 'arrow-right', size: 16 %}</span>
+        </a>
+      {%- endif -%}
+    </article>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if shown > 0 -%}
+<section class="onx-ugc onx-section onx-scheme--{{ s.scheme }}" data-onx-section="ugc">
+  <div class="onx-container">
+    <div class="onx-section__head onx-section__head--row">
+      <div>
+        {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+        {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      </div>
+      {%- if s.social_label != blank and s.social_link != blank -%}
+        <a class="onx-btn onx-btn--ghost onx-btn--sm" href="{{ s.social_link }}" target="_blank" rel="noopener">{{ s.social_label | escape }}</a>
+      {%- endif -%}
+    </div>
+    <div class="onx-ugc__track" data-onx-scroller>{{ items }}</div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — UGC vidéos",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Vu chez nos clients"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Ils l'ont testé"
+    },
+    {
+      "type": "text",
+      "id": "social_label",
+      "label": "Lien réseau social (texte)",
+      "default": "Suivre ONX"
+    },
+    {
+      "type": "url",
+      "id": "social_link",
+      "label": "Lien réseau social",
+      "info": "Ex. votre compte Instagram ou TikTok."
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "dark",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Vidéo",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Vidéo verticale (9:16)",
+          "info": "Hébergée sur Shopify. Utilisez des vidéos dont vous avez les droits."
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Image de couverture (optionnelle)"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Pseudo du créateur (optionnel)",
+          "info": "Ex. @prenom"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Légende (optionnelle)"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit présenté (optionnel)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — UGC vidéos",
+      "blocks": [
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        },
+        {
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

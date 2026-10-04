@@ -1,0 +1,171 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "faq_order": {
+      "type": "onx-faq",
+      "settings": {
+        "eyebrow": "FAQ",
+        "title": "Commande & paiement",
+        "intro": "Une autre question ? Notre équipe vous répond.",
+        "contact_label": "Nous contacter",
+        "schema_markup": true,
+        "scheme": "light"
+      },
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Comment passer commande ?",
+            "answer": "<p>[Ajoutez vos produits au panier puis cliquez sur « Paiement sécurisé ». Expliquez ici les étapes.]</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": "<p>Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Quels moyens de paiement acceptez-vous ?",
+            "answer": "<p>[Listez uniquement les moyens activés sur votre boutique.]</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je utiliser un code promo ?",
+            "answer": "<p>[Oui : saisissez-le à l'étape de paiement, dans le champ « Code de réduction ».]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4"
+      ]
+    },
+    "faq_shipping": {
+      "type": "onx-faq",
+      "settings": {
+        "eyebrow": "FAQ",
+        "title": "Livraison & suivi",
+        "intro": "",
+        "contact_label": "",
+        "schema_markup": false,
+        "scheme": "surface"
+      },
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>[Préparation sous X jours ouvrés, livraison en X à X jours ouvrés.]</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Combien coûte la livraison ?",
+            "answer": "<p>[Tarifs exacts, et seuil de livraison offerte si vous en proposez un.]</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>[Un e-mail avec le lien de suivi vous est envoyé dès l'expédition.]</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Livrez-vous à l'international ?",
+            "answer": "<p>[Pays desservis et délais.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4"
+      ]
+    },
+    "faq_returns": {
+      "type": "onx-faq",
+      "settings": {
+        "eyebrow": "FAQ",
+        "title": "Retours & garantie",
+        "intro": "",
+        "contact_label": "",
+        "schema_markup": false,
+        "scheme": "light"
+      },
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner un article ?",
+            "answer": "<p>[Délai de rétractation / retour et conditions — voir notre politique de retour.]</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Comment se passe le remboursement ?",
+            "answer": "<p>[Délai et mode de remboursement.]</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Mes produits sont-ils garantis ?",
+            "answer": "<p>[Garantie légale de conformité (2 ans dans l'UE) et éventuelle garantie commerciale — à préciser.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3"
+      ]
+    },
+    "faq_contact": {
+      "type": "onx-faq",
+      "settings": {
+        "eyebrow": "FAQ",
+        "title": "Contact",
+        "intro": "",
+        "contact_label": "",
+        "schema_markup": false,
+        "scheme": "surface"
+      },
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Comment contacter le service client ?",
+            "answer": "<p>[E-mail, formulaire, horaires et délai de réponse.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq_order",
+    "faq_shipping",
+    "faq_returns",
+    "faq_contact"
+  ]
+}

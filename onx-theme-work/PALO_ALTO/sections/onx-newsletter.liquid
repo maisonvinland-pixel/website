@@ -1,0 +1,128 @@
+{%- comment -%}
+  ONX — Newsletter avec proposition de valeur. L'incentive (ex. -10 %) est optionnel :
+  laissez-le vide si vous ne souhaitez pas offrir de remise.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign title = s.title
+  assign text = s.text
+  assign incentive = s.incentive
+  if dm == false
+    if title contains '['
+      assign title = ''
+    endif
+    if text contains '['
+      assign text = ''
+    endif
+    if incentive contains '['
+      assign incentive = ''
+    endif
+  endif
+  assign form_id = 'onx-newsletter-' | append: section.id
+-%}
+<section class="onx-newsletter onx-section onx-section--tight onx-scheme--{{ s.scheme }}" data-onx-section="newsletter">
+  <div class="onx-container">
+    <div class="onx-newsletter__card">
+      <div class="onx-newsletter__copy">
+        {%- if incentive != blank -%}<span class="onx-pill onx-pill--accent">{% render 'onx-text', text: incentive %}</span>{%- endif -%}
+        {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+        {%- if text != blank -%}<p class="onx-muted">{% render 'onx-text', text: text %}</p>{%- endif -%}
+      </div>
+      {%- form 'customer', id: form_id, class: 'onx-newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter, onx">
+        {%- if form.posted_successfully? -%}
+          <p class="onx-notice onx-notice--success" role="status">{% render 'onx-icon', icon: 'check-circle', size: 18 %}{{ 'general.newsletter_form.newsletter_success' | t }}</p>
+        {%- else -%}
+          {%- if form.errors -%}
+            <p class="onx-notice onx-notice--error" role="alert">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <div class="onx-field onx-field--inline">
+            <label for="{{ form_id }}-email" class="visually-hidden">{{ 'general.newsletter_form.email' | t }}</label>
+            <input id="{{ form_id }}-email" class="onx-input" type="email" name="contact[email]" autocomplete="email" autocapitalize="off" spellcheck="false" required placeholder="{{ 'general.newsletter_form.email' | t }}">
+            <button type="submit" class="onx-btn onx-btn--primary">{{ s.button_label | escape }}</button>
+          </div>
+          {%- if s.legal != blank -%}<div class="onx-newsletter__legal">{{ s.legal }}</div>{%- endif -%}
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "ONX — Newsletter",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "incentive",
+      "label": "Incentive (optionnel)",
+      "default": "[-10 % sur votre première commande]",
+      "info": "Laissez vide si vous n'offrez pas de remise. Si renseigné, configurez l'e-mail de bienvenue avec le code."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Reçois nos offres privées et nos nouveautés"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Texte",
+      "default": "Les drops ONX en avant-première. Pas de spam, désinscription en un clic."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Bouton",
+      "default": "Je m'inscris"
+    },
+    {
+      "type": "richtext",
+      "id": "legal",
+      "label": "Mention légale (RGPD)",
+      "default": "<p>En vous inscrivant, vous acceptez de recevoir nos e-mails. Voir notre politique de confidentialité.</p>"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "stone",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Newsletter"
+    }
+  ]
+}
+{% endschema %}

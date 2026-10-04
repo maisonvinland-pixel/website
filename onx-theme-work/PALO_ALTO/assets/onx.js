@@ -1,0 +1,424 @@
+/*!
+ * ONX — couche conversion (vanilla JS, sans dépendance).
+ * Chargé en `defer` après theme.js. Chaque module est indépendant et tolérant
+ * à l'absence de ses éléments. Réinitialisé à chaque rechargement de section dans l'éditeur.
+ */
+(function () {
+  'use strict';
+
+  var ONX = (window.ONX = window.ONX || {});
+  var cfg = window.onxConfig || {};
+  var strings = cfg.strings || {};
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+  function money(cents) {
+    try {
+      if (window.slate && slate.Currency && slate.Currency.formatMoney) {
+        return slate.Currency.formatMoney(cents, (window.theme && theme.moneyFormat) || '{{amount_with_comma_separator}} €');
+      }
+    } catch (e) { /* fallback ci-dessous */ }
+    return (cents / 100).toFixed(2).replace('.', ',') + ' €';
+  }
+
+  /* ------------------------------------------------------------------
+   * 1. Mesure — dataLayer (GTM) + Shopify.analytics (pixels personnalisés)
+   *    Les événements natifs (add_to_cart, checkout, purchase) restent
+   *    collectés par Shopify : on n'émet ici que des micro-conversions.
+   * ------------------------------------------------------------------ */
+  ONX.track = function (event, data) {
+    if (!cfg.tracking) return;
+    var payload = Object.assign({ event: 'onx_' + event, page_type: cfg.pageType || '' }, data || {});
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(payload);
+    } catch (e) { /* noop */ }
+    try {
+      if (window.Shopify && Shopify.analytics && typeof Shopify.analytics.publish === 'function') {
+        Shopify.analytics.publish('onx_' + event, payload);
+      }
+    } catch (e) { /* noop */ }
+  };
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('[data-onx-track]');
+    if (!el) return;
+    var section = el.closest('[data-onx-section]');
+    var test = el.closest('[data-onx-test]');
+    ONX.track(el.getAttribute('data-onx-track'), {
+      label: el.getAttribute('data-onx-track-label') || (el.textContent || '').trim().slice(0, 60),
+      section: section ? section.getAttribute('data-onx-section') : '',
+      variant_test: test ? test.getAttribute('data-onx-test') : ''
+    });
+  });
+
+  document.addEventListener('theme:cart:open', function () { ONX.track('cart_open'); });
+  document.addEventListener('click', function (e) {
+    var up = e.target.closest && e.target.closest('[data-upsell-btn]');
+    if (up) ONX.track('upsell_add', { label: up.getAttribute('data-product-id') || '' });
+  });
+
+  /* ------------------------------------------------------------------
+   * 2. Panier — compteur, économies, palier cadeau
+   * ------------------------------------------------------------------ */
+  var cartTimer = null;
+
+  function renderCartMeta() {
+    var meta = $('[data-cart-drawer] [data-onx-cart-meta]') || $('[data-onx-cart-meta]');
+    var row = $('[data-onx-cart-savings]');
+    if (row) {
+      var savings = meta ? parseInt(meta.getAttribute('data-savings'), 10) || 0 : 0;
+      if (savings > 0) {
+        var v = $('[data-onx-cart-savings-value]', row);
+        if (v) v.textContent = meta.getAttribute('data-savings-formatted') || money(savings);
+        row.hidden = false;
+      } else {
+        row.hidden = true;
+      }
+    }
+  }
+
+  function renderGift(total) {
+    $$('[data-onx-gift]').forEach(function (gift) {
+      var threshold = parseInt(gift.getAttribute('data-threshold'), 10) || 0;
+      if (!threshold) return;
+      var left = threshold - total;
+      var bar = $('[data-onx-gift-bar]', gift);
+      var text = $('[data-onx-gift-text]', gift);
+      if (bar) bar.style.width = Math.min(100, Math.round((total / threshold) * 100)) + '%';
+      if (text) {
+        if (left > 0) {
+          text.innerHTML = (gift.getAttribute('data-label-left') || '').replace('||amount||', '<strong>' + money(left) + '</strong>');
+        } else {
+          text.textContent = gift.getAttribute('data-label-done') || '';
+        }
+      }
+      gift.classList.toggle('is-unlocked', left <= 0);
+    });
+  }
+
+  function refreshCart() {
+    clearTimeout(cartTimer);
+    cartTimer = setTimeout(function () {
+      fetch(((window.theme && theme.routes && theme.routes.root) || '/') + 'cart.js', { credentials: 'same-origin' })
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          $$('[data-onx-cart-count]').forEach(function (el) {
+            el.textContent = cart.item_count;
+            el.hidden = cart.item_count === 0;
+          });
+          renderGift(cart.total_price);
+          renderCartMeta();
+        })
+        .catch(function () { /* silencieux */ });
+    }, 250);
+  }
+
+  // Observe uniquement le remplacement des lignes (childList, sans subtree) pour
+  // éviter toute boucle avec nos propres mises à jour d'affichage.
+  var itemsObserver = null;
+  function observeItems() {
+    var holder = $('[data-cart-drawer] [data-items-holder]');
+    if (!holder || holder.__onxObserved) return;
+    holder.__onxObserved = true;
+    if (itemsObserver) itemsObserver.disconnect();
+    itemsObserver = new MutationObserver(refreshCart);
+    itemsObserver.observe(holder, { childList: true });
+  }
+  function watchCart() {
+    var drawer = $('[data-cart-drawer]');
+    if (!drawer || !window.MutationObserver) return;
+    new MutationObserver(function () { observeItems(); refreshCart(); }).observe(drawer, { childList: true });
+    observeItems();
+  }
+
+  document.addEventListener('theme:cart:add', refreshCart);
+  document.addEventListener('theme:cart:loaded', refreshCart);
+
+  /* ------------------------------------------------------------------
+   * 3. Onglets produits
+   * ------------------------------------------------------------------ */
+  function initTabs(ctx) {
+    $$('[data-onx-tabs]', ctx).forEach(function (wrap) {
+      var tabs = $$('[data-onx-tab]', wrap);
+      if (tabs.length < 2) return;
+      function select(tab, focus) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !on;
+        });
+        if (focus) tab.focus();
+        ONX.track('tab_select', { label: tab.textContent.trim() });
+      }
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () { select(tab, false); });
+        tab.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          e.preventDefault();
+          var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+          select(next, true);
+        });
+      });
+    });
+  }
+
+  /* Active la vue rapide / swatches du thème dans les grilles ONX */
+  function initGrids(ctx) {
+    $$('[data-onx-product-grid]', ctx).forEach(function (grid) {
+      if (grid.__onxGrid) return;
+      grid.__onxGrid = true;
+      try {
+        if (window.PaloAlto && typeof PaloAlto.ProductGrid === 'function') new PaloAlto.ProductGrid(grid);
+      } catch (e) { /* le lien produit reste fonctionnel */ }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 4. Copier un code promo
+   * ------------------------------------------------------------------ */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-onx-copy]');
+    if (!btn) return;
+    var code = btn.getAttribute('data-onx-copy');
+    var label = $('[data-onx-copy-label]', btn);
+    var done = function () {
+      btn.classList.add('is-copied');
+      if (label) { label.setAttribute('data-prev', label.innerHTML); label.textContent = strings.copied || 'Copié !'; }
+      setTimeout(function () {
+        btn.classList.remove('is-copied');
+        if (label && label.getAttribute('data-prev')) label.innerHTML = label.getAttribute('data-prev');
+      }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = code; ta.setAttribute('readonly', ''); ta.style.position = 'absolute'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (err) { /* noop */ }
+      document.body.removeChild(ta); done();
+    }
+  });
+
+  /* ------------------------------------------------------------------
+   * 5. Compte à rebours (uniquement si une vraie date de fin est saisie)
+   * ------------------------------------------------------------------ */
+  function initCountdowns(ctx) {
+    $$('[data-onx-countdown]', ctx).forEach(function (el) {
+      var end = new Date(el.getAttribute('data-onx-countdown')).getTime();
+      var out = $('[data-onx-countdown-value]', el);
+      if (!end || isNaN(end) || !out) return;
+      function tick() {
+        var diff = end - Date.now();
+        if (diff <= 0) { el.hidden = true; return; }
+        var d = Math.floor(diff / 864e5), h = Math.floor((diff % 864e5) / 36e5),
+            m = Math.floor((diff % 36e5) / 6e4), s = Math.floor((diff % 6e4) / 1e3);
+        var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+        out.textContent = (d > 0 ? d + (strings.days_short || 'j') + ' ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+        el.hidden = false;
+        setTimeout(tick, 1000);
+      }
+      tick();
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 6. Vidéos UGC — lecture sur place, une seule à la fois
+   * ------------------------------------------------------------------ */
+  function pauseAllExcept(current) {
+    $$('[data-onx-video-el]').forEach(function (v) {
+      if (v !== current && !v.paused) v.pause();
+    });
+  }
+
+  function initVideos(ctx) {
+    $$('[data-onx-video]', ctx).forEach(function (frame) {
+      if (frame.__onx) return;
+      frame.__onx = true;
+      var video = $('[data-onx-video-el]', frame);
+      var toggle = $('[data-onx-video-toggle]', frame);
+      var mute = $('[data-onx-video-mute]', frame);
+      if (!video || !toggle) return;
+
+      function sync() {
+        var playing = !video.paused;
+        frame.classList.toggle('is-playing', playing);
+        toggle.setAttribute('aria-label', playing ? toggle.getAttribute('data-label-pause') : toggle.getAttribute('data-label-play'));
+      }
+      toggle.addEventListener('click', function () {
+        if (video.paused) {
+          pauseAllExcept(video);
+          video.muted = false;
+          if (mute) mute.setAttribute('aria-pressed', 'false');
+          var p = video.play();
+          if (p && p.catch) p.catch(function () { video.muted = true; video.play(); });
+        } else {
+          video.pause();
+        }
+      });
+      if (mute) {
+        mute.addEventListener('click', function () {
+          video.muted = !video.muted;
+          mute.setAttribute('aria-pressed', video.muted ? 'true' : 'false');
+          frame.classList.toggle('is-muted', video.muted);
+        });
+      }
+      video.addEventListener('play', sync);
+      video.addEventListener('pause', sync);
+    });
+
+    // Met en pause les vidéos qui sortent de l'écran (batterie / données mobiles)
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (!en.isIntersecting && !en.target.paused) en.target.pause(); });
+      }, { threshold: 0.15 });
+      $$('[data-onx-video-el]', ctx).forEach(function (v) { io.observe(v); });
+    }
+  }
+
+  /* ------------------------------------------------------------------
+   * 7. Comparateur avant / après
+   * ------------------------------------------------------------------ */
+  function initCompare(ctx) {
+    $$('[data-onx-compare]', ctx).forEach(function (el) {
+      var range = $('[data-onx-compare-range]', el);
+      if (!range) return;
+      var set = function () { el.style.setProperty('--pos', range.value + '%'); };
+      range.addEventListener('input', set);
+      set();
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 8. Page produit — économie dynamique + barre d'achat collante
+   * ------------------------------------------------------------------ */
+  function updateSaving(scope, variant) {
+    $$('[data-onx-saving]', scope).forEach(function (el) {
+      if (variant && variant.compare_at_price > variant.price) {
+        var save = variant.compare_at_price - variant.price;
+        var pct = Math.round((save / variant.compare_at_price) * 100);
+        var pctEl = $('[data-onx-saving-pct]', el);
+        var txt = $('[data-onx-saving-text]', el);
+        if (pctEl) pctEl.textContent = '-' + pct + '%';
+        if (txt) txt.textContent = (strings.you_save_amount || 'Vous économisez ||amount||').replace('||amount||', money(save));
+        el.hidden = false;
+      } else {
+        el.hidden = true;
+      }
+    });
+  }
+
+  function updateSticky(variant) {
+    var bar = $('[data-onx-sticky-atc]');
+    if (!bar || !variant) return;
+    var price = $('[data-onx-sticky-price]', bar);
+    var compare = $('[data-onx-sticky-compare]', bar);
+    var label = $('[data-onx-sticky-label]', bar);
+    if (price) price.textContent = money(variant.price);
+    if (compare) {
+      compare.hidden = !(variant.compare_at_price > variant.price);
+      if (!compare.hidden) compare.textContent = money(variant.compare_at_price);
+    }
+    if (label) label.textContent = variant.available ? (strings.add_to_cart || 'Ajouter au panier') : (strings.sold_out || 'Épuisé');
+    bar.classList.toggle('is-soldout', !variant.available);
+  }
+
+  document.addEventListener('theme:variant:change', function (e) {
+    var variant = e.detail && e.detail.variant;
+    var scope = e.target && e.target.closest ? (e.target.closest('[data-section-type]') || document) : document;
+    updateSaving(scope, variant);
+    // la barre collante ne suit que le produit principal (pas la vue rapide)
+    if (!(e.target.closest && e.target.closest('.mfp-content'))) updateSticky(variant);
+  });
+
+  function initSticky() {
+    var bar = $('[data-onx-sticky-atc]');
+    if (!bar || bar.__onx) return;
+    bar.__onx = true;
+    var target = $(bar.getAttribute('data-target'));
+    var btn = $('[data-onx-sticky-btn]', bar);
+    if (!target || !btn || !('IntersectionObserver' in window)) return;
+
+    var footer = $('.site-footer');
+    var targetVisible = true;
+    var footerVisible = false;
+
+    function render() {
+      var show = !targetVisible && !footerVisible;
+      bar.classList.toggle('is-visible', show);
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      btn.tabIndex = show ? 0 : -1;
+      document.documentElement.classList.toggle('onx-has-sticky-atc', show);
+    }
+    new IntersectionObserver(function (entries) {
+      // visible si à l'écran, ou si l'utilisateur ne l'a pas encore dépassé (au-dessus du pli)
+      entries.forEach(function (en) { targetVisible = en.isIntersecting || en.boundingClientRect.top > 0; });
+      render();
+    }).observe(target);
+    if (footer) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { footerVisible = en.isIntersecting; });
+        render();
+      }).observe(footer);
+    }
+
+    btn.addEventListener('click', function () {
+      if (target.disabled) {
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        return;
+      }
+      target.click();
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 9. Apparition douce au scroll (respecte prefers-reduced-motion)
+   * ------------------------------------------------------------------ */
+  function initReveal(ctx) {
+    if (reduceMotion || !('IntersectionObserver' in window) || window.Shopify && Shopify.designMode) return;
+    var items = $$('.onx-section .onx-section__head, .onx-benefit, .onx-collection-card, .onx-review, .onx-why__reason, .onx-ugc__item', ctx);
+    if (!items.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    items.forEach(function (el, i) {
+      el.classList.add('onx-reveal');
+      el.style.setProperty('--onx-delay', (i % 4) * 60 + 'ms');
+      io.observe(el);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * Init
+   * ------------------------------------------------------------------ */
+  function init(ctx) {
+    initTabs(ctx);
+    initGrids(ctx);
+    initCountdowns(ctx);
+    initVideos(ctx);
+    initCompare(ctx);
+    initReveal(ctx);
+  }
+
+  function boot() {
+    init(document);
+    initSticky();
+    watchCart();
+    renderCartMeta();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+
+  document.addEventListener('shopify:section:load', function (e) {
+    init(e.target);
+    initSticky();
+  });
+})();

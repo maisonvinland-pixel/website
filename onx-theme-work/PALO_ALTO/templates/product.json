@@ -1,0 +1,354 @@
+{
+  "sections": {
+    "main": {
+      "type": "product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "subheading": "none",
+            "show_rating": true,
+            "show_rating_count": true
+          }
+        },
+        "onx_benefits": {
+          "type": "onx_benefits",
+          "settings": {}
+        },
+        "inventory_countdown": {
+          "type": "inventory_countdown",
+          "settings": {}
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+            "info_page": "",
+            "info_page_title_override": "",
+            "show_labels": true,
+            "show_quantity": true,
+            "show_payment_button": true,
+            "enable_subscriptions_selectors": false
+          }
+        },
+        "onx_trust": {
+          "type": "onx_trust",
+          "settings": {
+            "icon_1": "lock",
+            "text_1": "Paiement sécurisé",
+            "icon_2": "truck",
+            "text_2": "[Livraison suivie]",
+            "icon_3": "chat",
+            "text_3": "[Service client réactif]",
+            "icon_4": "return",
+            "text_4": "[Retours selon notre politique]",
+            "show_payment_icons": true
+          }
+        },
+        "onx_offer": {
+          "type": "onx_offer",
+          "settings": {
+            "title": "[Offre hiver]",
+            "lines": "[2 achetés = -15 %]\n[Livraison offerte dès XX €]",
+            "icon": "snowflake",
+            "code": "[CODE]"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "product_accordions": {
+          "type": "product_accordions",
+          "settings": {
+            "accordion_heading_1": "Livraison",
+            "accordion_text_1": "",
+            "accordion_page_1": "",
+            "accordion_heading_2": "Retours & échanges",
+            "accordion_text_2": "",
+            "accordion_page_2": "",
+            "accordion_heading_3": "Paiement sécurisé",
+            "accordion_text_3": "<p>Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>",
+            "accordion_page_3": "",
+            "accordion_heading_4": "",
+            "accordion_text_4": "",
+            "accordion_page_4": "",
+            "accordion_heading_5": "",
+            "accordion_text_5": "",
+            "accordion_page_5": ""
+          }
+        },
+        "upsell": {
+          "type": "upsell",
+          "disabled": true,
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "onx_offer",
+        "inventory_countdown",
+        "form",
+        "onx_trust",
+        "onx_benefits",
+        "description",
+        "product_accordions",
+        "upsell"
+      ],
+      "settings": {
+        "wrapper": "normal",
+        "image_size": "large",
+        "enable_zoom": true,
+        "enable_video_looping": false,
+        "bg_color": ""
+      }
+    },
+    "usp": {
+      "type": "onx-usp",
+      "settings": {
+        "scheme": "surface",
+        "compact": true
+      },
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "snowflake",
+            "title": "Pensé pour l'hiver",
+            "text": "[Sélection dédiée au froid]"
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service client réactif]",
+            "text": "[Réponse sous 24 h]"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    },
+    "benefits": {
+      "type": "onx-benefits",
+      "settings": {
+        "eyebrow": "Conçu pour le froid",
+        "title": "[Ce que ce produit change pour toi cet hiver]",
+        "scheme": "ice",
+        "cta_label": ""
+      },
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "thermometer"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "wind"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "drop"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ]
+    },
+    "transformation": {
+      "type": "onx-transformation",
+      "settings": {
+        "scheme": "stone",
+        "cta_label": "",
+        "eyebrow": "Froid → Solution ONX",
+        "before_label": "Le froid",
+        "after_label": "Avec ONX"
+      },
+      "blocks": {
+        "before_1": {
+          "type": "before",
+          "settings": {}
+        },
+        "before_2": {
+          "type": "before",
+          "settings": {}
+        },
+        "after_3": {
+          "type": "after",
+          "settings": {}
+        },
+        "after_4": {
+          "type": "after",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "before_1",
+        "before_2",
+        "after_3",
+        "after_4"
+      ]
+    },
+    "ugc": {
+      "type": "onx-ugc",
+      "settings": {
+        "scheme": "winter",
+        "eyebrow": "Communauté ONX",
+        "title": "Ils le portent cet hiver"
+      },
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {}
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {}
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3"
+      ]
+    },
+    "sma_reviews_section_auto": {
+      "type": "reviews-importer-product",
+      "settings": {
+        "lai_product": ""
+      }
+    },
+    "reviews": {
+      "type": "onx-reviews",
+      "settings": {
+        "scheme": "surface",
+        "eyebrow": "Avis clients",
+        "title": "Ils ont choisi ONX"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ]
+    },
+    "faq": {
+      "type": "onx-faq",
+      "settings": {
+        "scheme": "light",
+        "title": "Questions fréquentes"
+      },
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>[Préparation sous X jours ouvrés, livraison en X à X jours ouvrés en France métropolitaine.]</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>[Un e-mail avec votre numéro de suivi vous est envoyé dès l'expédition.]</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner un article ?",
+            "answer": "<p>[Vous disposez de X jours après réception. Voir notre politique de retour.]</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Quels moyens de paiement acceptez-vous ?",
+            "answer": "<p>[Carte bancaire, Apple Pay, Google Pay, PayPal… — selon les moyens activés.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5"
+      ]
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "wrapper": "normal",
+        "limit": 4,
+        "product_recommendations_heading": "Vous aimerez aussi",
+        "bg_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "usp",
+    "benefits",
+    "transformation",
+    "ugc",
+    "sma_reviews_section_auto",
+    "reviews",
+    "faq",
+    "related"
+  ]
+}

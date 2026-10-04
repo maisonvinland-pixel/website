@@ -1,0 +1,478 @@
+{
+  "sections": {
+    "hero": {
+      "type": "onx-hero",
+      "settings": {},
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "text": "[Bénéfice concret n°1 — ex. chaleur]"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "text": "[Bénéfice concret n°2 — ex. confort]"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "text": "[Bénéfice concret n°3 — ex. qualité]"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ]
+    },
+    "usp": {
+      "type": "onx-usp",
+      "settings": {
+        "scheme": "surface",
+        "compact": true
+      },
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "snowflake",
+            "title": "Pensé pour l'hiver",
+            "text": "[Sélection dédiée au froid]"
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service client réactif]",
+            "text": "[Réponse sous 24 h]"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    },
+    "bestsellers": {
+      "type": "onx-products",
+      "settings": {
+        "eyebrow": "Sélection hiver",
+        "title": "Les best-sellers ONX",
+        "limit": 8,
+        "mobile_layout": "scroll",
+        "scheme": "light"
+      },
+      "blocks": {
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "label": "Best-sellers",
+            "cta_label": "Voir tous les best-sellers"
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "label": "Nouveautés",
+            "cta_label": "Voir les nouveautés"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2"
+      ]
+    },
+    "offer": {
+      "type": "onx-offer",
+      "settings": {
+        "scheme": "winter"
+      },
+      "blocks": {
+        "pack_1": {
+          "type": "pack",
+          "settings": {
+            "name": "Essential",
+            "title": "[Le kit de base]",
+            "perks": "[Élément 1]\n[Élément 2]"
+          }
+        },
+        "pack_2": {
+          "type": "pack",
+          "settings": {
+            "name": "Premium",
+            "title": "[Le kit complet]",
+            "perks": "[Élément 1]\n[Élément 2]\n[Élément 3]",
+            "highlight": true,
+            "flag": "Meilleure offre"
+          }
+        },
+        "pack_3": {
+          "type": "pack",
+          "settings": {
+            "name": "Best value",
+            "title": "[Le kit duo / famille]",
+            "perks": "[Élément 1]\n[Élément 2]\n[Économie maximale]"
+          }
+        }
+      },
+      "block_order": [
+        "pack_1",
+        "pack_2",
+        "pack_3"
+      ]
+    },
+    "collections": {
+      "type": "onx-collections",
+      "settings": {
+        "feature_first": true,
+        "eyebrow": "ONX / Collections",
+        "title": "Équipe-toi pour l'hiver",
+        "scheme": "light"
+      },
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "text": "[Une phrase qui donne envie]",
+            "cta_label": "Découvrir"
+          }
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {
+            "text": "[Une phrase qui donne envie]",
+            "cta_label": "Découvrir"
+          }
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {
+            "text": "[Une phrase qui donne envie]",
+            "cta_label": "Découvrir"
+          }
+        }
+      },
+      "block_order": [
+        "collection_1",
+        "collection_2",
+        "collection_3"
+      ]
+    },
+    "benefits": {
+      "type": "onx-benefits",
+      "settings": {
+        "eyebrow": "Conçu pour le froid",
+        "title": "[Ce qui change quand il fait -5 °C]",
+        "scheme": "ice",
+        "cta_label": "Choisir mon produit"
+      },
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "thermometer"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "wind"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "drop"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ]
+    },
+    "transformation": {
+      "type": "onx-transformation",
+      "settings": {
+        "eyebrow": "Froid → Solution ONX",
+        "title": "[Le froid ne décide plus de ta journée.]",
+        "before_label": "Le froid",
+        "after_label": "Avec ONX",
+        "cta_label": "Je m'équipe",
+        "scheme": "stone"
+      },
+      "blocks": {
+        "before_1": {
+          "type": "before",
+          "settings": {}
+        },
+        "before_2": {
+          "type": "before",
+          "settings": {}
+        },
+        "before_3": {
+          "type": "before",
+          "settings": {}
+        },
+        "after_4": {
+          "type": "after",
+          "settings": {}
+        },
+        "after_5": {
+          "type": "after",
+          "settings": {}
+        },
+        "after_6": {
+          "type": "after",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "before_1",
+        "before_2",
+        "before_3",
+        "after_4",
+        "after_5",
+        "after_6"
+      ]
+    },
+    "reviews": {
+      "type": "onx-reviews",
+      "settings": {
+        "scheme": "light",
+        "eyebrow": "Avis clients",
+        "title": "Ils ont choisi ONX"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ]
+    },
+    "ugc": {
+      "type": "onx-ugc",
+      "settings": {
+        "eyebrow": "Communauté ONX",
+        "title": "Vu chez nos clients cet hiver",
+        "social_label": "Suivre ONX",
+        "scheme": "winter"
+      },
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {}
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {}
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {}
+        },
+        "video_4": {
+          "type": "video",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3",
+        "video_4"
+      ]
+    },
+    "why": {
+      "type": "onx-why",
+      "settings": {
+        "eyebrow": "Pourquoi ONX ?",
+        "title": "Une marque née pour l'hiver",
+        "intro": "[Ce qui rend ONX différent, en une ou deux phrases.]",
+        "them_label": "Les autres",
+        "cta_label": "Découvrir la collection",
+        "scheme": "ice"
+      },
+      "blocks": {
+        "reason_1": {
+          "type": "reason",
+          "settings": {
+            "icon": "snowflake",
+            "title": "[Spécialiste de l'hiver]"
+          }
+        },
+        "reason_2": {
+          "type": "reason",
+          "settings": {
+            "icon": "award",
+            "title": "[Qualité contrôlée]"
+          }
+        },
+        "reason_3": {
+          "type": "reason",
+          "settings": {
+            "icon": "tag",
+            "title": "[Prix juste]"
+          }
+        },
+        "reason_4": {
+          "type": "reason",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service humain]"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {}
+        },
+        "row_6": {
+          "type": "row",
+          "settings": {}
+        },
+        "row_7": {
+          "type": "row",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "reason_1",
+        "reason_2",
+        "reason_3",
+        "reason_4",
+        "row_5",
+        "row_6",
+        "row_7"
+      ]
+    },
+    "about": {
+      "type": "onx-about",
+      "settings": {
+        "eyebrow": "L'expérience ONX",
+        "title": "Née pour l'hiver",
+        "scheme": "surface"
+      }
+    },
+    "faq": {
+      "type": "onx-faq",
+      "settings": {
+        "scheme": "light",
+        "intro": "Une autre question ? Notre équipe te répond."
+      },
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>[Préparation sous X jours ouvrés, livraison en X à X jours ouvrés en France métropolitaine.]</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>[Un e-mail avec votre numéro de suivi t'est envoyé dès l'expédition.]</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner un article ?",
+            "answer": "<p>[Tu disposes de X jours après réception. Voir notre politique de retour.]</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>"
+          }
+        },
+        "question_5": {
+          "type": "question",
+          "settings": {
+            "question": "Quels moyens de paiement acceptez-vous ?",
+            "answer": "<p>[Carte bancaire, Apple Pay, Google Pay, PayPal… — selon les moyens activés.]</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "Comment vous contacter ?",
+            "answer": "<p>[Par e-mail à contact@… ou via le formulaire de contact. Réponse sous X h.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_5",
+        "question_6"
+      ]
+    },
+    "final_cta": {
+      "type": "onx-cta",
+      "settings": {
+        "title": "L'hiver arrive. Sois prêt.",
+        "text": "[Rappel de l'offre en cours ou du bénéfice principal.]",
+        "cta_label": "Découvrir la collection",
+        "scheme": "winter"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "usp",
+    "bestsellers",
+    "offer",
+    "collections",
+    "benefits",
+    "transformation",
+    "reviews",
+    "ugc",
+    "why",
+    "about",
+    "faq",
+    "final_cta"
+  ]
+}

@@ -1,0 +1,336 @@
+{%- comment -%}
+  ONX — Bénéfices. Méthode : caractéristique → bénéfice → résultat.
+  Utilisable sur la homepage et la page produit (textes compatibles sources dynamiques / métadonnées).
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign intro = s.intro
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if intro contains '['
+      assign intro = ''
+    endif
+  endif
+  assign shown = 0
+-%}
+{%- capture cards -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign t = block.settings.title
+      assign d = block.settings.text
+      assign r = block.settings.result
+      if dm == false
+        if t contains '['
+          continue
+        endif
+        if d contains '['
+          assign d = ''
+        endif
+        if r contains '['
+          assign r = ''
+        endif
+      endif
+      if t == blank
+        continue
+      endif
+      assign shown = shown | plus: 1
+    -%}
+    <article class="onx-benefit" {{ block.shopify_attributes }}>
+      {%- if block.settings.image != blank -%}
+        <div class="onx-benefit__media">
+          {{ block.settings.image | image_url: width: 800 | image_tag: widths: '300, 500, 800', sizes: '(min-width: 990px) 25vw, 50vw', loading: 'lazy', class: 'onx-cover' }}
+        </div>
+      {%- else -%}
+        <span class="onx-benefit__icon">{% render 'onx-icon', icon: block.settings.icon, size: 26 %}</span>
+      {%- endif -%}
+      <h3 class="onx-benefit__title">{% render 'onx-text', text: t %}</h3>
+      {%- if d != blank -%}<p class="onx-benefit__text">{% render 'onx-text', text: d %}</p>{%- endif -%}
+      {%- if r != blank -%}<p class="onx-benefit__result">{% render 'onx-icon', icon: 'arrow-right', size: 14 %}<span>{% render 'onx-text', text: r %}</span></p>{%- endif -%}
+    </article>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if shown > 0 or dm -%}
+<section class="onx-benefits onx-section onx-scheme--{{ s.scheme }}" data-onx-section="benefits">
+  <div class="onx-container">
+    <div class="onx-section__head{% if s.center %} onx-section__head--center{% endif %}">
+      {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+      {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      {%- if intro != blank -%}<p class="onx-lead onx-muted">{% render 'onx-text', text: intro %}</p>{%- endif -%}
+    </div>
+    <div class="onx-benefits__grid onx-benefits__grid--{{ shown }}">{{ cards }}</div>
+    {%- if s.cta_label != blank -%}
+      <div class="onx-section__foot"><a class="onx-btn onx-btn--primary" href="{{ s.cta_link | default: routes.all_products_collection_url }}">{{ s.cta_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</a></div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Bénéfices",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "L'expérience ONX"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "[Ce que ça change pour vous]"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Introduction (optionnelle)"
+    },
+    {
+      "type": "checkbox",
+      "id": "center",
+      "label": "Centrer l'en-tête",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton (optionnel)",
+      "default": "Choisir mon produit"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "surface",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Bénéfice",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "sparkle",
+          "options": [
+            {
+              "value": "check",
+              "label": "Coche"
+            },
+            {
+              "value": "check-circle",
+              "label": "Coche cerclée"
+            },
+            {
+              "value": "truck",
+              "label": "Livraison"
+            },
+            {
+              "value": "lock",
+              "label": "Paiement sécurisé"
+            },
+            {
+              "value": "return",
+              "label": "Retour"
+            },
+            {
+              "value": "chat",
+              "label": "Service client"
+            },
+            {
+              "value": "star",
+              "label": "Étoile"
+            },
+            {
+              "value": "gift",
+              "label": "Cadeau"
+            },
+            {
+              "value": "shield",
+              "label": "Garantie / protection"
+            },
+            {
+              "value": "bolt",
+              "label": "Rapidité"
+            },
+            {
+              "value": "leaf",
+              "label": "Naturel"
+            },
+            {
+              "value": "clock",
+              "label": "Temps"
+            },
+            {
+              "value": "tag",
+              "label": "Prix / promo"
+            },
+            {
+              "value": "box",
+              "label": "Colis"
+            },
+            {
+              "value": "heart",
+              "label": "Cœur"
+            },
+            {
+              "value": "award",
+              "label": "Qualité"
+            },
+            {
+              "value": "globe",
+              "label": "International"
+            },
+            {
+              "value": "phone",
+              "label": "Téléphone"
+            },
+            {
+              "value": "mail",
+              "label": "E-mail"
+            },
+            {
+              "value": "sparkle",
+              "label": "Design / nouveauté"
+            },
+            {
+              "value": "ruler",
+              "label": "Taille"
+            },
+            {
+              "value": "smile",
+              "label": "Satisfaction"
+            },
+            {
+              "value": "card",
+              "label": "Carte bancaire"
+            },
+            {
+              "value": "users",
+              "label": "Communauté"
+            },
+            {
+              "value": "cart",
+              "label": "Panier"
+            },
+            {
+              "value": "snowflake",
+              "label": "Hiver / flocon"
+            },
+            {
+              "value": "thermometer",
+              "label": "Chaleur / température"
+            },
+            {
+              "value": "mountain",
+              "label": "Montagne / outdoor"
+            },
+            {
+              "value": "wind",
+              "label": "Coupe-vent"
+            },
+            {
+              "value": "drop",
+              "label": "Imperméable"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (remplace l'icône)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Bénéfice (titre)",
+          "default": "[Bénéfice]"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Caractéristique qui le permet",
+          "default": "[Grâce à … (caractéristique réelle)]"
+        },
+        {
+          "type": "text",
+          "id": "result",
+          "label": "Résultat concret (optionnel)",
+          "default": "[Résultat pour le client]"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Bénéfices",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "sparkle"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "bolt"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

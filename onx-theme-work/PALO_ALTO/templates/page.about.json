@@ -1,0 +1,73 @@
+{
+  "sections": {
+    "about": {
+      "type": "onx-about",
+      "settings": {
+        "eyebrow": "L'expérience ONX",
+        "title": "Née pour l'hiver",
+        "cta_label": "",
+        "scheme": "light"
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "why": {
+      "type": "onx-why",
+      "settings": {
+        "scheme": "ice"
+      },
+      "blocks": {
+        "reason_1": {
+          "type": "reason",
+          "settings": {
+            "icon": "award",
+            "title": "[Qualité]"
+          }
+        },
+        "reason_2": {
+          "type": "reason",
+          "settings": {
+            "icon": "sparkle",
+            "title": "[Design]"
+          }
+        },
+        "reason_3": {
+          "type": "reason",
+          "settings": {
+            "icon": "tag",
+            "title": "[Juste prix]"
+          }
+        },
+        "reason_4": {
+          "type": "reason",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service]"
+          }
+        }
+      },
+      "block_order": [
+        "reason_1",
+        "reason_2",
+        "reason_3",
+        "reason_4"
+      ]
+    },
+    "final_cta": {
+      "type": "onx-cta",
+      "settings": {
+        "scheme": "winter",
+        "title": "Prêt pour l'hiver ?",
+        "cta_label": "Découvrir la collection"
+      }
+    }
+  },
+  "order": [
+    "about",
+    "main",
+    "why",
+    "final_cta"
+  ]
+}

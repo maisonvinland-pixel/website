@@ -1,0 +1,566 @@
+{%- comment -%}
+  ONX — Offre du moment (composant configurable, aucune offre codée en dur).
+  Blocs : palier (ex. 2 produits = -15 %), avantage (cadeau, livraison offerte…).
+  Le compte à rebours n'apparaît que si une date de fin RÉELLE est saisie.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign text = s.text
+  assign code = s.code
+  assign conditions = s.conditions
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if text contains '['
+      assign text = ''
+    endif
+    if code contains '['
+      assign code = ''
+    endif
+    if conditions contains '['
+      assign conditions = ''
+    endif
+  endif
+-%}
+
+{%- if title != blank or dm -%}
+<section class="onx-offer onx-section onx-section--tight onx-scheme--{{ s.scheme }}" data-onx-section="offer" {% if s.test_id != blank %}data-onx-test="{{ s.test_id | escape }}"{% endif %}>
+  <div class="onx-container">
+    <div class="onx-offer__card{% if s.image != blank %} onx-offer__card--media{% endif %}">
+      <div class="onx-offer__body">
+        {%- if eyebrow != blank -%}<p class="onx-eyebrow onx-eyebrow--accent">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+        {%- if title != blank -%}<h2 class="onx-h2 onx-offer__title">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+        {%- if text != blank -%}<p class="onx-offer__text">{% render 'onx-text', text: text %}</p>{%- endif -%}
+
+        {%- assign shown = 0 -%}
+        {%- capture tiers -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'pack' -%}{%- continue -%}{%- endif -%}
+            {%- liquid
+              assign a = block.settings.left
+              assign b = block.settings.right
+              if dm == false
+                if a contains '[' or b contains '['
+                  continue
+                endif
+              endif
+              if a == blank
+                continue
+              endif
+              assign shown = shown | plus: 1
+            -%}
+            <li class="onx-offer__tier{% if block.settings.highlight %} is-highlight{% endif %}" {{ block.shopify_attributes }}>
+              {%- if block.type == 'perk' -%}
+                <span class="onx-offer__tier-icon">{% render 'onx-icon', icon: block.settings.icon, size: 20 %}</span>
+              {%- endif -%}
+              <span class="onx-offer__tier-left">{% render 'onx-text', text: a %}</span>
+              {%- if b != blank -%}
+                <span class="onx-offer__tier-right">{% render 'onx-text', text: b %}</span>
+              {%- endif -%}
+              {%- if block.settings.highlight and block.settings.flag != blank -%}
+                <span class="onx-badge onx-badge--accent onx-offer__flag">{{ block.settings.flag | escape }}</span>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if shown > 0 -%}<ul class="onx-offer__tiers" role="list">{{ tiers }}</ul>{%- endif -%}
+
+        {%- comment -%} Packs / bundles (ESSENTIAL · PREMIUM · BEST VALUE…) — prix réels si un produit est lié {%- endcomment -%}
+        {%- assign packs_shown = 0 -%}
+        {%- capture packs -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type != 'pack' -%}{%- continue -%}{%- endif -%}
+            {%- liquid
+              assign bs = block.settings
+              assign p = bs.product
+              assign title_p = bs.title | default: p.title
+              if dm == false and title_p contains '['
+                continue
+              endif
+              if title_p == blank
+                continue
+              endif
+              assign price = bs.price
+              assign compare = bs.compare_price
+              assign save_txt = bs.save_text
+              if p != blank and price == blank
+                assign price = p.price | money
+                if p.compare_at_price > p.price
+                  assign compare = p.compare_at_price | money
+                  assign save_cents = p.compare_at_price | minus: p.price | money
+                  assign save_txt = 'general.onx.save_amount' | t: amount: save_cents
+                endif
+              endif
+              if dm == false
+                if price contains '['
+                  assign price = ''
+                endif
+                if compare contains '['
+                  assign compare = ''
+                endif
+                if save_txt contains '['
+                  assign save_txt = ''
+                endif
+              endif
+              assign link = bs.link | default: p.url | default: routes.all_products_collection_url
+              assign packs_shown = packs_shown | plus: 1
+              assign perks = bs.perks | newline_to_br | split: '<br />'
+            -%}
+            <article class="onx-pack{% if bs.highlight %} is-highlight{% endif %}" {{ block.shopify_attributes }}>
+              {%- if bs.highlight and bs.flag != blank -%}<span class="onx-badge onx-badge--accent onx-pack__flag">{{ bs.flag | escape }}</span>{%- endif -%}
+              {%- if bs.name != blank -%}<p class="onx-pack__name">{{ bs.name | escape }}</p>{%- endif -%}
+              <h3 class="onx-pack__title">{% render 'onx-text', text: title_p %}</h3>
+              {%- if price != blank -%}
+                <p class="onx-pack__price"><b>{% render 'onx-text', text: price %}</b>{% if compare != blank %}<s>{% render 'onx-text', text: compare %}</s>{% endif %}</p>
+              {%- endif -%}
+              {%- if save_txt != blank -%}<span class="onx-pack__save">{% render 'onx-text', text: save_txt %}</span>{%- endif -%}
+              <ul class="onx-pack__perks" role="list">
+                {%- for perk in perks -%}
+                  {%- assign pk = perk | strip -%}
+                  {%- if pk == blank -%}{%- continue -%}{%- endif -%}
+                  {%- if pk contains '[' and dm == false -%}{%- continue -%}{%- endif -%}
+                  <li>{% render 'onx-icon', icon: 'check', size: 16 %}<span>{% render 'onx-text', text: pk %}</span></li>
+                {%- endfor -%}
+              </ul>
+              {%- if p != blank and p.has_only_default_variant and p.available and bs.link == blank -%}
+                <button type="button" class="onx-btn{% if bs.highlight %} onx-btn--signal{% endif %}" data-add-to-cart data-product-id="{{ p.selected_or_first_available_variant.id }}" data-onx-track="pack_add" data-onx-track-label="{{ bs.name | default: p.handle | escape }}">
+                  {{ bs.button_label | default: 'Ajouter au panier' | escape }}
+                </button>
+                <div class="onx-card-cta__error" data-cart-errors-container></div>
+              {%- else -%}
+                <a class="onx-btn{% if bs.highlight %} onx-btn--signal{% endif %}" href="{{ link }}" data-onx-track="pack_click" data-onx-track-label="{{ bs.name | escape }}">{{ bs.button_label | default: 'Choisir ce pack' | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 16 %}</a>
+              {%- endif -%}
+            </article>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- if packs_shown > 0 -%}<div class="onx-packs onx-packs--{{ packs_shown }}">{{ packs }}</div>{%- endif -%}
+
+        <div class="onx-offer__actions">
+          {%- if code != blank -%}
+            <button type="button" class="onx-code" data-onx-copy="{{ code | escape }}" data-onx-track="promo_code_copy" data-onx-track-label="{{ code | escape }}">
+              <span class="onx-code__label">{{ 'general.onx.code' | t }}</span>
+              <span class="onx-code__value">{% render 'onx-text', text: code %}</span>
+              <span class="onx-code__action" data-onx-copy-label>{% render 'onx-icon', icon: 'copy', size: 16 %}{{ 'general.onx.copy' | t }}</span>
+            </button>
+          {%- endif -%}
+          {%- if s.cta_label != blank -%}
+            <a class="onx-btn onx-btn--signal onx-btn--lg" href="{{ s.cta_link | default: routes.all_products_collection_url }}" data-onx-track="offer_cta_click">
+              {{ s.cta_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}
+            </a>
+          {%- endif -%}
+        </div>
+
+        {%- if s.end_date != blank -%}
+          <div class="onx-countdown" data-onx-countdown="{{ s.end_date | escape }}" hidden>
+            <span class="onx-countdown__label">{% render 'onx-icon', icon: 'clock', size: 16 %}{{ 'general.onx.ends_in' | t }}</span>
+            <span class="onx-countdown__value" data-onx-countdown-value></span>
+          </div>
+        {%- endif -%}
+
+        {%- if conditions != blank -%}<p class="onx-offer__conditions">{% render 'onx-text', text: conditions %}</p>{%- endif -%}
+      </div>
+
+      {%- if s.image != blank -%}
+        <div class="onx-offer__media">
+          {{ s.image | image_url: width: 1200 | image_tag: widths: '400, 700, 1000, 1200', sizes: '(min-width: 990px) 40vw, 100vw', loading: 'lazy', class: 'onx-cover' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Offres & packs",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "winter",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Offres hiver ONX"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Prépare-toi pour la saison."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texte",
+      "default": "[Plus tu t'équipes, plus tu économises. Remise appliquée automatiquement au panier.]"
+    },
+    {
+      "type": "text",
+      "id": "code",
+      "label": "Code promo (optionnel)",
+      "default": "[CODE]",
+      "info": "Le code doit exister dans Shopify > Réductions."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton",
+      "default": "Profiter de l'offre"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "Date de fin réelle (optionnel)",
+      "info": "Format AAAA-MM-JJTHH:MM (ex. 2026-10-31T23:59). Affiche un compte à rebours. Laissez vide si l'offre n'a pas de fin : jamais de fausse urgence."
+    },
+    {
+      "type": "text",
+      "id": "conditions",
+      "label": "Conditions",
+      "default": "[Offre valable jusqu'au JJ/MM, dans la limite des stocks disponibles.]"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (optionnelle)"
+    },
+    {
+      "type": "text",
+      "id": "test_id",
+      "label": "Identifiant de variante A/B (optionnel)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Palier",
+      "settings": [
+        {
+          "type": "text",
+          "id": "left",
+          "label": "Condition",
+          "default": "[1 produit]"
+        },
+        {
+          "type": "text",
+          "id": "right",
+          "label": "Avantage",
+          "default": "[-10 %]"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Mettre en avant",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Étiquette si mis en avant",
+          "default": "Le plus choisi"
+        }
+      ]
+    },
+    {
+      "type": "perk",
+      "name": "Avantage",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "gift",
+          "options": [
+            {
+              "value": "check",
+              "label": "Coche"
+            },
+            {
+              "value": "check-circle",
+              "label": "Coche cerclée"
+            },
+            {
+              "value": "truck",
+              "label": "Livraison"
+            },
+            {
+              "value": "lock",
+              "label": "Paiement sécurisé"
+            },
+            {
+              "value": "return",
+              "label": "Retour"
+            },
+            {
+              "value": "chat",
+              "label": "Service client"
+            },
+            {
+              "value": "star",
+              "label": "Étoile"
+            },
+            {
+              "value": "gift",
+              "label": "Cadeau"
+            },
+            {
+              "value": "shield",
+              "label": "Garantie / protection"
+            },
+            {
+              "value": "bolt",
+              "label": "Rapidité"
+            },
+            {
+              "value": "leaf",
+              "label": "Naturel"
+            },
+            {
+              "value": "clock",
+              "label": "Temps"
+            },
+            {
+              "value": "tag",
+              "label": "Prix / promo"
+            },
+            {
+              "value": "box",
+              "label": "Colis"
+            },
+            {
+              "value": "heart",
+              "label": "Cœur"
+            },
+            {
+              "value": "award",
+              "label": "Qualité"
+            },
+            {
+              "value": "globe",
+              "label": "International"
+            },
+            {
+              "value": "phone",
+              "label": "Téléphone"
+            },
+            {
+              "value": "mail",
+              "label": "E-mail"
+            },
+            {
+              "value": "sparkle",
+              "label": "Design / nouveauté"
+            },
+            {
+              "value": "ruler",
+              "label": "Taille"
+            },
+            {
+              "value": "smile",
+              "label": "Satisfaction"
+            },
+            {
+              "value": "card",
+              "label": "Carte bancaire"
+            },
+            {
+              "value": "users",
+              "label": "Communauté"
+            },
+            {
+              "value": "cart",
+              "label": "Panier"
+            },
+            {
+              "value": "snowflake",
+              "label": "Hiver / flocon"
+            },
+            {
+              "value": "thermometer",
+              "label": "Chaleur / température"
+            },
+            {
+              "value": "mountain",
+              "label": "Montagne / outdoor"
+            },
+            {
+              "value": "wind",
+              "label": "Coupe-vent"
+            },
+            {
+              "value": "drop",
+              "label": "Imperméable"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "left",
+          "label": "Avantage",
+          "default": "[1 acheté = 1 cadeau offert]"
+        },
+        {
+          "type": "text",
+          "id": "right",
+          "label": "Détail (optionnel)"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Mettre en avant",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Étiquette si mis en avant"
+        }
+      ]
+    },
+    {
+      "type": "pack",
+      "name": "Pack / bundle",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Liez un produit (ou un bundle créé dans Shopify) pour afficher son prix réel et permettre l'ajout direct au panier."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit ou bundle (recommandé)"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nom du pack",
+          "default": "Essential"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre (optionnel si produit lié)",
+          "default": "[Le kit de base pour l'hiver]"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Prix affiché (laisser vide si produit lié)",
+          "default": "[XX,XX €]"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Ancien prix (optionnel)"
+        },
+        {
+          "type": "text",
+          "id": "save_text",
+          "label": "Texte d'économie (optionnel)"
+        },
+        {
+          "type": "textarea",
+          "id": "perks",
+          "label": "Contenu du pack (1 ligne par élément)",
+          "default": "[Élément 1]\n[Élément 2]"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Bouton",
+          "default": "Choisir ce pack"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien (optionnel)",
+          "info": "Si vide et produit sans variante : ajout direct au panier."
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Mettre en avant (meilleure offre)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Étiquette de mise en avant",
+          "default": "Meilleure offre"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Offres & packs",
+      "blocks": [
+        {
+          "type": "pack",
+          "settings": {
+            "name": "Essential",
+            "title": "[Le kit de base]"
+          }
+        },
+        {
+          "type": "pack",
+          "settings": {
+            "name": "Premium",
+            "title": "[Le kit complet]",
+            "highlight": true,
+            "flag": "Meilleure offre"
+          }
+        },
+        {
+          "type": "pack",
+          "settings": {
+            "name": "Best value",
+            "title": "[Le kit famille / duo]"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

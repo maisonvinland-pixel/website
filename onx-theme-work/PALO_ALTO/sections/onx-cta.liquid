@@ -1,0 +1,104 @@
+{%- comment -%} ONX — Dernier CTA : une phrase forte, une action. {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign title = s.title
+  assign text = s.text
+  assign micro = s.micro_text
+  if dm == false
+    if title contains '['
+      assign title = ''
+    endif
+    if text contains '['
+      assign text = ''
+    endif
+    if micro contains '['
+      assign micro = ''
+    endif
+  endif
+-%}
+{%- if title != blank -%}
+<section class="onx-final onx-scheme--{{ s.scheme }}" data-onx-section="final-cta">
+  <div class="onx-container onx-final__inner">
+    <span class="onx-final__mark" aria-hidden="true">{{ settings.onx_wordmark | default: shop.name | escape }}</span>
+    <h2 class="onx-final__title onx-display">{% render 'onx-text', text: title %}</h2>
+    {%- if text != blank -%}<p class="onx-lead onx-final__text">{% render 'onx-text', text: text %}</p>{%- endif -%}
+    {%- if s.cta_label != blank -%}
+      <a class="onx-btn onx-btn--signal onx-btn--lg" href="{{ s.cta_link | default: routes.all_products_collection_url }}" data-onx-track="final_cta_click">{{ s.cta_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</a>
+    {%- endif -%}
+    {%- if micro != blank -%}<p class="onx-final__micro">{% render 'onx-text', text: micro %}</p>{%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Dernier CTA",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Prêt à passer à ONX ?"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Sous-texte",
+      "default": "[Rappel du bénéfice principal ou de l'offre en cours.]"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton",
+      "default": "Choisir mon produit"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "text",
+      "id": "micro_text",
+      "label": "Micro-réassurance",
+      "default": "Paiement sécurisé · [Livraison suivie] · [Retours simples]"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "dark",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Dernier CTA"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+{
+  "sections": {
+    "hero": {
+      "type": "collection-image-with-title",
+      "settings": {}
+    },
+    "subcollections": {
+      "type": "subcollections",
+      "settings": {}
+    },
+    "main": {
+      "type": "collection",
+      "settings": {}
+    },
+    "usp": {
+      "type": "onx-usp",
+      "settings": {
+        "scheme": "surface",
+        "compact": true
+      },
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "snowflake",
+            "title": "Pensé pour l'hiver",
+            "text": "[Sélection dédiée au froid]"
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service client réactif]",
+            "text": "[Réponse sous 24 h]"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "subcollections",
+    "usp",
+    "main"
+  ]
+}

@@ -1,0 +1,16 @@
+{%- comment -%}
+  ONX — Garde-fou placeholders.
+  Un texte contenant « [ » est un placeholder :
+  - éditeur de thème : affiché et surligné (à remplir)
+  - boutique en ligne : jamais affiché
+  Usage : {% render 'onx-text', text: section.settings.title %}
+  Pour conditionner un conteneur, utilisez dans la section :
+    if value contains '[' and request.design_mode == false → assign value = ''
+{%- endcomment -%}
+{%- if text != blank -%}
+  {%- if text contains '[' -%}
+    {%- if request.design_mode -%}<span class="onx-ph" title="Placeholder — masqué sur la boutique en ligne">{{ text }}</span>{%- endif -%}
+  {%- else -%}
+    {{- text -}}
+  {%- endif -%}
+{%- endif -%}
