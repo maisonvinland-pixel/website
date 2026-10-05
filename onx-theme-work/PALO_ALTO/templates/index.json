@@ -7,50 +7,27 @@
         "content_align": "top",
         "mobile_media": "bottom",
         "scheme": "winter",
-        "eyebrow": "ONX / Ensembles Essentials",
+        "eyebrow": "",
         "proof_text": "",
         "show_stars": true,
-        "title": "Les ensembles Essentials pour l'hiver.",
-        "title_highlight": "pour l'hiver",
+        "title": "Ensembles Essentials.",
+        "title_highlight": "Essentials",
         "title_is_h1": true,
         "subtitle": "",
-        "cta_label": "Choisir mon ensemble",
+        "cta_label": "Découvrir",
         "cta_link": "/collections/ensembles-essentials",
         "cta_style": "signal",
         "cta2_label": "",
         "cta2_link": "",
-        "offer_text": "3 achetés = 1 offert — appliqué automatiquement au panier, sans code",
+        "offer_text": "3 achetés = 1 offert",
         "offer_link": "/collections/ensembles-essentials",
         "micro_text": "",
         "image": "shopify://shop_images/IMG_3710.jpg",
         "media_badge": "",
         "test_id": ""
       },
-      "blocks": {
-        "benefit_1": {
-          "type": "benefit",
-          "settings": {
-            "text": "Ensemble complet : hoodie + jogging assortis"
-          }
-        },
-        "benefit_2": {
-          "type": "benefit",
-          "settings": {
-            "text": "Plusieurs coloris au choix"
-          }
-        },
-        "benefit_3": {
-          "type": "benefit",
-          "settings": {
-            "text": "Paiement 100 % sécurisé"
-          }
-        }
-      },
-      "block_order": [
-        "benefit_1",
-        "benefit_2",
-        "benefit_3"
-      ]
+      "blocks": {},
+      "block_order": []
     },
     "usp": {
       "type": "onx-usp",
@@ -64,7 +41,7 @@
           "settings": {
             "icon": "gift",
             "title": "3 achetés = 1 offert",
-            "text": "Automatique au panier",
+            "text": "",
             "link": ""
           }
         },
@@ -73,7 +50,7 @@
           "settings": {
             "icon": "lock",
             "title": "Paiement sécurisé",
-            "text": "Données chiffrées (SSL)",
+            "text": "",
             "link": ""
           }
         },
@@ -82,7 +59,7 @@
           "settings": {
             "icon": "truck",
             "title": "Livraison offerte",
-            "text": "En 13 à 15 jours",
+            "text": "",
             "link": "/pages/livraison"
           }
         },
@@ -90,8 +67,8 @@
           "type": "usp",
           "settings": {
             "icon": "return",
-            "title": "Retour sous 14 jours",
-            "text": "Tu peux changer d'avis",
+            "title": "Retour 14 jours",
+            "text": "",
             "link": "/pages/retours-et-remboursements"
           }
         }
@@ -106,8 +83,8 @@
     "bestsellers": {
       "type": "onx-products",
       "settings": {
-        "eyebrow": "Ensembles Essentials",
-        "title": "Choisis tes ensembles",
+        "eyebrow": "",
+        "title": "Nos ensembles",
         "limit": 8,
         "mobile_layout": "scroll",
         "scheme": "light"
@@ -116,9 +93,9 @@
         "tab_1": {
           "type": "tab",
           "settings": {
-            "label": "Tous les ensembles",
+            "label": "Ensembles",
             "collection": "ensembles-essentials",
-            "cta_label": "Voir tous les ensembles"
+            "cta_label": "Tout voir"
           }
         }
       },
@@ -129,8 +106,8 @@
     "collections": {
       "type": "onx-collections",
       "settings": {
-        "eyebrow": "ONX / Collections",
-        "title": "Trouve ton ensemble",
+        "eyebrow": "",
+        "title": "Choisis ton design",
         "feature_first": true,
         "scheme": "light"
       },
@@ -140,10 +117,10 @@
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/IMG_3703.jpg",
-            "title": "Logo Essentials",
-            "text": "Le classique, logo poitrine.",
-            "tag": "3 coloris",
-            "cta_label": "Découvrir",
+            "title": "Logo",
+            "text": "",
+            "tag": "",
+            "cta_label": "Voir",
             "link": "/products/ensemble-essentials-logo"
           }
         },
@@ -153,9 +130,9 @@
             "collection": "",
             "image": "shopify://shop_images/IMG_3716.jpg",
             "title": "1977",
-            "text": "Le design 1977.",
-            "tag": "2 coloris",
-            "cta_label": "Découvrir",
+            "text": "",
+            "tag": "",
+            "cta_label": "Voir",
             "link": "/products/ensemble-essentials-1977"
           }
         },
@@ -164,10 +141,10 @@
           "settings": {
             "collection": "",
             "image": "shopify://shop_images/IMG_3714.jpg",
-            "title": "NBA Essentials",
-            "text": "L'édition NBA.",
-            "tag": "2 coloris",
-            "cta_label": "Découvrir",
+            "title": "NBA",
+            "text": "",
+            "tag": "",
+            "cta_label": "Voir",
             "link": "/products/ensemble-essentials-nba"
           }
         }
@@ -235,8 +212,8 @@
     "ugc": {
       "type": "onx-ugc",
       "settings": {
-        "eyebrow": "Lookbook ONX",
-        "title": "Comment les porter",
+        "eyebrow": "",
+        "title": "Le look",
         "social_label": "",
         "scheme": "winter"
       },
@@ -351,14 +328,15 @@
         "reason_2",
         "reason_3",
         "reason_4"
-      ]
+      ],
+      "disabled": true
     },
     "faq": {
       "type": "onx-faq",
       "settings": {
-        "eyebrow": "FAQ",
-        "title": "Vos questions, nos réponses",
-        "intro": "Une autre question ? Notre équipe te répond.",
+        "eyebrow": "",
+        "title": "FAQ",
+        "intro": "",
         "contact_label": "Nous contacter",
         "contact_link": "/pages/contact",
         "open_first": false,
@@ -369,64 +347,36 @@
         "question_offer": {
           "type": "question",
           "settings": {
-            "question": "Comment fonctionne l'offre 3 achetés = 1 offert ?",
-            "answer": "<p>Ajoute 4 ensembles au panier (designs, coloris et tailles au choix) : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
+            "question": "L'offre 3 achetés = 1 offert ?",
+            "answer": "<p>Ajoute 4 ensembles au panier : le moins cher est offert, automatiquement.</p>"
           }
         },
         "question_size": {
           "type": "question",
           "settings": {
             "question": "Quelle taille choisir ?",
-            "answer": "<p>Les ensembles existent en S, M, L et XL. Le sweat et le jogging sont de la même taille. Entre deux tailles ? Écris-nous à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a> avant de commander, on te conseille.</p>"
+            "answer": "<p>Du S au XL, sweat et jogging de la même taille. Un doute ? Écris-nous.</p>"
           }
         },
         "question_delay": {
           "type": "question",
           "settings": {
-            "question": "Quels sont les délais de livraison ?",
-            "answer": "<p>Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison.</p>"
-          }
-        },
-        "question_track": {
-          "type": "question",
-          "settings": {
-            "question": "Comment suivre ma commande ?",
-            "answer": "<p>Tu reçois un e-mail dès l'expédition de ton colis. Une question sur ta commande ? Écris-nous en indiquant ton numéro de commande.</p>"
+            "question": "Délais de livraison ?",
+            "answer": "<p>13 à 15 jours. Livraison offerte.</p>"
           }
         },
         "question_return": {
           "type": "question",
           "settings": {
-            "question": "Puis-je retourner un article ?",
-            "answer": "<p>Oui. Tu as <strong>14 jours après réception</strong> pour changer d'avis, sans te justifier. Écris-nous avec ton numéro de commande. Tout est expliqué sur la page <a href=\"/pages/retours-et-remboursements\">Retours et remboursements</a>.</p>"
-          }
-        },
-        "question_secure": {
-          "type": "question",
-          "settings": {
-            "question": "Le paiement est-il sécurisé ?",
-            "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Tes données bancaires ne sont pas conservées par ONX.</p>"
-          }
-        },
-        "question_methods": {
-          "type": "question",
-          "settings": {
-            "question": "Quels moyens de paiement acceptez-vous ?",
-            "answer": "<p>Les moyens de paiement disponibles sont affichés sur la page de paiement sécurisée, avant que tu valides ta commande.</p>"
+            "question": "Retours ?",
+            "answer": "<p>14 jours après réception pour changer d'avis.</p>"
           }
         },
         "question_code": {
           "type": "question",
           "settings": {
-            "question": "Comment obtenir -15 % ?",
-            "answer": "<p>Inscris-toi à la newsletter : ton code de bienvenue s'affiche tout de suite. Il est valable une fois, à saisir à l'étape de paiement. Il n'est pas cumulable avec l'offre 3 achetés = 1 offert.</p>"
-          }
-        },
-        "question_contact": {
-          "type": "question",
-          "settings": {
-            "question": "Comment vous contacter ?",
-            "answer": "<p>Par e-mail à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a> ou via notre <a href=\"/pages/contact\">page contact</a>. Pense à indiquer ton numéro de commande si tu en as un.</p>"
+            "question": "Comment avoir -15 % ?",
+            "answer": "<p>Inscris-toi à la newsletter : ton code s'affiche aussitôt. Non cumulable avec le 3 + 1.</p>"
           }
         }
       },
@@ -434,23 +384,19 @@
         "question_offer",
         "question_size",
         "question_delay",
-        "question_track",
         "question_return",
-        "question_secure",
-        "question_methods",
-        "question_code",
-        "question_contact"
+        "question_code"
       ]
     },
     "newsletter": {
       "type": "onx-newsletter",
       "settings": {
-        "incentive": "-15 % sur ta première commande",
+        "incentive": "",
         "show_code": true,
-        "title": "Rejoins le club ONX",
-        "text": "Ton code de bienvenue s'affiche dès l'inscription. Ensuite : les nouveaux ensembles et nos offres en avant-première. Pas de spam.",
-        "button_label": "Je reçois mon code",
-        "legal": "<p>En t'inscrivant, tu acceptes de recevoir nos e-mails. Désinscription en un clic. Voir notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>.</p>",
+        "title": "-15 % sur ta 1re commande",
+        "text": "Ton code s'affiche dès l'inscription.",
+        "button_label": "Recevoir mon code",
+        "legal": "<p>En t'inscrivant, tu acceptes nos e-mails. <a href=\"/policies/privacy-policy\">Confidentialité</a></p>",
         "scheme": "stone"
       }
     },
@@ -458,10 +404,10 @@
       "type": "onx-cta",
       "settings": {
         "title": "3 achetés = 1 offert.",
-        "text": "C'est le moment de t'équiper pour l'hiver.",
-        "cta_label": "Choisir mes ensembles",
+        "text": "",
+        "cta_label": "Je choisis",
         "cta_link": "/collections/ensembles-essentials",
-        "micro_text": "Paiement sécurisé · Livraison offerte · Retour sous 14 jours",
+        "micro_text": "Livraison offerte · Retour 14 jours",
         "scheme": "winter"
       }
     }
