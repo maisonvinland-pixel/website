@@ -23,6 +23,15 @@ Tout texte ONX contenant des **[crochets]** est un placeholder : il est **surlig
 | Paramètres > Politiques | Remboursement, expédition, confidentialité, CGV (liens auto dans le footer) |
 | Navigation | Menu principal (`main-menu`) + menu `footer` (Suivi de commande, Contact, FAQ, Livraison, Retours) |
 
+### Fiche produit « achat » (packs, stock, livraison)
+| Où | Quoi |
+|---|---|
+| Produits > Ensembles Essentials (Logo, 1977, NBA) | Prix réels, prix barré éventuel (uniquement un vrai ancien prix), stock par taille et coloris, vos photos, puis statut **Actif** |
+| Fiche produit > « ONX — Délais livraison » | Vos vrais délais : expédition sous X jours, livraison entre Y et Z jours (la frise Commandé → Expédié → Chez toi reste masquée tant que c'est vide) |
+| Paramètres du thème > Panier | Seuil de livraison offerte (alimente aussi la barre de la fiche produit) |
+| Fiche produit > « ONX — Stock » | Seuil « Plus que X en stock » (0 = désactivé ; affiche toujours le stock réel) |
+| Fiche produit > « ONX — Packs (quantités) » | Quantités et noms des packs (par défaut 1 / 3 + 1 offert / 6 + 2 offerts, calculés depuis la remise automatique « 3 achetés = 1 offert ») |
+
 ### Conversion (fortement recommandé)
 | Où | Quoi |
 |---|---|

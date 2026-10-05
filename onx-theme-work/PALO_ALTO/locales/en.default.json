@@ -112,7 +112,14 @@
       "yes": "Yes",
       "you_save": "You save",
       "you_save_amount": "You save {{ amount }}",
-      "free": "Free"
+      "free": "Free",
+      "per_unit": "||price|| each",
+      "save_pct": "Save ||pct||%",
+      "item": "item",
+      "bundle_pick": "Pick the size and colour of each set:",
+      "bundle_item": "Set {{ number }}",
+      "free_shipping_progress": "Progress towards free shipping",
+      "reviews_based": "(Based on {{ count }} reviews)"
     }
   },
   "blogs": {

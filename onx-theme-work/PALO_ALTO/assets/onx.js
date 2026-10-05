@@ -154,6 +154,7 @@
           });
           highlightAdded();
           renderGift(cart.total_price);
+          renderShip(cart.total_price);
           renderCartMeta();
         })
         .catch(function () { /* silencieux */ });
@@ -538,6 +539,241 @@
   }
 
   /* ------------------------------------------------------------------
+   * 8b. Page produit — packs (X achetés = Y offert), stock réel,
+   *     délais de livraison, barre livraison offerte
+   * ------------------------------------------------------------------ */
+  function bundleItems(box) {
+    var tier = $('[data-onx-tier-input]:checked', box);
+    if (!tier) return null;
+    var wrap = tier.closest('.onx-tier-wrap');
+    var qty = parseInt(tier.value, 10) || 1;
+    var slots = $$('[data-onx-slot]', wrap);
+    return { qty: qty, wrap: wrap, slots: slots };
+  }
+
+  function currentVariantId(form) {
+    var input = form && form.querySelector('[name="id"]');
+    return input ? parseInt(input.value, 10) : null;
+  }
+
+  function renderBundles(box, variant) {
+    var buy = parseInt(box.getAttribute('data-buy'), 10) || 3;
+    var get = parseInt(box.getAttribute('data-get'), 10) || 1;
+    var cycle = buy + get;
+    var unitLabel = box.getAttribute('data-unit-label') || '||price||';
+    var saveLabel = box.getAttribute('data-save-label') || '-||pct|| %';
+    $$('[data-onx-tier]', box).forEach(function (tier) {
+      var wrap = tier.closest('.onx-tier-wrap');
+      var qty = parseInt(tier.getAttribute('data-qty'), 10) || 1;
+      var free = Math.floor(qty / cycle) * get;
+      var prices = [];
+      var slots = $$('[data-onx-slot]', wrap);
+      if (slots.length) {
+        slots.forEach(function (sel) {
+          var opt = sel.options[sel.selectedIndex];
+          prices.push(parseInt(opt && opt.getAttribute('data-price'), 10) || 0);
+        });
+      } else if (variant) {
+        for (var i = 0; i < qty; i++) prices.push(variant.price);
+      } else {
+        return;
+      }
+      // la remise Shopify offre les articles les moins chers
+      var sorted = prices.slice().sort(function (a, b) { return a - b; });
+      var full = prices.reduce(function (a, b) { return a + b; }, 0);
+      var discount = sorted.slice(0, free).reduce(function (a, b) { return a + b; }, 0);
+      var total = full - discount;
+      var compare = free > 0 ? full : (variant && variant.compare_at_price > variant.price ? variant.compare_at_price * qty : 0);
+      var pct = compare > total ? Math.round(((compare - total) / compare) * 100) : 0;
+      var per = Math.round(total / qty);
+
+      var totalEl = $('[data-onx-tier-total]', tier);
+      var compareEl = $('[data-onx-tier-compare]', tier);
+      var chip = $('[data-onx-tier-chip]', tier);
+      var unit = $('[data-onx-tier-unit]', tier);
+      var perEl = $('[data-onx-tier-per]', tier);
+      if (totalEl) totalEl.textContent = money(total);
+      if (compareEl) { compareEl.hidden = !(compare > total); compareEl.textContent = money(compare); }
+      if (chip) { chip.hidden = pct <= 0; chip.textContent = saveLabel.replace('||pct||', pct); }
+      if (unit) unit.textContent = unitLabel.replace('||price||', money(per));
+      if (perEl) perEl.textContent = perEl.textContent.replace(/^[^/]+/, money(per) + ' ');
+    });
+  }
+
+  function selectTier(box, input) {
+    $$('[data-onx-tier]', box).forEach(function (t) {
+      var on = t.contains(input);
+      t.classList.toggle('is-selected', on);
+      var slots = $('[data-onx-slots]', t.closest('.onx-tier-wrap'));
+      if (slots) slots.hidden = !on;
+    });
+    ONX.track('bundle_select', { qty: parseInt(input.value, 10) || 1 });
+  }
+
+  function initBundles(ctx) {
+    $$('[data-onx-bundles]', ctx).forEach(function (box) {
+      if (box.__onx) return;
+      box.__onx = true;
+      var form = document.getElementById(box.getAttribute('data-form'));
+      box.addEventListener('change', function (e) {
+        if (e.target.matches('[data-onx-tier-input]')) selectTier(box, e.target);
+        if (e.target.matches('[data-onx-slot]')) {
+          e.target.__touched = true;
+          renderBundles(box, null);
+        }
+      });
+      // la variante choisie en haut devient celle des emplacements non modifiés
+      document.addEventListener('theme:variant:change', function (e) {
+        var v = e.detail && e.detail.variant;
+        if (!v || !form || !(e.target === form || form.contains(e.target) || (e.target.contains && e.target.contains(form)))) return;
+        $$('[data-onx-slot]', box).forEach(function (sel) {
+          if (!sel.__touched && v.available) sel.value = String(v.id);
+        });
+        renderBundles(box, v);
+      });
+    });
+  }
+
+  // Avant que le thème lise le formulaire (écouteur en phase de capture) :
+  // pack > 1 => envoi de items[] (une ligne par variante), la remise automatique fait le reste.
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-add-to-cart]');
+    if (!btn) return;
+    var form = btn.closest('form');
+    var formId = form && form.getAttribute('id'); // form.id = champ name="id" du formulaire produit
+    if (!formId) return;
+    var box = $('[data-onx-bundles][data-form="' + formId + '"]');
+    if (!box) return;
+    var info = bundleItems(box);
+    if (!info || info.qty <= 1) return;
+
+    var counts = {};
+    var order = [];
+    if (info.slots.length) {
+      info.slots.forEach(function (sel) {
+        var id = sel.value;
+        if (!counts[id]) { counts[id] = 0; order.push(id); }
+        counts[id]++;
+      });
+    } else {
+      var vid = currentVariantId(form);
+      if (!vid) return;
+      counts[vid] = info.qty;
+      order.push(String(vid));
+    }
+
+    var disabled = $$('[name="id"], [name="quantity"]', form).filter(function (el) { return !el.disabled; });
+    disabled.forEach(function (el) { el.disabled = true; });
+    var temp = [];
+    order.forEach(function (id) {
+      [['items[][id]', id], ['items[][quantity]', counts[id]]].forEach(function (pair) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = pair[0];
+        input.value = pair[1];
+        form.appendChild(input);
+        temp.push(input);
+      });
+    });
+    ONX.track('bundle_add', { qty: info.qty, lines: order.length });
+    setTimeout(function () {
+      temp.forEach(function (el) { el.remove(); });
+      disabled.forEach(function (el) { el.disabled = false; });
+    }, 0);
+  }, true);
+
+  function updateStock(scope, variant) {
+    $$('[data-onx-stock]', scope).forEach(function (el) {
+      if (!variant) return;
+      var data = {};
+      try { data = JSON.parse(($('[data-onx-stock-data]', el) || {}).textContent || '{}'); } catch (err) { /* ignore */ }
+      var v = data[variant.id] || { a: variant.available, m: false, s: false };
+      var state = 'out';
+      var text = el.getAttribute('data-text-out');
+      if (v.a) {
+        if (v.m && v.s) {
+          state = 'in';
+          text = el.getAttribute('data-text-in');
+          if (typeof v.q === 'number' && el.getAttribute('data-text-low')) {
+            state = 'low';
+            text = el.getAttribute('data-text-low').replace('||count||', v.q);
+          }
+        } else {
+          state = 'untracked';
+          text = el.getAttribute('data-text-untracked');
+        }
+      }
+      el.className = el.className.replace(/\bis-(in|low|out|untracked)\b/, '') + ' is-' + state;
+      var t = $('[data-onx-stock-text]', el);
+      if (t) t.textContent = text || '';
+      el.hidden = !text;
+    });
+  }
+
+  function addDays(date, days, business) {
+    var d = new Date(date.getTime());
+    if (!business) { d.setDate(d.getDate() + days); return d; }
+    while (days > 0) {
+      d.setDate(d.getDate() + 1);
+      var wd = d.getDay();
+      if (wd !== 0 && wd !== 6) days--;
+    }
+    return d;
+  }
+
+  function initDelivery(ctx) {
+    $$('[data-onx-delivery]', ctx).forEach(function (el) {
+      var ship = parseInt(el.getAttribute('data-ship'), 10);
+      var min = parseInt(el.getAttribute('data-min'), 10);
+      var max = parseInt(el.getAttribute('data-max'), 10) || min;
+      if (isNaN(ship) || isNaN(min)) return;
+      var business = el.getAttribute('data-business') === 'true';
+      var cutoff = parseInt(el.getAttribute('data-cutoff'), 10) || 0;
+      var lang = document.documentElement.lang || 'fr';
+      var fmt;
+      try { fmt = new Intl.DateTimeFormat(lang, { weekday: 'short', day: 'numeric', month: 'short' }); }
+      catch (err) { fmt = { format: function (d) { return d.toLocaleDateString(); } }; }
+
+      var now = new Date();
+      var start = new Date(now.getTime());
+      var wd = start.getDay();
+      // commande passée après l'heure limite, ou le week-end en jours ouvrés : départ au jour ouvré suivant
+      if ((cutoff && now.getHours() >= cutoff) || (business && (wd === 0 || wd === 6))) start = addDays(start, 1, business);
+
+      var shipDate = addDays(start, ship, business);
+      var dMin = addDays(start, min, business);
+      var dMax = addDays(start, max, business);
+      var set = function (key, text) { var t = $('[data-onx-date="' + key + '"]', el); if (t) t.textContent = text; };
+      set('order', fmt.format(now));
+      set('ship', fmt.format(shipDate));
+      set('delivery', max > min ? fmt.format(dMin) + ' – ' + fmt.format(dMax) : fmt.format(dMin));
+      el.hidden = false;
+    });
+  }
+
+  function renderShip(total) {
+    $$('[data-onx-ship]').forEach(function (el) {
+      var limit = parseInt(el.getAttribute('data-limit'), 10) || 0;
+      if (!limit) return;
+      var left = limit - total;
+      var done = left <= 0;
+      var t = $('[data-onx-ship-text]', el);
+      var bar = $('[data-onx-ship-bar]', el);
+      if (t) t.textContent = done ? el.getAttribute('data-text-done') : el.getAttribute('data-text-left').replace('||amount||', money(left));
+      if (bar) bar.style.setProperty('--p', Math.min(100, Math.round((total / limit) * 100)) + '%');
+      var pb = $('[role="progressbar"]', el);
+      if (pb) pb.setAttribute('aria-valuenow', Math.min(100, Math.round((total / limit) * 100)));
+      el.classList.toggle('is-done', done);
+    });
+  }
+  ONX.renderShip = renderShip;
+
+  document.addEventListener('theme:variant:change', function (e) {
+    var scope = e.target && e.target.closest ? (e.target.closest('[data-section-type]') || document) : document;
+    updateStock(scope, e.detail && e.detail.variant);
+  });
+
+  /* ------------------------------------------------------------------
    * 9. Apparition douce au scroll (respecte prefers-reduced-motion)
    * ------------------------------------------------------------------ */
   function initReveal(ctx) {
@@ -565,6 +801,8 @@
     initCountdowns(ctx);
     initVideos(ctx);
     initCompare(ctx);
+    initBundles(ctx);
+    initDelivery(ctx);
     initReveal(ctx);
   }
 

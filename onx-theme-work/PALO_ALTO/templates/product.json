@@ -6,9 +6,10 @@
         "title": {
           "type": "title",
           "settings": {
-            "subheading": "none",
+            "subheading": "breadcrumbs",
             "show_rating": true,
-            "show_rating_count": true
+            "show_rating_count": true,
+            "onx_pill": "3 achetés = 1 offert"
           }
         },
         "onx_benefits": {
@@ -23,7 +24,8 @@
         },
         "inventory_countdown": {
           "type": "inventory_countdown",
-          "settings": {}
+          "settings": {},
+          "disabled": true
         },
         "form": {
           "type": "form",
@@ -31,7 +33,7 @@
             "info_page": "",
             "info_page_title_override": "",
             "show_labels": true,
-            "show_quantity": true,
+            "show_quantity": false,
             "show_payment_button": true,
             "enable_subscriptions_selectors": false
           }
@@ -57,7 +59,8 @@
             "lines": "Ajoute 4 ensembles : le moins cher est offert\nRemise automatique au panier, sans code",
             "icon": "gift",
             "code": ""
-          }
+          },
+          "disabled": true
         },
         "description": {
           "type": "description",
@@ -89,14 +92,66 @@
           "settings": {
             "product": ""
           }
+        },
+        "onx_stock": {
+          "type": "onx_stock",
+          "settings": {
+            "text_in": "En stock, prêt à partir",
+            "low_threshold": 0,
+            "text_low": "Plus que ||count|| en stock",
+            "text_untracked": "Disponible",
+            "text_out": "Épuisé dans cette variante"
+          }
+        },
+        "onx_bundles": {
+          "type": "onx_bundles",
+          "settings": {
+            "title": "Plus tu en prends, plus tu économises",
+            "default_tier": "2",
+            "t1_qty": 1,
+            "t1_label": "À l'unité",
+            "t1_sub": "Prix normal",
+            "t1_flag": "",
+            "t2_qty": 4,
+            "t2_label": "Pack 3 + 1 offert",
+            "t2_sub": "Le moins cher est offert",
+            "t2_flag": "Recommandé",
+            "t3_qty": 8,
+            "t3_label": "Pack 6 + 2 offerts",
+            "t3_sub": "Les 2 moins chers sont offerts",
+            "t3_flag": "Le + d'offerts",
+            "note": "Remise appliquée automatiquement au panier, sans code"
+          }
+        },
+        "onx_delivery": {
+          "type": "onx_delivery",
+          "settings": {
+            "business_days": true,
+            "cutoff_hour": 0,
+            "label_order": "Commandé",
+            "label_ship": "Expédié",
+            "label_delivery": "Chez toi",
+            "note": ""
+          }
+        },
+        "onx_shipping": {
+          "type": "onx_shipping",
+          "settings": {
+            "text_left": "Plus que ||amount|| pour la livraison offerte",
+            "text_done": "La livraison est offerte sur ta commande"
+          }
         }
       },
       "block_order": [
         "title",
+        "onx_stock",
+        "onx_bundles",
+        "form",
+        "onx_delivery",
+        "onx_shipping",
+        "onx_trust",
         "onx_offer",
         "inventory_countdown",
-        "form",
-        "onx_trust",
         "onx_benefits",
         "description",
         "product_accordions",

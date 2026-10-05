@@ -75,7 +75,7 @@
 {%- for block in section.blocks -%}{%- if block.type == '@app' -%}{%- assign has_app = true -%}{%- endif -%}{%- endfor -%}
 
 {%- if shown > 0 or score != blank or has_app or dm -%}
-<section class="onx-reviews onx-section onx-scheme--{{ s.scheme }}" data-onx-section="reviews">
+<section id="onx-reviews" class="onx-reviews onx-section onx-scheme--{{ s.scheme }}" data-onx-section="reviews">
   <div class="onx-container">
     <div class="onx-reviews__head">
       <div>

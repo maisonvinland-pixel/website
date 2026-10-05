@@ -112,7 +112,14 @@
       "yes": "Ja",
       "you_save": "Sie sparen",
       "you_save_amount": "Sie sparen {{ amount }}",
-      "free": "Gratis"
+      "free": "Gratis",
+      "per_unit": "||price|| pro Stück",
+      "save_pct": "Spare ||pct|| %",
+      "item": "Artikel",
+      "bundle_pick": "Wähle Größe und Farbe für jedes Set:",
+      "bundle_item": "Set {{ number }}",
+      "free_shipping_progress": "Fortschritt zum kostenlosen Versand",
+      "reviews_based": "(Basierend auf {{ count }} Bewertungen)"
     }
   },
   "blogs": {

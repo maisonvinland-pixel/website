@@ -112,7 +112,14 @@
       "yes": "Oui",
       "you_save": "Tu économises",
       "you_save_amount": "Tu économises {{ amount }}",
-      "free": "Offert"
+      "free": "Offert",
+      "per_unit": "||price|| l'unité",
+      "save_pct": "Économise ||pct|| %",
+      "item": "article",
+      "bundle_pick": "Choisis la taille et le coloris de chaque ensemble :",
+      "bundle_item": "Ensemble {{ number }}",
+      "free_shipping_progress": "Progression vers la livraison offerte",
+      "reviews_based": "(Sur la base de {{ count }} avis)"
     }
   },
   "blogs": {

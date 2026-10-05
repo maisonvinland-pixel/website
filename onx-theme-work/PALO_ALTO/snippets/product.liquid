@@ -219,6 +219,14 @@
                   <nav class="breadcrumbs">{{ vendor }}</nav>
               {%- endcase -%}
 
+              {%- liquid
+                assign onx_pill = block.settings.onx_pill
+                if request.design_mode == false and onx_pill contains '['
+                  assign onx_pill = ''
+                endif
+              -%}
+              {%- if onx_pill != blank -%}<p class="onx-pill">{% render 'onx-text', text: onx_pill %}</p>{%- endif -%}
+
               <h1 class="product__title">
                 {%- if template.name == 'product' and section_type != 'featured' -%}
                   {{- product_title -}}
@@ -226,6 +234,16 @@
                   <a href="{{ product_url }}" title="{{ product_title }}">{{ product_title }}</a>
                 {%- endif -%}
               </h1>
+
+              {%- comment -%} ONX — note réelle uniquement (métadonnées reviews.* de l'application d'avis) {%- endcomment -%}
+              {%- if block.settings.show_rating and product.metafields.reviews.rating.value != blank -%}
+                <a class="onx-pdp-rating" href="#onx-reviews">
+                  {%- render 'rating', show_rating_count: false, single_star: false, reviews: product.metafields.reviews -%}
+                  {%- if block.settings.show_rating_count and product.metafields.reviews.rating_count != blank -%}
+                    <span class="onx-pdp-rating__count">{{ 'general.onx.reviews_based' | t: count: product.metafields.reviews.rating_count }}</span>
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
             </div>
 
             <div class="product__block product__price-and-badge">
@@ -310,12 +328,8 @@
     <span data-onx-saving-text>{{ 'general.onx.you_save_amount' | t: amount: onx_save_money }}</span>
   </p>
 
-  {%- if block.settings.show_rating or settings.show_rating and section_type == 'quickview' -%}
-    {%- unless product == blank -%}
-      {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, reviews: product.metafields.reviews -%}
-    {%- else -%}
-      {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, onboarding: true -%}
-    {%- endunless -%}
+  {%- if product == blank and block.settings.show_rating -%}
+    {%- render 'rating', show_rating_count: block.settings.show_rating_count, single_star: true, onboarding: true -%}
   {%- endif -%}
 </div>
 
@@ -1050,6 +1064,11 @@
 
           {%- when 'onx_offer' -%}
             {%- render 'onx-pdp-block', block: block, product: product -%}
+
+          {%- when 'onx_stock', 'onx_bundles', 'onx_delivery', 'onx_shipping' -%}
+            {%- unless product == blank -%}
+              {%- render 'onx-pdp-buy', block: block, product: product, unique: unique -%}
+            {%- endunless -%}
 
           {%- when 'pickup' -%}
             {%- comment -%} Surface pickup availability {%- endcomment -%}
