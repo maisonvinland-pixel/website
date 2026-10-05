@@ -15,6 +15,13 @@
         "scheme": "light"
       },
       "blocks": {
+        "question_offer": {
+          "type": "question",
+          "settings": {
+            "question": "Comment fonctionne l'offre 3 achetés = 1 offert ?",
+            "answer": "<p>Ajoute 4 ensembles au panier : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
+          }
+        },
         "question_1": {
           "type": "question",
           "settings": {
@@ -45,6 +52,7 @@
         }
       },
       "block_order": [
+        "question_offer",
         "question_1",
         "question_2",
         "question_3",

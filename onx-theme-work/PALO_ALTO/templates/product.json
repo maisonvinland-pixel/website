@@ -13,7 +13,13 @@
         },
         "onx_benefits": {
           "type": "onx_benefits",
-          "settings": {}
+          "settings": {
+            "lead": "[Le bénéfice principal de cet ensemble en une phrase.]",
+            "b1": "Ensemble complet : hoodie + jogging assortis",
+            "b2": "[Matière / confort]",
+            "b3": "[Coupe / tailles]",
+            "b4": ""
+          }
         },
         "inventory_countdown": {
           "type": "inventory_countdown",
@@ -47,10 +53,10 @@
         "onx_offer": {
           "type": "onx_offer",
           "settings": {
-            "title": "[Offre hiver]",
-            "lines": "[2 achetés = -15 %]\n[Livraison offerte dès XX €]",
-            "icon": "snowflake",
-            "code": "[CODE]"
+            "title": "Offre ONX : 3 achetés = 1 offert",
+            "lines": "Ajoute 4 ensembles : le moins cher est offert\nRemise automatique au panier, sans code",
+            "icon": "gift",
+            "code": ""
           }
         },
         "description": {
@@ -114,25 +120,25 @@
         "usp_1": {
           "type": "usp",
           "settings": {
-            "icon": "snowflake",
-            "title": "Pensé pour l'hiver",
-            "text": "[Sélection dédiée au froid]"
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Automatique au panier"
           }
         },
         "usp_2": {
           "type": "usp",
           "settings": {
-            "icon": "truck",
-            "title": "[Livraison suivie]",
-            "text": "[Expédiée sous X jours]"
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
           }
         },
         "usp_3": {
           "type": "usp",
           "settings": {
-            "icon": "lock",
-            "title": "Paiement sécurisé",
-            "text": "Données chiffrées (SSL)"
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
           }
         },
         "usp_4": {
@@ -286,6 +292,20 @@
         "title": "Questions fréquentes"
       },
       "blocks": {
+        "question_offer": {
+          "type": "question",
+          "settings": {
+            "question": "Comment fonctionne l'offre 3 achetés = 1 offert ?",
+            "answer": "<p>Ajoute 4 ensembles au panier : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
+          }
+        },
+        "question_size": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle taille choisir ?",
+            "answer": "<p>[Guide des tailles : correspondances S, M, L, XL et conseil de coupe.]</p>"
+          }
+        },
         "question_1": {
           "type": "question",
           "settings": {
@@ -313,21 +333,15 @@
             "question": "Le paiement est-il sécurisé ?",
             "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>"
           }
-        },
-        "question_5": {
-          "type": "question",
-          "settings": {
-            "question": "Quels moyens de paiement acceptez-vous ?",
-            "answer": "<p>[Carte bancaire, Apple Pay, Google Pay, PayPal… — selon les moyens activés.]</p>"
-          }
         }
       },
       "block_order": [
+        "question_offer",
+        "question_size",
         "question_1",
         "question_2",
         "question_3",
-        "question_4",
-        "question_5"
+        "question_4"
       ]
     },
     "related": {

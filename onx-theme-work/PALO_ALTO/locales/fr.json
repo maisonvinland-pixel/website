@@ -111,7 +111,8 @@
       "verified_buyer": "Achat vérifié",
       "yes": "Oui",
       "you_save": "Tu économises",
-      "you_save_amount": "Tu économises {{ amount }}"
+      "you_save_amount": "Tu économises {{ amount }}",
+      "free": "Offert"
     }
   },
   "blogs": {

@@ -53,6 +53,8 @@
     {%- for block in tabs -%}
       {%- comment -%} Sans collection choisie : repli sur « Tous les produits » (jamais de grille vide en ligne) {%- endcomment -%}
       {%- assign collection = block.settings.collection | default: collections.all -%}
+      {%- if collection.products_count == 0 -%}{%- assign collection = collections.all -%}{%- endif -%}
+      {%- if collection.products_count == 0 and dm == false -%}{%- continue -%}{%- endif -%}
       <div class="onx-products__panel" role="tabpanel"
         id="onx-panel-{{ block.id }}"
         aria-labelledby="onx-tab-{{ block.id }}"

@@ -1059,3 +1059,49 @@ input[type=checkbox] { accent-color: var(--onx-text); }
 .onx-why__table .onx-why__us .onx-wordmark__text { color: #FFFFFF; }
 .onx-why__table .onx-why__us .onx-wordmark__sign { color: var(--onx-aurora); }
 .cart__checkout.btn { font-size: 0.9375rem; letter-spacing: 0.04em; gap: 10px; padding: 0 18px; }
+
+/* 16 — PANIER ANIMÉ & OFFRE « X ACHETÉS = Y OFFERT » -------------------- */
+.onx-bxgy { display: grid; gap: 10px; padding: 14px 20px; background: linear-gradient(160deg, var(--onx-frost) 0%, var(--onx-stone) 100%); border-bottom: 1px solid var(--onx-border); }
+.onx-bxgy__head { display: flex; align-items: center; gap: 10px; }
+.onx-bxgy__icon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--onx-accent); color: #FFFFFF; box-shadow: 0 8px 18px -10px var(--onx-accent-glow); }
+.onx-bxgy__text { margin: 0; font-weight: 700; font-size: 0.875rem; line-height: 1.3; color: var(--onx-heading); }
+.onx-bxgy__steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 6px; }
+.onx-bxgy__step { position: relative; display: flex; align-items: center; justify-content: center; gap: 4px; height: 30px; border-radius: var(--onx-radius-sm); background: #FFFFFF; box-shadow: inset 0 0 0 1.5px var(--onx-border); color: var(--onx-muted); font-family: var(--onx-font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; overflow: hidden; transition: background-color 300ms var(--onx-ease), color 300ms var(--onx-ease), box-shadow 300ms var(--onx-ease); }
+.onx-bxgy__step.is-filled { background: var(--onx-deep); color: #FFFFFF; box-shadow: none; }
+.onx-bxgy__step--free { color: var(--onx-accent); box-shadow: inset 0 0 0 1.5px var(--onx-accent); }
+.onx-bxgy__step--free.is-filled, .onx-bxgy.is-ready .onx-bxgy__step--free { background: var(--onx-accent); color: #FFFFFF; box-shadow: 0 8px 20px -10px var(--onx-accent-glow); }
+.onx-bxgy__cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border-radius: var(--onx-radius-sm); background: var(--onx-accent); color: #FFFFFF; font-family: var(--onx-font-heading); font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+.onx-bxgy__cta[hidden] { display: none; }
+.onx-bxgy.is-done .onx-bxgy__icon { background: var(--onx-success); }
+.onx-bxgy.is-done .onx-bxgy__text { color: var(--onx-success); }
+
+/* Animations (activées par html.onx-anim, jamais si « réduire les animations ») */
+.onx-anim .onx-bxgy__step.is-filled { animation: onx-pop 420ms var(--onx-ease) both; }
+.onx-anim .onx-bxgy.is-ready .onx-bxgy__step--free { animation: onx-glow 1.6s ease-in-out infinite; }
+.onx-anim .onx-bxgy.is-ready .onx-bxgy__cta { animation: onx-rise 380ms var(--onx-ease) both; }
+.onx-anim .cart-drawer.onx-opening .cart__item { animation: onx-rise 420ms var(--onx-ease) both; }
+.onx-anim .cart-drawer.onx-opening .cart__item:nth-child(2) { animation-delay: 60ms; }
+.onx-anim .cart-drawer.onx-opening .cart__item:nth-child(3) { animation-delay: 120ms; }
+.onx-anim .cart-drawer.onx-opening .cart__item:nth-child(4) { animation-delay: 180ms; }
+.onx-anim .cart-drawer.onx-opening .cart__item:nth-child(n+5) { animation-delay: 220ms; }
+.onx-anim .cart-drawer.onx-opening .onx-bxgy, .onx-anim .cart-drawer.onx-opening .cart__message { animation: onx-rise 380ms var(--onx-ease) both; }
+.onx-anim .cart-drawer.onx-opening .cart__checkout { animation: onx-rise 420ms 140ms var(--onx-ease) both; }
+.onx-anim .cart__item.onx-just-added { animation: onx-added 1.4s var(--onx-ease) both; }
+.onx-anim .onx-cart-count.is-bump { animation: onx-bump 520ms cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.onx-anim .onx-cart-hit { animation: onx-hit 480ms cubic-bezier(0.3, 1.6, 0.5, 1); }
+.onx-anim .cart__checkout.btn { overflow: hidden; }
+.onx-anim .cart-drawer.onx-opening .cart__checkout.btn::after { content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent); transform: skewX(-20deg); animation: onx-sheen 1.1s 600ms ease-out 1 both; pointer-events: none; }
+.onx-anim .onx-progress__bar, .onx-anim .onx-bxgy__step.is-filled { background-size: 200% 100%; }
+.onx-anim .onx-progress__bar { background-image: linear-gradient(90deg, var(--onx-light), var(--onx-accent), var(--onx-light)); animation: onx-shimmer 2.4s linear infinite; }
+
+.onx-fly { position: fixed; z-index: 10050; pointer-events: none; border-radius: 14px; background-size: cover; background-position: center; background-color: var(--onx-frost); box-shadow: var(--onx-shadow-lg), 0 0 0 2px #FFFFFF; will-change: transform, opacity; }
+.onx-confetti { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 10060; pointer-events: none; }
+
+@keyframes onx-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes onx-pop { 0% { transform: scale(0.85); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
+@keyframes onx-glow { 0%, 100% { box-shadow: 0 0 0 0 var(--onx-accent-glow); } 50% { box-shadow: 0 0 0 6px rgba(22, 82, 240, 0); } }
+@keyframes onx-added { 0% { background-color: rgba(22, 82, 240, 0.14); box-shadow: inset 3px 0 0 var(--onx-accent); } 100% { background-color: transparent; box-shadow: inset 0 0 0 transparent; } }
+@keyframes onx-bump { 0% { transform: scale(1); } 40% { transform: scale(1.45); } 100% { transform: scale(1); } }
+@keyframes onx-hit { 0% { transform: scale(1); } 35% { transform: scale(1.18) rotate(-6deg); } 70% { transform: scale(0.96) rotate(3deg); } 100% { transform: scale(1); } }
+@keyframes onx-sheen { from { left: -60%; } to { left: 130%; } }
+@keyframes onx-shimmer { from { background-position: 200% 0; } to { background-position: 0 0; } }

@@ -112,7 +112,8 @@
       "verified_buyer": "Compra verificada",
       "yes": "Sim",
       "you_save": "Você economiza",
-      "you_save_amount": "Você economiza {{ amount }}"
+      "you_save_amount": "Você economiza {{ amount }}",
+      "free": "Grátis"
     }
   },
   "blogs": {

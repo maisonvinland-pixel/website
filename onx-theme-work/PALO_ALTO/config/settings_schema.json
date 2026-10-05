@@ -272,6 +272,82 @@
       },
       {
         "type": "header",
+        "content": "Offre « X achetés = Y offert » (panier)"
+      },
+      {
+        "type": "checkbox",
+        "id": "onx_bxgy_enabled",
+        "label": "Afficher le compteur d'offre dans le panier",
+        "default": true,
+        "info": "Affichage uniquement : la remise réelle est la remise automatique « Achetez X, obtenez Y » créée dans Shopify > Réductions."
+      },
+      {
+        "type": "range",
+        "id": "onx_bxgy_buy",
+        "label": "Articles achetés",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "onx_bxgy_get",
+        "label": "Articles offerts",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "default": 1
+      },
+      {
+        "type": "collection",
+        "id": "onx_bxgy_collection",
+        "label": "Collection éligible (optionnel)",
+        "info": "Vide = tous les articles du panier comptent."
+      },
+      {
+        "type": "text",
+        "id": "onx_bxgy_label_left",
+        "label": "Message — en cours",
+        "default": "Ajoute encore ||count|| ensemble(s) : le suivant est OFFERT"
+      },
+      {
+        "type": "text",
+        "id": "onx_bxgy_label_ready",
+        "label": "Message — prêt à être offert",
+        "default": "Débloqué ! Ajoute ton ensemble OFFERT"
+      },
+      {
+        "type": "text",
+        "id": "onx_bxgy_label_done",
+        "label": "Message — offert",
+        "default": "Bravo ! ||free|| ensemble(s) offert(s) dans ton panier"
+      },
+      {
+        "type": "text",
+        "id": "onx_bxgy_cta",
+        "label": "Bouton — choisir l'article offert",
+        "default": "Choisir mon ensemble offert"
+      },
+      {
+        "type": "url",
+        "id": "onx_bxgy_cta_link",
+        "label": "Lien du bouton",
+        "info": "Par défaut : la collection éligible."
+      },
+      {
+        "type": "header",
+        "content": "Animations du panier"
+      },
+      {
+        "type": "checkbox",
+        "id": "onx_cart_animations",
+        "label": "Panier animé",
+        "default": true,
+        "info": "Produit qui « vole » vers le panier, compteur qui rebondit, articles en cascade, célébration quand l'offre est débloquée. Désactivé automatiquement si le visiteur a choisi « réduire les animations »."
+      },
+      {
+        "type": "header",
         "content": "Panier — panier moyen"
       },
       {

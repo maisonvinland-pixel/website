@@ -161,7 +161,7 @@
           "onx_msg_offer": {
             "type": "text",
             "settings": {
-              "text": "<p>❄️ [OFFRE HIVER : -XX % AUJOURD'HUI] — CODE <strong>[XXXX]</strong></p>",
+              "text": "<p>🎁 <strong>3 ACHETÉS = 1 OFFERT</strong> SUR TOUS LES ENSEMBLES</p>",
               "icon_name": "none",
               "icon_color": "",
               "icon_width": 15,
@@ -176,7 +176,7 @@
           "onx_msg_shipping": {
             "type": "text",
             "settings": {
-              "text": "<p>❄️ COLLECTION HIVER — [LIVRAISON OFFERTE DÈS XX €]</p>",
+              "text": "<p>❄️ ENSEMBLES ESSENTIALS — COLLECTION HIVER</p>",
               "icon_name": "none",
               "icon_color": "",
               "icon_width": 15,
@@ -191,7 +191,7 @@
           "onx_msg_gift": {
             "type": "text",
             "settings": {
-              "text": "<p>🎁 [1 PRODUIT ACHETÉ = 1 CADEAU OFFERT]</p>",
+              "text": "<p>🚚 [LIVRAISON OFFERTE DÈS XX €]</p>",
               "icon_name": "none",
               "icon_color": "",
               "icon_width": 15,
@@ -282,7 +282,17 @@
     "onx_color_muted": "#56688A",
     "onx_color_accent_deep": "#1652F0",
     "onx_color_aurora": "#8FD8FF",
-    "onx_color_primary_light": "#5B8CFF"
+    "onx_color_primary_light": "#5B8CFF",
+    "onx_bxgy_enabled": true,
+    "onx_bxgy_buy": 3,
+    "onx_bxgy_get": 1,
+    "onx_bxgy_collection": "ensembles-essentials",
+    "onx_cart_animations": true,
+    "onx_bxgy_label_left": "Ajoute encore ||count|| ensemble(s) : le suivant est OFFERT",
+    "onx_bxgy_label_ready": "Débloqué ! Ajoute ton ensemble OFFERT",
+    "onx_bxgy_label_done": "Bravo ! ||free|| ensemble(s) offert(s) dans ton panier",
+    "onx_bxgy_cta": "Choisir mon ensemble offert",
+    "onx_cart_upsell_collection": "ensembles-essentials"
   },
   "presets": {
     "Palo Alto": {

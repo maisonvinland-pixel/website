@@ -22,25 +22,25 @@
         "usp_1": {
           "type": "usp",
           "settings": {
-            "icon": "snowflake",
-            "title": "Pensé pour l'hiver",
-            "text": "[Sélection dédiée au froid]"
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Automatique au panier"
           }
         },
         "usp_2": {
           "type": "usp",
           "settings": {
-            "icon": "truck",
-            "title": "[Livraison suivie]",
-            "text": "[Expédiée sous X jours]"
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
           }
         },
         "usp_3": {
           "type": "usp",
           "settings": {
-            "icon": "lock",
-            "title": "Paiement sécurisé",
-            "text": "Données chiffrées (SSL)"
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
           }
         },
         "usp_4": {

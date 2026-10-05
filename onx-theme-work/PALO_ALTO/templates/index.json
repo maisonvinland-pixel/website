@@ -2,24 +2,37 @@
   "sections": {
     "hero": {
       "type": "onx-hero",
-      "settings": {},
+      "settings": {
+        "eyebrow": "ONX / Ensembles Essentials",
+        "title": "Les ensembles Essentials pour l'hiver.",
+        "title_highlight": "pour l'hiver",
+        "subtitle": "Hoodie + jogging assortis, plusieurs coloris. Ajoute 4 ensembles au panier : le moins cher est offert.",
+        "offer_text": "3 achetés = 1 offert — appliqué automatiquement au panier, sans code",
+        "offer_link": "/collections/ensembles-essentials",
+        "cta_label": "Choisir mon ensemble",
+        "cta_link": "/collections/ensembles-essentials",
+        "cta2_label": "",
+        "media_badge": "3 achetés = 1 offert",
+        "micro_text": "Paiement sécurisé · [Livraison suivie] · [Retours simples]",
+        "scheme": "winter"
+      },
       "blocks": {
         "benefit_1": {
           "type": "benefit",
           "settings": {
-            "text": "[Bénéfice concret n°1 — ex. chaleur]"
+            "text": "Ensemble complet : hoodie + jogging assortis"
           }
         },
         "benefit_2": {
           "type": "benefit",
           "settings": {
-            "text": "[Bénéfice concret n°2 — ex. confort]"
+            "text": "Plusieurs coloris au choix"
           }
         },
         "benefit_3": {
           "type": "benefit",
           "settings": {
-            "text": "[Bénéfice concret n°3 — ex. qualité]"
+            "text": "Paiement 100 % sécurisé"
           }
         }
       },
@@ -39,25 +52,25 @@
         "usp_1": {
           "type": "usp",
           "settings": {
-            "icon": "snowflake",
-            "title": "Pensé pour l'hiver",
-            "text": "[Sélection dédiée au froid]"
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Automatique au panier"
           }
         },
         "usp_2": {
           "type": "usp",
           "settings": {
-            "icon": "truck",
-            "title": "[Livraison suivie]",
-            "text": "[Expédiée sous X jours]"
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
           }
         },
         "usp_3": {
           "type": "usp",
           "settings": {
-            "icon": "lock",
-            "title": "Paiement sécurisé",
-            "text": "Données chiffrées (SSL)"
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
           }
         },
         "usp_4": {
@@ -79,8 +92,8 @@
     "bestsellers": {
       "type": "onx-products",
       "settings": {
-        "eyebrow": "Sélection hiver",
-        "title": "Les best-sellers ONX",
+        "eyebrow": "Ensembles Essentials",
+        "title": "Choisis tes ensembles",
         "limit": 8,
         "mobile_layout": "scroll",
         "scheme": "light"
@@ -89,8 +102,9 @@
         "tab_1": {
           "type": "tab",
           "settings": {
-            "label": "Best-sellers",
-            "cta_label": "Voir tous les best-sellers"
+            "label": "Tous les ensembles",
+            "collection": "ensembles-essentials",
+            "cta_label": "Voir tous les ensembles"
           }
         },
         "tab_2": {
@@ -109,23 +123,35 @@
     "offer": {
       "type": "onx-offer",
       "settings": {
-        "scheme": "winter"
+        "scheme": "winter",
+        "eyebrow": "Offre ONX",
+        "title": "3 achetés = 1 offert.",
+        "text": "Ajoute 4 ensembles au panier : le moins cher est offert automatiquement, sans code. 8 ensembles ? 2 offerts.",
+        "code": "",
+        "cta_label": "",
+        "conditions": ""
       },
       "blocks": {
         "pack_1": {
           "type": "pack",
           "settings": {
-            "name": "Essential",
-            "title": "[Le kit de base]",
-            "perks": "[Élément 1]\n[Élément 2]"
+            "name": "1 ensemble",
+            "title": "L'essentiel",
+            "price": "",
+            "perks": "Hoodie + jogging assortis\nTous les coloris disponibles",
+            "button_label": "Choisir",
+            "link": "/collections/ensembles-essentials"
           }
         },
         "pack_2": {
           "type": "pack",
           "settings": {
-            "name": "Premium",
-            "title": "[Le kit complet]",
-            "perks": "[Élément 1]\n[Élément 2]\n[Élément 3]",
+            "name": "4 ensembles",
+            "title": "3 achetés + 1 offert",
+            "price": "",
+            "perks": "Le moins cher des 4 est offert\nRemise automatique, sans code\nÀ partager entre amis ou en famille",
+            "button_label": "J'en profite",
+            "link": "/collections/ensembles-essentials",
             "highlight": true,
             "flag": "Meilleure offre"
           }
@@ -133,9 +159,12 @@
         "pack_3": {
           "type": "pack",
           "settings": {
-            "name": "Best value",
-            "title": "[Le kit duo / famille]",
-            "perks": "[Élément 1]\n[Élément 2]\n[Économie maximale]"
+            "name": "8 ensembles",
+            "title": "6 achetés + 2 offerts",
+            "price": "",
+            "perks": "2 ensembles offerts\nPour toute l'équipe",
+            "button_label": "Choisir",
+            "link": "/collections/ensembles-essentials"
           }
         }
       },
@@ -150,28 +179,31 @@
       "settings": {
         "feature_first": true,
         "eyebrow": "ONX / Collections",
-        "title": "Équipe-toi pour l'hiver",
+        "title": "Trouve ton ensemble",
         "scheme": "light"
       },
       "blocks": {
         "collection_1": {
           "type": "collection",
           "settings": {
-            "text": "[Une phrase qui donne envie]",
+            "title": "Logo Essentials",
+            "text": "Le classique, logo poitrine.",
             "cta_label": "Découvrir"
           }
         },
         "collection_2": {
           "type": "collection",
           "settings": {
-            "text": "[Une phrase qui donne envie]",
+            "title": "1977",
+            "text": "Le design 1977.",
             "cta_label": "Découvrir"
           }
         },
         "collection_3": {
           "type": "collection",
           "settings": {
-            "text": "[Une phrase qui donne envie]",
+            "title": "NBA Essentials",
+            "text": "L'édition NBA.",
             "cta_label": "Découvrir"
           }
         }
@@ -185,8 +217,8 @@
     "benefits": {
       "type": "onx-benefits",
       "settings": {
-        "eyebrow": "Conçu pour le froid",
-        "title": "[Ce qui change quand il fait -5 °C]",
+        "eyebrow": "L'ensemble Essentials",
+        "title": "[Le confort qui tient tout l'hiver]",
         "scheme": "ice",
         "cta_label": "Choisir mon produit"
       },
@@ -194,19 +226,22 @@
         "benefit_1": {
           "type": "benefit",
           "settings": {
-            "icon": "thermometer"
+            "icon": "sparkle",
+            "title": "Un look complet en 1 achat",
+            "text": "Hoodie et jogging assortis : l'ensemble est prêt à porter.",
+            "result": "[Résultat pour le client]"
           }
         },
         "benefit_2": {
           "type": "benefit",
           "settings": {
-            "icon": "wind"
+            "icon": "thermometer"
           }
         },
         "benefit_3": {
           "type": "benefit",
           "settings": {
-            "icon": "drop"
+            "icon": "ruler"
           }
         }
       },
@@ -325,7 +360,7 @@
       "type": "onx-why",
       "settings": {
         "eyebrow": "Pourquoi ONX ?",
-        "title": "Une marque née pour l'hiver",
+        "title": "Pourquoi commander chez ONX ?",
         "intro": "[Ce qui rend ONX différent, en une ou deux phrases.]",
         "them_label": "Les autres",
         "cta_label": "Découvrir la collection",
@@ -335,15 +370,17 @@
         "reason_1": {
           "type": "reason",
           "settings": {
-            "icon": "snowflake",
-            "title": "[Spécialiste de l'hiver]"
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Sur tous les ensembles, appliqué automatiquement au panier, sans code."
           }
         },
         "reason_2": {
           "type": "reason",
           "settings": {
-            "icon": "award",
-            "title": "[Qualité contrôlée]"
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Connexion chiffrée (HTTPS/SSL), aucune donnée bancaire conservée par ONX."
           }
         },
         "reason_3": {
@@ -398,6 +435,27 @@
         "intro": "Une autre question ? Notre équipe te répond."
       },
       "blocks": {
+        "question_offer": {
+          "type": "question",
+          "settings": {
+            "question": "Comment fonctionne l'offre 3 achetés = 1 offert ?",
+            "answer": "<p>Ajoute 4 ensembles au panier : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
+          }
+        },
+        "question_size": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle taille choisir ?",
+            "answer": "<p>[Guide des tailles : correspondances S, M, L, XL et conseil de coupe.]</p>"
+          }
+        },
+        "question_origin": {
+          "type": "question",
+          "settings": {
+            "question": "D'où viennent les ensembles ?",
+            "answer": "<p>[Explique la provenance de tes produits : fournisseur, factures, contrôle.]</p>"
+          }
+        },
         "question_1": {
           "type": "question",
           "settings": {
@@ -442,6 +500,9 @@
         }
       },
       "block_order": [
+        "question_offer",
+        "question_size",
+        "question_origin",
         "question_1",
         "question_2",
         "question_3",
@@ -453,9 +514,11 @@
     "final_cta": {
       "type": "onx-cta",
       "settings": {
-        "title": "L'hiver arrive. Sois prêt.",
-        "text": "[Rappel de l'offre en cours ou du bénéfice principal.]",
-        "cta_label": "Découvrir la collection",
+        "title": "3 achetés = 1 offert.",
+        "text": "C'est le moment de t'équiper pour l'hiver.",
+        "cta_label": "Choisir mes ensembles",
+        "cta_link": "/collections/ensembles-essentials",
+        "micro_text": "Paiement sécurisé · [Livraison suivie] · [Retours simples]",
         "scheme": "winter"
       }
     }

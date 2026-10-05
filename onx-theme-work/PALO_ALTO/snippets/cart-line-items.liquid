@@ -189,7 +189,24 @@
 {%- endfor -%}
 
 {%- assign onx_savings = onx_savings | plus: cart.cart_level_discount_applications | map: 'total_allocated_amount' | sum -%}
-<template data-onx-cart-meta data-savings="{{ onx_savings }}" data-savings-formatted="{{ onx_savings | money | escape }}" data-total="{{ cart.total_price }}"></template>
+{%- liquid
+  comment
+    ONX — quantité éligible à l'offre « X achetés = Y offert »
+  endcomment
+  assign onx_bxgy_qty = 0
+  assign onx_bxgy_col = settings.onx_bxgy_collection
+  for item in cart.items
+    if onx_bxgy_col == blank
+      assign onx_bxgy_qty = onx_bxgy_qty | plus: item.quantity
+    else
+      assign onx_item_cols = item.product.collections | map: 'handle'
+      if onx_item_cols contains onx_bxgy_col.handle
+        assign onx_bxgy_qty = onx_bxgy_qty | plus: item.quantity
+      endif
+    endif
+  endfor
+-%}
+<template data-onx-cart-meta data-bxgy-qty="{{ onx_bxgy_qty }}" data-savings="{{ onx_savings }}" data-savings-formatted="{{ onx_savings | money | escape }}" data-total="{{ cart.total_price }}"></template>
 
 {%- comment -%} ONX — recommandation de secours si aucun produit associé (metafield theme.upsell) {%- endcomment -%}
 {%- if pair_products == '' and settings.onx_cart_upsell_collection != blank and cart.item_count > 0 -%}

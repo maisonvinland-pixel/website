@@ -1,0 +1,65 @@
+{%- comment -%}
+  ONX — Compteur d'offre « X achetés = Y offert » dans le panier.
+  Affichage uniquement : la remise réelle est la remise automatique « Achetez X, obtenez Y »
+  (Shopify > Réductions). onx.js met le compteur à jour à chaque modification du panier.
+{%- endcomment -%}
+{%- liquid
+  assign buy = settings.onx_bxgy_buy | default: 3
+  assign get = settings.onx_bxgy_get | default: 1
+  assign cycle = buy | plus: get
+  assign col = settings.onx_bxgy_collection
+
+  assign qty = 0
+  for item in cart.items
+    if col == blank
+      assign qty = qty | plus: item.quantity
+    else
+      assign item_cols = item.product.collections | map: 'handle'
+      if item_cols contains col.handle
+        assign qty = qty | plus: item.quantity
+      endif
+    endif
+  endfor
+
+  assign rest = qty | modulo: cycle
+  assign free = qty | divided_by: cycle | times: get
+  assign need = buy | minus: rest
+  assign state = 'progress'
+  if rest >= buy
+    assign state = 'ready'
+  elsif rest == 0 and qty > 0
+    assign state = 'done'
+  endif
+
+  assign cta_link = settings.onx_bxgy_cta_link | default: col.url | default: routes.all_products_collection_url
+-%}
+<div class="onx-bxgy is-{{ state }}" data-onx-bxgy
+  data-buy="{{ buy }}" data-get="{{ get }}"
+  data-label-left="{{ settings.onx_bxgy_label_left | escape }}"
+  data-label-ready="{{ settings.onx_bxgy_label_ready | escape }}"
+  data-label-done="{{ settings.onx_bxgy_label_done | escape }}">
+  <div class="onx-bxgy__head">
+    <span class="onx-bxgy__icon">{% render 'onx-icon', icon: 'gift', size: 18 %}</span>
+    <p class="onx-bxgy__text" data-onx-bxgy-text aria-live="polite">
+      {%- case state -%}
+        {%- when 'ready' -%}{{ settings.onx_bxgy_label_ready | escape }}
+        {%- when 'done' -%}{{ settings.onx_bxgy_label_done | replace: '||free||', free | escape }}
+        {%- else -%}{{ settings.onx_bxgy_label_left | replace: '||count||', need | escape }}
+      {%- endcase -%}
+    </p>
+  </div>
+  <ol class="onx-bxgy__steps" role="list" aria-hidden="true">
+    {%- for i in (1..cycle) -%}
+      {%- assign filled = false -%}
+      {%- if i <= rest or state == 'done' -%}{%- assign filled = true -%}{%- endif -%}
+      <li class="onx-bxgy__step{% if i > buy %} onx-bxgy__step--free{% endif %}{% if filled %} is-filled{% endif %}" data-onx-bxgy-step>
+        {%- if i > buy -%}{% render 'onx-icon', icon: 'gift', size: 14 %}<span>{{ 'general.onx.free' | t }}</span>{%- else -%}<span>{{ i }}</span>{%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ol>
+  {%- if settings.onx_bxgy_cta != blank -%}
+    <a class="onx-bxgy__cta" href="{{ cta_link }}" data-onx-bxgy-cta data-onx-track="bxgy_cta_click"{% unless state == 'ready' %} hidden{% endunless %}>
+      {{ settings.onx_bxgy_cta | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 16 %}
+    </a>
+  {%- endif -%}
+</div>

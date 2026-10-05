@@ -111,7 +111,8 @@
       "verified_buyer": "Verified buyer",
       "yes": "Yes",
       "you_save": "You save",
-      "you_save_amount": "You save {{ amount }}"
+      "you_save_amount": "You save {{ amount }}",
+      "free": "Free"
     }
   },
   "blogs": {

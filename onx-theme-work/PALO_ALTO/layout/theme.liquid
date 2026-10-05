@@ -286,6 +286,7 @@
   <script>
     window.onxConfig = {
       tracking: {{ settings.onx_tracking | json }},
+      cartAnimations: {{ settings.onx_cart_animations | json }},
       pageType: {{ request.page_type | json }},
       strings: {
         add_to_cart: {{ 'products.product.add_to_cart' | t | json }},

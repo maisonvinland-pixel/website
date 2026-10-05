@@ -88,6 +88,10 @@
   </p>
 {%- endif -%}
 
+      {%- if settings.onx_bxgy_enabled -%}
+        {%- render 'onx-bxgy', cart: cart -%}
+      {%- endif -%}
+
       {%- comment -%} ONX — palier cadeau (affichage ; la remise réelle se crée dans Shopify > Réductions) {%- endcomment -%}
       {%- liquid
         assign onx_gift_threshold = settings.onx_gift_threshold | strip | replace: ',', '.' | times: 100 | round
