@@ -1330,3 +1330,6 @@ input[type=checkbox] { accent-color: var(--onx-text); }
 @media (max-width: 767px) {
   .onx-hero--overlay.onx-hero--align-top .onx-hero__inner { padding-top: 24px; min-height: min(88vh, 760px); }
 }
+
+/* Hero plein écran : ligne prix mise en avant */
+.onx-hero--overlay .onx-hero__subtitle { color: #FFFFFF; font-weight: 800; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); letter-spacing: -0.01em; }
