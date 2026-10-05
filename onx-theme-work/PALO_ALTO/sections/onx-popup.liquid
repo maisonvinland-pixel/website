@@ -1,0 +1,140 @@
+{%- comment -%}
+  ONX — Pop-up newsletter « Bienvenue » (section statique, layout/theme.liquid).
+  - Ouverture : après X secondes, intention de sortie (ordinateur) ou défilement — le premier qui arrive.
+  - Fréquence : refermée => réaffichée après X jours. Inscrit => plus jamais (sauf petit onglet de rappel).
+  - Après inscription (?customer_posted=true), la pop-up se rouvre et affiche le code
+    (Paramètres du thème > ONX > Newsletter), avec bouton « copier » et lien qui applique le code.
+  - Jamais affichée sur panier, paiement, compte, ni pour un client connecté déjà inscrit.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign code = settings.onx_welcome_code | strip
+  assign offer = settings.onx_welcome_offer | strip
+  assign skip = false
+  if s.enabled == false or code == blank
+    assign skip = true
+  endif
+  if template.name == 'cart' or template.name == 'password' or template contains 'customers'
+    assign skip = true
+  endif
+  if customer and customer.accepts_marketing
+    assign skip = true
+  endif
+  assign redirect = s.apply_redirect | default: routes.all_products_collection_url
+  assign code_enc = code | url_encode
+  assign apply_url = '/discount/' | append: code_enc | append: '?redirect=' | append: redirect
+-%}
+{%- unless skip -%}
+<div class="onx-popup" id="onx-popup" data-onx-popup hidden
+  data-delay="{{ s.delay }}" data-exit="{{ s.exit_intent }}" data-scroll="{{ s.scroll_trigger }}"
+  data-days="{{ s.frequency_days }}" data-teaser="{{ s.show_teaser }}"
+  data-design="{{ request.design_mode }}">
+  <div class="onx-popup__backdrop" data-onx-popup-close></div>
+  <div class="onx-popup__dialog" role="dialog" aria-modal="true" aria-labelledby="onx-popup-title" tabindex="-1">
+    <button type="button" class="onx-popup__close" data-onx-popup-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'onx-icon', icon: 'close', size: 20 %}</button>
+
+    <div class="onx-popup__media">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 380px, 100vw', widths: '450, 700, 900', alt: s.image.alt | default: '' }}
+      {%- endif -%}
+      <span class="onx-popup__sticker" aria-hidden="true"><strong>{{ offer | escape }}</strong><span>{{ s.sticker_text | escape }}</span></span>
+    </div>
+
+    <div class="onx-popup__body">
+      {%- form 'customer', id: 'onx-popup-form', class: 'onx-popup__form', data-onx-popup-form: '' -%}
+        {%- liquid
+          assign posted = false
+          if form.posted_successfully?
+            assign posted = true
+          endif
+        -%}
+        <div class="onx-popup__step" data-onx-popup-step="form"{% if posted %} hidden{% endif %}>
+          {%- if s.eyebrow != blank -%}<p class="onx-popup__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+          <h2 class="onx-popup__title" id="onx-popup-title">
+            <span class="onx-popup__offer">{{ offer | escape }}</span>
+            <span>{{ s.title | escape }}</span>
+          </h2>
+          {%- if s.text != blank -%}<p class="onx-popup__text">{{ s.text | escape }}</p>{%- endif -%}
+
+          {%- if s.perks != blank -%}
+            <ul class="onx-popup__perks" role="list">
+              {%- assign perks = s.perks | newline_to_br | split: '<br />' -%}
+              {%- for p in perks -%}
+                {%- assign pp = p | strip -%}
+                {%- if pp != blank -%}<li>{% render 'onx-icon', icon: 'check', size: 14 %}<span>{{ pp | escape }}</span></li>{%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          <input type="hidden" name="contact[tags]" value="newsletter, popup-bienvenue">
+          <input type="hidden" name="contact[accepts_marketing]" value="true">
+          {%- if form.errors -%}
+            <p class="onx-notice onx-notice--error" role="alert" data-onx-popup-error>{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <div class="onx-popup__field">
+            <label for="onx-popup-email" class="visually-hidden">{{ 'general.newsletter_form.email' | t }}</label>
+            <input id="onx-popup-email" class="onx-input" type="email" name="contact[email]" autocomplete="email" autocapitalize="off" spellcheck="false" required placeholder="{{ s.placeholder | escape }}">
+            <button type="submit" class="onx-btn onx-btn--primary onx-popup__submit" data-onx-track="popup_submit">{{ s.button_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</button>
+          </div>
+          {%- if s.legal != blank -%}<div class="onx-popup__legal">{{ s.legal }}</div>{%- endif -%}
+          <button type="button" class="onx-popup__decline" data-onx-popup-close>{{ s.decline_label | escape }}</button>
+        </div>
+
+        <div class="onx-popup__step onx-popup__success" data-onx-popup-step="success"{% unless posted %} hidden{% endunless %}>
+          <p class="onx-popup__eyebrow">{% render 'onx-icon', icon: 'check-circle', size: 16 %}{{ s.success_eyebrow | escape }}</p>
+          <h2 class="onx-popup__title">{{ s.success_title | escape }}</h2>
+          <div class="onx-popup__code">
+            <span class="onx-popup__code-value" data-onx-popup-code>{{ code | escape }}</span>
+            <button type="button" class="onx-popup__copy" data-onx-copy="{{ code | escape }}" data-onx-track="promo_code_copy">
+              {% render 'onx-icon', icon: 'copy', size: 16 %}<span data-onx-copy-label>{{ 'general.onx.copy' | t }}</span>
+            </button>
+          </div>
+          {%- if s.success_text != blank -%}<p class="onx-popup__text">{{ s.success_text | escape }}</p>{%- endif -%}
+          <a class="onx-btn onx-btn--primary onx-popup__submit" href="{{ apply_url }}" data-onx-track="popup_apply_code">{{ s.success_button | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</a>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{%- if s.show_teaser -%}
+  <button type="button" class="onx-popup-teaser" data-onx-popup-teaser hidden aria-controls="onx-popup">
+    {% render 'onx-icon', icon: 'gift', size: 18 %}<span>{{ s.teaser_text | escape }}</span>
+  </button>
+{%- endif -%}
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "ONX — Pop-up newsletter",
+  "class": "onx-shopify-section onx-popup-section",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Activer la pop-up", "default": true },
+    { "type": "paragraph", "content": "Le code et l'avantage affichés se règlent dans Paramètres du thème > ONX — Newsletter. Créez la réduction correspondante dans Shopify > Réductions." },
+    { "type": "image_picker", "id": "image", "label": "Image (format portrait 4:5)" },
+    { "type": "text", "id": "sticker_text", "label": "Texte de la pastille sur l'image", "default": "offerts" },
+    { "type": "header", "content": "Inscription" },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Bienvenue chez ONX" },
+    { "type": "text", "id": "title", "label": "Titre (après l'avantage)", "default": "sur ta première commande" },
+    { "type": "text", "id": "text", "label": "Texte", "default": "Inscris-toi : ton code s'affiche tout de suite." },
+    { "type": "textarea", "id": "perks", "label": "Avantages (1 par ligne)", "default": "Ton code de bienvenue immédiatement\nLes nouveaux ensembles en avant-première\nNos offres réservées aux inscrits" },
+    { "type": "text", "id": "placeholder", "label": "Champ e-mail", "default": "Ton adresse e-mail" },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Je débloque mon code" },
+    { "type": "richtext", "id": "legal", "label": "Mention RGPD", "default": "<p>En t'inscrivant, tu acceptes de recevoir nos e-mails. Désinscription en un clic. Voir notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>.</p>" },
+    { "type": "text", "id": "decline_label", "label": "Lien de refus", "default": "Non merci" },
+    { "type": "header", "content": "Après l'inscription" },
+    { "type": "text", "id": "success_eyebrow", "label": "Sur-titre", "default": "Inscription confirmée" },
+    { "type": "text", "id": "success_title", "label": "Titre", "default": "Voici ton code de bienvenue" },
+    { "type": "text", "id": "success_text", "label": "Texte", "default": "Valable une fois, à saisir au paiement (ou appliqué avec le bouton ci-dessous). Non cumulable avec l'offre 3 achetés = 1 offert." },
+    { "type": "text", "id": "success_button", "label": "Bouton (applique le code)", "default": "J'en profite maintenant" },
+    { "type": "url", "id": "apply_redirect", "label": "Page après application du code", "info": "Par défaut : tous les produits." },
+    { "type": "header", "content": "Déclenchement" },
+    { "type": "range", "id": "delay", "label": "Délai d'ouverture", "min": 0, "max": 60, "step": 1, "unit": "s", "default": 7 },
+    { "type": "checkbox", "id": "exit_intent", "label": "Ouvrir à l'intention de sortie (ordinateur)", "default": true },
+    { "type": "range", "id": "scroll_trigger", "label": "Ouvrir après défilement (0 = désactivé)", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 40 },
+    { "type": "range", "id": "frequency_days", "label": "Réafficher après fermeture", "min": 1, "max": 30, "step": 1, "unit": "j", "default": 5 },
+    { "type": "checkbox", "id": "show_teaser", "label": "Petit onglet de rappel après fermeture", "default": true },
+    { "type": "text", "id": "teaser_text", "label": "Texte de l'onglet", "default": "-15 % offerts" }
+  ]
+}
+{% endschema %}

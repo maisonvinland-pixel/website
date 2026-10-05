@@ -196,7 +196,7 @@
       assign dmin = bs.delivery_min
       assign dmax = bs.delivery_max | default: dmin
       assign ready = true
-      if ship == blank or dmin == blank
+      if dmin == blank
         assign ready = false
       endif
     -%}
@@ -205,17 +205,19 @@
         data-ship="{{ ship }}" data-min="{{ dmin }}" data-max="{{ dmax }}"
         data-business="{{ bs.business_days }}" data-cutoff="{{ bs.cutoff_hour }}" hidden
         {{ block.shopify_attributes }}>
-        <ol class="onx-delivery__steps" role="list">
+        <ol class="onx-delivery__steps{% if ship == blank %} onx-delivery__steps--2{% endif %}" role="list">
           <li class="onx-delivery__step is-done">
             <span class="onx-delivery__icon">{% render 'onx-icon', icon: 'cart', size: 18 %}</span>
             <strong data-onx-date="order"></strong>
             <span>{{ bs.label_order | escape }}</span>
           </li>
+          {%- if ship != blank -%}
           <li class="onx-delivery__step">
             <span class="onx-delivery__icon">{% render 'onx-icon', icon: 'truck', size: 18 %}</span>
             <strong data-onx-date="ship"></strong>
             <span>{{ bs.label_ship | escape }}</span>
           </li>
+          {%- endif -%}
           <li class="onx-delivery__step">
             <span class="onx-delivery__icon">{% render 'onx-icon', icon: 'box', size: 18 %}</span>
             <strong data-onx-date="delivery"></strong>
@@ -226,7 +228,7 @@
       </div>
     {%- elsif dm -%}
       <div class="product__block onx-delivery onx-delivery--empty" {{ block.shopify_attributes }}>
-        <p class="onx-editor-note">{% render 'onx-text', text: '[Délais de livraison : renseignez vos vrais délais (expédition et livraison) dans ce bloc pour afficher la frise Commandé → Expédié → Chez toi.]' %}</p>
+        <p class="onx-editor-note">{% render 'onx-text', text: '[Délais de livraison : renseignez au moins la livraison minimum et maximum dans ce bloc pour afficher la frise.]' %}</p>
       </div>
     {%- endif -%}
 

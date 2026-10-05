@@ -49,7 +49,7 @@
   endif
 -%}
 
-<section class="onx-hero onx-hero--{{ layout }} onx-scheme--{{ s.scheme }}{% unless has_media %} onx-hero--no-media{% endunless %}"
+<section class="onx-hero onx-hero--{{ layout }} onx-scheme--{{ s.scheme }} onx-hero--align-{{ s.content_align | default: 'center' }} onx-hero--m-media-{{ s.mobile_media | default: 'top' }}{% unless has_media %} onx-hero--no-media{% endunless %}"
   id="onx-hero-{{ section.id }}"
   data-onx-section="hero"
   {% if s.test_id != blank %}data-onx-test="{{ s.test_id | escape }}"{% endif %}>
@@ -190,6 +190,28 @@
           "value": "overlay",
           "label": "Texte sur image plein écran"
         }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Position verticale du texte",
+      "default": "top",
+      "options": [
+        { "value": "top", "label": "En haut" },
+        { "value": "center", "label": "Centré" },
+        { "value": "bottom", "label": "En bas" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_media",
+      "label": "Visuel sur mobile",
+      "default": "bottom",
+      "options": [
+        { "value": "bottom", "label": "Sous le texte (texte en premier)" },
+        { "value": "top", "label": "Au-dessus du texte" },
+        { "value": "hidden", "label": "Masqué" }
       ]
     },
     {

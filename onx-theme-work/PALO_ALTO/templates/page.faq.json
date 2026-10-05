@@ -9,54 +9,55 @@
       "settings": {
         "eyebrow": "FAQ",
         "title": "Commande & paiement",
-        "intro": "Une autre question ? Notre équipe vous répond.",
+        "intro": "Une autre question ? Écris-nous.",
         "contact_label": "Nous contacter",
+        "contact_link": "/pages/contact",
         "schema_markup": true,
         "scheme": "light"
       },
       "blocks": {
-        "question_offer": {
+        "q_offer": {
           "type": "question",
           "settings": {
             "question": "Comment fonctionne l'offre 3 achetés = 1 offert ?",
-            "answer": "<p>Ajoute 4 ensembles au panier : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
+            "answer": "<p>Ajoute 4 ensembles au panier (designs, coloris et tailles au choix) : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
           }
         },
-        "question_1": {
+        "q_order": {
           "type": "question",
           "settings": {
             "question": "Comment passer commande ?",
-            "answer": "<p>[Ajoutez vos produits au panier puis cliquez sur « Paiement sécurisé ». Expliquez ici les étapes.]</p>"
+            "answer": "<p>Choisis ton design, ton coloris et ta taille, ajoute l'ensemble au panier, puis clique sur « Paiement sécurisé ». Tu reçois un e-mail de confirmation juste après.</p>"
           }
         },
-        "question_2": {
+        "q_secure": {
           "type": "question",
           "settings": {
             "question": "Le paiement est-il sécurisé ?",
-            "answer": "<p>Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>"
+            "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Tes données bancaires ne sont pas conservées par ONX.</p>"
           }
         },
-        "question_3": {
+        "q_methods": {
           "type": "question",
           "settings": {
             "question": "Quels moyens de paiement acceptez-vous ?",
-            "answer": "<p>[Listez uniquement les moyens activés sur votre boutique.]</p>"
+            "answer": "<p>Les moyens de paiement disponibles sont affichés sur la page de paiement sécurisée, avant que tu valides ta commande.</p>"
           }
         },
-        "question_4": {
+        "q_code": {
           "type": "question",
           "settings": {
-            "question": "Puis-je utiliser un code promo ?",
-            "answer": "<p>[Oui : saisissez-le à l'étape de paiement, dans le champ « Code de réduction ».]</p>"
+            "question": "Comment obtenir -15 % ?",
+            "answer": "<p>Inscris-toi à la newsletter : ton code de bienvenue s'affiche tout de suite. Il est valable une fois, à saisir à l'étape de paiement. Il n'est pas cumulable avec l'offre 3 achetés = 1 offert.</p>"
           }
         }
       },
       "block_order": [
-        "question_offer",
-        "question_1",
-        "question_2",
-        "question_3",
-        "question_4"
+        "q_offer",
+        "q_order",
+        "q_secure",
+        "q_methods",
+        "q_code"
       ]
     },
     "faq_shipping": {
@@ -70,79 +71,87 @@
         "scheme": "surface"
       },
       "blocks": {
-        "question_1": {
+        "q_delay": {
           "type": "question",
           "settings": {
             "question": "Quels sont les délais de livraison ?",
-            "answer": "<p>[Préparation sous X jours ouvrés, livraison en X à X jours ouvrés.]</p>"
+            "answer": "<p>Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison.</p>"
           }
         },
-        "question_2": {
+        "q_price": {
           "type": "question",
           "settings": {
             "question": "Combien coûte la livraison ?",
-            "answer": "<p>[Tarifs exacts, et seuil de livraison offerte si vous en proposez un.]</p>"
+            "answer": "<p>La livraison est <strong>offerte</strong> dès 40 € d'achat, donc pour chaque ensemble. Le montant exact est toujours affiché avant le paiement.</p>"
           }
         },
-        "question_3": {
+        "q_track": {
           "type": "question",
           "settings": {
             "question": "Comment suivre ma commande ?",
-            "answer": "<p>[Un e-mail avec le lien de suivi vous est envoyé dès l'expédition.]</p>"
+            "answer": "<p>Tu reçois un e-mail dès l'expédition de ton colis. Une question sur ta commande ? Écris-nous en indiquant ton numéro de commande.</p>"
           }
         },
-        "question_4": {
+        "q_intl": {
           "type": "question",
           "settings": {
-            "question": "Livrez-vous à l'international ?",
-            "answer": "<p>[Pays desservis et délais.]</p>"
+            "question": "Livrez-vous à l'étranger ?",
+            "answer": "<p>Oui : nous livrons en France et dans la plupart des pays de l'Union européenne, avec la même livraison offerte et le même délai de 13 à 15 jours.</p>"
           }
         }
       },
       "block_order": [
-        "question_1",
-        "question_2",
-        "question_3",
-        "question_4"
+        "q_delay",
+        "q_price",
+        "q_track",
+        "q_intl"
       ]
     },
     "faq_returns": {
       "type": "onx-faq",
       "settings": {
         "eyebrow": "FAQ",
-        "title": "Retours & garantie",
+        "title": "Tailles, retours & garantie",
         "intro": "",
         "contact_label": "",
         "schema_markup": false,
         "scheme": "light"
       },
       "blocks": {
-        "question_1": {
+        "q_size": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle taille choisir ?",
+            "answer": "<p>Les ensembles existent en S, M, L et XL. Le sweat et le jogging sont de la même taille. Entre deux tailles ? Écris-nous à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a> avant de commander, on te conseille.</p>"
+          }
+        },
+        "q_return": {
           "type": "question",
           "settings": {
             "question": "Puis-je retourner un article ?",
-            "answer": "<p>[Délai de rétractation / retour et conditions — voir notre politique de retour.]</p>"
+            "answer": "<p>Oui. Tu as <strong>14 jours après réception</strong> pour changer d'avis, sans te justifier. Écris-nous avec ton numéro de commande. Tout est expliqué sur la page <a href=\"/pages/retours-et-remboursements\">Retours et remboursements</a>.</p>"
           }
         },
-        "question_2": {
+        "q_refund": {
           "type": "question",
           "settings": {
             "question": "Comment se passe le remboursement ?",
-            "answer": "<p>[Délai et mode de remboursement.]</p>"
+            "answer": "<p>Nous te remboursons dans les 14 jours suivant ta demande, sur le moyen de paiement utilisé. Nous pouvons attendre la réception du retour, ou la preuve de son envoi.</p>"
           }
         },
-        "question_3": {
+        "q_warranty": {
           "type": "question",
           "settings": {
             "question": "Mes produits sont-ils garantis ?",
-            "answer": "<p>[Garantie légale de conformité (2 ans dans l'UE) et éventuelle garantie commerciale — à préciser.]</p>"
+            "answer": "<p>Oui : tu bénéficies de la garantie légale de conformité (2 ans) et de la garantie des vices cachés. En cas de défaut, envoie-nous une photo et ton numéro de commande.</p>"
           }
         }
       },
       "block_order": [
-        "question_1",
-        "question_2",
-        "question_3"
+        "q_size",
+        "q_return",
+        "q_refund",
+        "q_warranty"
       ]
     },
     "faq_contact": {
@@ -156,16 +165,16 @@
         "scheme": "surface"
       },
       "blocks": {
-        "question_1": {
+        "q_contact": {
           "type": "question",
           "settings": {
-            "question": "Comment contacter le service client ?",
-            "answer": "<p>[E-mail, formulaire, horaires et délai de réponse.]</p>"
+            "question": "Comment vous contacter ?",
+            "answer": "<p>Par e-mail à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a> ou via notre <a href=\"/pages/contact\">page contact</a>. Pense à indiquer ton numéro de commande si tu en as un.</p>"
           }
         }
       },
       "block_order": [
-        "question_1"
+        "q_contact"
       ]
     }
   },

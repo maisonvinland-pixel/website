@@ -31,8 +31,16 @@
       </div>
       {%- form 'customer', id: form_id, class: 'onx-newsletter__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter, onx">
+        <input type="hidden" name="contact[accepts_marketing]" value="true">
         {%- if form.posted_successfully? -%}
           <p class="onx-notice onx-notice--success" role="status">{% render 'onx-icon', icon: 'check-circle', size: 18 %}{{ 'general.newsletter_form.newsletter_success' | t }}</p>
+          {%- assign welcome_code = settings.onx_welcome_code | strip -%}
+          {%- if s.show_code and welcome_code != blank -%}
+            <div class="onx-popup__code onx-newsletter__code">
+              <span class="onx-popup__code-value">{{ welcome_code | escape }}</span>
+              <button type="button" class="onx-popup__copy" data-onx-copy="{{ welcome_code | escape }}" data-onx-track="promo_code_copy">{% render 'onx-icon', icon: 'copy', size: 16 %}<span data-onx-copy-label>{{ 'general.onx.copy' | t }}</span></button>
+            </div>
+          {%- endif -%}
         {%- else -%}
           {%- if form.errors -%}
             <p class="onx-notice onx-notice--error" role="alert">{{ form.errors | default_errors }}</p>
@@ -59,8 +67,15 @@
       "type": "text",
       "id": "incentive",
       "label": "Incentive (optionnel)",
-      "default": "[-10 % sur votre première commande]",
-      "info": "Laissez vide si vous n'offrez pas de remise. Si renseigné, configurez l'e-mail de bienvenue avec le code."
+      "default": "-15 % sur ta première commande",
+      "info": "Laissez vide si vous n'offrez pas de remise."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_code",
+      "label": "Afficher le code de bienvenue après l'inscription",
+      "default": true,
+      "info": "Code : Paramètres du thème > ONX — Newsletter."
     },
     {
       "type": "text",

@@ -3,10 +3,14 @@
     "about": {
       "type": "onx-about",
       "settings": {
-        "eyebrow": "L'expérience ONX",
-        "title": "Née pour l'hiver",
-        "cta_label": "",
-        "scheme": "light"
+        "eyebrow": "À propos",
+        "title": "ONX, les ensembles Essentials",
+        "cta_label": "Voir les ensembles",
+        "scheme": "light",
+        "image": "shopify://shop_images/onx-look-1977-gris-45.jpg",
+        "text": "<p>ONX propose une sélection courte : des ensembles hoodie + jogging Essentials, en trois designs — 1977, NBA et Logo.</p><p>Notre offre est simple : 105 € l'ensemble, 3 achetés = 1 offert, livraison offerte.</p>",
+        "signature": "L'équipe ONX",
+        "cta_link": "/collections/ensembles-essentials"
       }
     },
     "main": {
@@ -16,35 +20,44 @@
     "why": {
       "type": "onx-why",
       "settings": {
+        "eyebrow": "Nos engagements",
+        "title": "Ce sur quoi tu peux compter",
+        "intro": "",
+        "them_label": "",
+        "cta_label": "",
         "scheme": "ice"
       },
       "blocks": {
         "reason_1": {
           "type": "reason",
           "settings": {
-            "icon": "award",
-            "title": "[Qualité]"
+            "icon": "gift",
+            "title": "Une offre claire",
+            "text": "3 achetés = 1 offert, appliqué automatiquement au panier."
           }
         },
         "reason_2": {
           "type": "reason",
           "settings": {
-            "icon": "sparkle",
-            "title": "[Design]"
+            "icon": "truck",
+            "title": "Des délais annoncés",
+            "text": "Livraison offerte en 13 à 15 jours."
           }
         },
         "reason_3": {
           "type": "reason",
           "settings": {
-            "icon": "tag",
-            "title": "[Juste prix]"
+            "icon": "return",
+            "title": "14 jours pour changer d'avis",
+            "text": "Retour possible après réception, sans justification."
           }
         },
         "reason_4": {
           "type": "reason",
           "settings": {
-            "icon": "chat",
-            "title": "[Service]"
+            "icon": "mail",
+            "title": "Une vraie réponse",
+            "text": "Une question ? Écris-nous à maison.vinland@gmail.com."
           }
         }
       },
@@ -59,8 +72,10 @@
       "type": "onx-cta",
       "settings": {
         "scheme": "winter",
-        "title": "Prêt pour l'hiver ?",
-        "cta_label": "Découvrir la collection"
+        "title": "Prêt à choisir ton ensemble ?",
+        "cta_label": "Découvrir les ensembles",
+        "cta_link": "/collections/ensembles-essentials",
+        "micro_text": "Paiement sécurisé · Livraison offerte · Retour sous 14 jours"
       }
     }
   },

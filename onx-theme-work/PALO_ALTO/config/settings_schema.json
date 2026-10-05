@@ -400,6 +400,24 @@
       },
       {
         "type": "header",
+        "content": "Newsletter & code de bienvenue"
+      },
+      {
+        "type": "text",
+        "id": "onx_welcome_offer",
+        "label": "Avantage affiché",
+        "default": "-15 %",
+        "info": "Affiché dans la pop-up et la section newsletter."
+      },
+      {
+        "type": "text",
+        "id": "onx_welcome_code",
+        "label": "Code de bienvenue",
+        "default": "BIENVENUE15",
+        "info": "Doit exister dans Shopify > Réductions. Vide = pop-up désactivée."
+      },
+      {
+        "type": "header",
         "content": "Mesure & tests"
       },
       {

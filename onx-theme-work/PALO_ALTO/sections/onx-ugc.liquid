@@ -23,19 +23,30 @@
   {%- for block in section.blocks -%}
     {%- liquid
       assign v = block.settings.video
+      assign img = block.settings.image
       assign p = block.settings.product
       assign cap = block.settings.caption
       if dm == false and cap contains '['
         assign cap = ''
       endif
-      if v == blank and dm == false
+      if block.type == 'photo'
+        if img == blank and dm == false
+          continue
+        endif
+      elsif v == blank and dm == false
         continue
       endif
       assign shown = shown | plus: 1
     -%}
-    <article class="onx-ugc__item" {{ block.shopify_attributes }}>
-      <div class="onx-ugc__frame" data-onx-video>
-        {%- if v != blank -%}
+    <article class="onx-ugc__item{% if block.type == 'photo' %} onx-ugc__item--photo{% endif %}" {{ block.shopify_attributes }}>
+      <div class="onx-ugc__frame"{% if block.type != 'photo' %} data-onx-video{% endif %}>
+        {%- if block.type == 'photo' -%}
+          {%- if img != blank -%}
+            {{ img | image_url: width: 900 | image_tag: loading: 'lazy', class: 'onx-ugc__img', sizes: '(min-width: 990px) 280px, 62vw', widths: '360, 540, 720, 900', alt: img.alt | default: cap }}
+          {%- else -%}
+            <div class="onx-ugc__empty">{% render 'onx-icon', icon: 'sparkle', size: 30 %}<span class="onx-ph">[PHOTO verticale 9:16]</span></div>
+          {%- endif -%}
+        {%- elsif v != blank -%}
           {%- if block.settings.poster != blank -%}
             {%- assign poster_url = block.settings.poster | image_url: width: 720 -%}
           {%- else -%}
@@ -108,7 +119,7 @@
 
 {% schema %}
 {
-  "name": "ONX — UGC vidéos",
+  "name": "ONX — UGC photos/vidéos",
   "tag": "div",
   "class": "onx-shopify-section",
   "max_blocks": 10,
@@ -168,6 +179,34 @@
   ],
   "blocks": [
     {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo",
+          "info": "Toutes les photos sont affichées au même format (9:16), recadrées automatiquement. Utilisez des photos dont vous avez les droits."
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Pseudo (optionnel)",
+          "info": "Ex. @prenom"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Légende (optionnelle)"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit présenté (optionnel)"
+        }
+      ]
+    },
+    {
       "type": "video",
       "name": "Vidéo",
       "settings": [
@@ -203,7 +242,7 @@
   ],
   "presets": [
     {
-      "name": "ONX — UGC vidéos",
+      "name": "ONX — UGC photos/vidéos",
       "blocks": [
         {
           "type": "video"

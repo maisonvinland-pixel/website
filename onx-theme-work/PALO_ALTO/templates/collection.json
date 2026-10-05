@@ -30,25 +30,25 @@
         "usp_2": {
           "type": "usp",
           "settings": {
-            "icon": "lock",
-            "title": "Paiement sécurisé",
-            "text": "Données chiffrées (SSL)"
+            "icon": "truck",
+            "title": "Livraison offerte",
+            "text": "En 13 à 15 jours"
           }
         },
         "usp_3": {
           "type": "usp",
           "settings": {
-            "icon": "truck",
-            "title": "[Livraison suivie]",
-            "text": "[Expédiée sous X jours]"
+            "icon": "return",
+            "title": "Retour sous 14 jours",
+            "text": "Tu peux changer d'avis"
           }
         },
         "usp_4": {
           "type": "usp",
           "settings": {
-            "icon": "chat",
-            "title": "[Service client réactif]",
-            "text": "[Réponse sous 24 h]"
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
           }
         }
       },

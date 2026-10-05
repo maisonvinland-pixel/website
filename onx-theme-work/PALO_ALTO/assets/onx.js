@@ -726,7 +726,7 @@
       var ship = parseInt(el.getAttribute('data-ship'), 10);
       var min = parseInt(el.getAttribute('data-min'), 10);
       var max = parseInt(el.getAttribute('data-max'), 10) || min;
-      if (isNaN(ship) || isNaN(min)) return;
+      if (isNaN(min)) return;
       var business = el.getAttribute('data-business') === 'true';
       var cutoff = parseInt(el.getAttribute('data-cutoff'), 10) || 0;
       var lang = document.documentElement.lang || 'fr';
@@ -745,7 +745,7 @@
       var dMax = addDays(start, max, business);
       var set = function (key, text) { var t = $('[data-onx-date="' + key + '"]', el); if (t) t.textContent = text; };
       set('order', fmt.format(now));
-      set('ship', fmt.format(shipDate));
+      if (!isNaN(ship)) set('ship', fmt.format(shipDate));
       set('delivery', max > min ? fmt.format(dMin) + ' – ' + fmt.format(dMax) : fmt.format(dMin));
       el.hidden = false;
     });
@@ -772,6 +772,113 @@
     var scope = e.target && e.target.closest ? (e.target.closest('[data-section-type]') || document) : document;
     updateStock(scope, e.detail && e.detail.variant);
   });
+
+  /* ------------------------------------------------------------------
+   * 8c. Pop-up newsletter « Bienvenue »
+   * ------------------------------------------------------------------ */
+  var store = {
+    get: function (k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) { /* navigation privée */ } }
+  };
+
+  function initPopup() {
+    var pop = $('[data-onx-popup]');
+    if (!pop || pop.__onx) return;
+    pop.__onx = true;
+    var dialog = $('.onx-popup__dialog', pop);
+    var teaser = $('[data-onx-popup-teaser]');
+    var days = parseInt(pop.getAttribute('data-days'), 10) || 5;
+    var delay = parseInt(pop.getAttribute('data-delay'), 10);
+    var scrollPct = parseInt(pop.getAttribute('data-scroll'), 10) || 0;
+    var design = pop.getAttribute('data-design') === 'true';
+    var lastFocus = null;
+    var opened = false;
+    var KEY_SUB = 'onx_nl_subscribed';
+    var KEY_CLOSED = 'onx_nl_closed_at';
+
+    var posted = /[?&]customer_posted=true/.test(location.search) || location.hash === '#onx-popup-form';
+    var hasError = !!$('[data-onx-popup-error]', pop);
+
+    function step(name) {
+      $$('[data-onx-popup-step]', pop).forEach(function (s) { s.hidden = s.getAttribute('data-onx-popup-step') !== name; });
+    }
+    function showTeaser(on) { if (teaser) teaser.hidden = !on; }
+
+    function open(reason) {
+      if (opened) return;
+      opened = true;
+      lastFocus = document.activeElement;
+      pop.hidden = false;
+      document.documentElement.classList.add('onx-popup-open');
+      requestAnimationFrame(function () { pop.classList.add('is-open'); });
+      showTeaser(false);
+      var focusEl = $('[data-onx-popup-step]:not([hidden]) input[type="email"], [data-onx-popup-step]:not([hidden]) .onx-popup__submit', pop);
+      setTimeout(function () { (focusEl || dialog).focus({ preventScroll: true }); }, reduceMotion ? 0 : 250);
+      ONX.track('popup_view', { reason: reason });
+    }
+    function close(remember) {
+      if (!opened) return;
+      opened = false;
+      pop.classList.remove('is-open');
+      document.documentElement.classList.remove('onx-popup-open');
+      setTimeout(function () { pop.hidden = true; }, reduceMotion ? 0 : 280);
+      if (remember !== false && !store.get(KEY_SUB)) store.set(KEY_CLOSED, String(Date.now()));
+      if (!store.get(KEY_SUB) && teaser) showTeaser(true);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+      ONX.track('popup_close', {});
+    }
+    ONX.openPopup = function () { open('manual'); };
+
+    pop.addEventListener('click', function (e) {
+      if (e.target.closest('[data-onx-popup-close]')) { e.preventDefault(); close(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!opened) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') { // piège à focus simple
+        var f = $$('a[href], button:not([disabled]), input:not([type="hidden"]), [tabindex]:not([tabindex="-1"])', dialog).filter(function (el) { return el.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    if (teaser) teaser.addEventListener('click', function () { ONX.track('popup_teaser_click', {}); open('teaser'); });
+
+    var form = $('[data-onx-popup-form]', pop);
+    if (form) form.addEventListener('submit', function () { store.set('onx_nl_pending', '1'); });
+
+    // Retour d'inscription : on affiche le code (pop-up ou formulaire du pied de page)
+    if (posted && !hasError) {
+      store.set(KEY_SUB, '1');
+      step('success');
+      if (teaser) teaser.remove();
+      open('subscribed');
+      return;
+    }
+    if (hasError) { step('form'); open('error'); return; }
+    if (design) return; // jamais d'ouverture automatique dans l'éditeur
+    if (store.get(KEY_SUB)) return;
+
+    var closedAt = parseInt(store.get(KEY_CLOSED), 10) || 0;
+    if (closedAt && Date.now() - closedAt < days * 864e5) { showTeaser(true); return; }
+
+    var fire = function (why) { cleanup(); open(why); };
+    var timer = !isNaN(delay) ? setTimeout(function () { fire('delay'); }, delay * 1000) : null;
+    var onScroll = function () {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      if (h > 0 && (window.scrollY / h) * 100 >= scrollPct) fire('scroll');
+    };
+    var onLeave = function (e) { if (!e.relatedTarget && e.clientY <= 0) fire('exit'); };
+    var exit = pop.getAttribute('data-exit') === 'true' && window.matchMedia('(pointer: fine)').matches;
+    if (scrollPct > 0) window.addEventListener('scroll', onScroll, { passive: true });
+    if (exit) document.addEventListener('mouseout', onLeave);
+    function cleanup() {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('mouseout', onLeave);
+    }
+  }
 
   /* ------------------------------------------------------------------
    * 9. Apparition douce au scroll (respecte prefers-reduced-motion)
@@ -810,6 +917,7 @@
     if (animOn) document.documentElement.classList.add('onx-anim');
     init(document);
     initSticky();
+    initPopup();
     watchCart();
     renderCartMeta();
   }

@@ -23,6 +23,22 @@ Tout texte ONX contenant des **[crochets]** est un placeholder : il est **surlig
 | Paramètres > Politiques | Remboursement, expédition, confidentialité, CGV (liens auto dans le footer) |
 | Navigation | Menu principal (`main-menu`) + menu `footer` (Suivi de commande, Contact, FAQ, Livraison, Retours) |
 
+### État au 5 octobre 2026 (fait directement sur la boutique)
+- Produits Sérénid archivés, articles de blog Sérénid dépubliés, menus principal et pied de page refaits pour ONX.
+- 3 ensembles **actifs** à 105 € (prix barré 275 €), photos ajoutées, coloris Black / Light Grey (1977, NBA) et Light Oatmeal / Stretch Limo / Dark Oatmeal (Logo), tailles S à XL, stock non suivi (toujours disponibles à la vente).
+- Code **BIENVENUE15** (-15 %, une fois par client, non cumulable avec 3 + 1) + pop-up newsletter (Thème > Pop-up newsletter) + section newsletter sur l'accueil.
+- Pages Contact, À propos, Livraison, Retours, FAQ réécrites. CGV et Mentions légales réécrites mais **non publiées** (SIREN à compléter).
+- Politiques Shopify : textes prêts dans `ONX-POLITIQUES.md` (à coller, Shopify ne m'autorise pas à les modifier).
+
+### À faire de ton côté
+| Où | Quoi |
+|---|---|
+| Paramètres > Politiques | Coller les textes de `ONX-POLITIQUES.md` |
+| Pages > CGV et Mentions légales | Compléter les [crochets] (SIREN, forme juridique, médiateur), publier, puis les remettre dans le menu « footer » |
+| Shopify Messaging > Automatisations | Activer l'e-mail « Bienvenue » (nouvel abonné) avec le code BIENVENUE15 |
+| Avis clients | Importer de **vrais** avis via Ali Reviews ; la section « Avis clients » est masquée tant qu'il n'y en a pas |
+| Thème > Réseaux sociaux | Lien Instagram / TikTok si tu en as un |
+
 ### Fiche produit « achat » (packs, stock, livraison)
 | Où | Quoi |
 |---|---|

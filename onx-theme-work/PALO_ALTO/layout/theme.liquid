@@ -352,6 +352,7 @@ template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}
 
   {%- unless request.path == challenge -%}
     {%- section 'popup' -%}
+    {%- section 'onx-popup' -%}
   {%- endunless -%}
 
   {%- if settings.show_scroll_to_top -%}

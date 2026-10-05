@@ -70,7 +70,7 @@
           "highlight_item": "Promo",
           "highlight_item_color": "#1652F0",
           "show_search": true,
-          "menu_searches_list": "",
+          "menu_searches_list": "customer-account-main-menu",
           "show_search_links": true,
           "header_transparent": false,
           "header_text_color": "black",
@@ -82,7 +82,13 @@
         "blocks": {
           "onx_brand": {
             "type": "onx_brand",
-            "settings": {}
+            "settings": {
+              "tagline": "Ensembles Essentials hoodie + jogging. 3 achetés = 1 offert, livraison offerte.",
+              "contact": "maison.vinland@gmail.com",
+              "show_trust": true,
+              "trust_2": "Livraison offerte en 13 à 15 jours",
+              "trust_3": "Retour possible sous 14 jours"
+            }
           },
           "footer_shop": {
             "type": "link",
@@ -101,8 +107,8 @@
           "footer_newsletter": {
             "type": "newsletter",
             "settings": {
-              "title": "Offres privées & nouveautés",
-              "text": "<p>Les drops ONX en avant-première. Pas de spam.</p>"
+              "title": "-15 % sur ta 1re commande",
+              "text": "<p>Inscris-toi : ton code s'affiche tout de suite. Nouveautés et offres en avant-première, pas de spam.</p>"
             }
           }
         },
@@ -176,7 +182,7 @@
           "onx_msg_shipping": {
             "type": "text",
             "settings": {
-              "text": "<p>❄️ ENSEMBLES ESSENTIALS — COLLECTION HIVER</p>",
+              "text": "<p>❄️ ENSEMBLES ESSENTIALS À <strong>105 €</strong> AU LIEU DE 275 €</p>",
               "icon_name": "none",
               "icon_color": "",
               "icon_width": 15,
@@ -191,7 +197,7 @@
           "onx_msg_gift": {
             "type": "text",
             "settings": {
-              "text": "<p>🚚 [LIVRAISON OFFERTE DÈS XX €]</p>",
+              "text": "<p>🚚 LIVRAISON OFFERTE — 13 À 15 JOURS</p>",
               "icon_name": "none",
               "icon_color": "",
               "icon_width": 15,
@@ -206,7 +212,7 @@
           "onx_msg_secure": {
             "type": "text",
             "settings": {
-              "text": "<p>🔒 PAIEMENT 100 % SÉCURISÉ</p>",
+              "text": "<p>✉️ <strong>-15 %</strong> SUR TA 1RE COMMANDE AVEC LA NEWSLETTER</p>",
               "icon_name": "none",
               "icon_color": "",
               "icon_width": 15,
@@ -234,6 +240,33 @@
           "marquee_speed": 100,
           "text_size": 100,
           "message_spacing": 40
+        }
+      },
+      "onx-popup": {
+        "type": "onx-popup",
+        "settings": {
+          "enabled": true,
+          "sticker_text": "offerts",
+          "eyebrow": "Bienvenue chez ONX",
+          "title": "sur ta première commande",
+          "text": "Inscris-toi : ton code s'affiche tout de suite.",
+          "perks": "Ton code de bienvenue immédiatement\nLes nouveaux ensembles en avant-première\nNos offres réservées aux inscrits",
+          "placeholder": "Ton adresse e-mail",
+          "button_label": "Je débloque mon code",
+          "legal": "<p>En t'inscrivant, tu acceptes de recevoir nos e-mails. Désinscription en un clic. Voir notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>.</p>",
+          "decline_label": "Non merci",
+          "success_eyebrow": "Inscription confirmée",
+          "success_title": "Voici ton code de bienvenue",
+          "success_text": "Valable une fois, à saisir au paiement (ou appliqué avec le bouton ci-dessous). Non cumulable avec l'offre 3 achetés = 1 offert.",
+          "success_button": "J'en profite maintenant",
+          "delay": 7,
+          "exit_intent": true,
+          "scroll_trigger": 40,
+          "frequency_days": 5,
+          "show_teaser": true,
+          "teaser_text": "-15 % offerts",
+          "image": "shopify://shop_images/onx-look-logo-clair-45.jpg",
+          "apply_redirect": "/collections/ensembles-essentials"
         }
       }
     },
@@ -264,8 +297,8 @@
     "enable_cart_animation": true,
     "enable_additional_buttons": true,
     "show_free_shipping_message": true,
-    "message": "Plus que ||amount|| pour profiter de la livraison offerte",
-    "free_shipping_limit": "",
+    "message": "Plus que ||amount|| pour la livraison offerte",
+    "free_shipping_limit": "40",
     "cart_custom_message_text": "",
     "onx_wordmark": "ONX",
     "onx_label_font": "geist_mono_n5",
@@ -292,7 +325,12 @@
     "onx_bxgy_label_ready": "Débloqué ! Ajoute ton ensemble OFFERT",
     "onx_bxgy_label_done": "Bravo ! ||free|| ensemble(s) offert(s) dans ton panier",
     "onx_bxgy_cta": "Choisir mon ensemble offert",
-    "onx_cart_upsell_collection": "ensembles-essentials"
+    "onx_cart_upsell_collection": "ensembles-essentials",
+    "onx_cart_trust_1": "Paiement 100 % sécurisé",
+    "onx_cart_trust_2": "Livraison offerte en 13 à 15 jours",
+    "onx_cart_trust_3": "Retour possible sous 14 jours",
+    "onx_welcome_offer": "-15 %",
+    "onx_welcome_code": "BIENVENUE15"
   },
   "presets": {
     "Palo Alto": {
