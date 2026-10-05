@@ -1,0 +1,269 @@
+{%- comment -%}
+  ONX — Blocs d'achat de la fiche produit (section « Product pages »).
+  Types : onx_stock | onx_bundles | onx_delivery | onx_shipping
+  Aucune donnée inventée : stock = inventaire Shopify réel, packs = remise automatique
+  « X achetés = Y offert » (Paramètres du thème > ONX), délais = valeurs saisies ici,
+  seuil de livraison offerte = Paramètres du thème > Panier.
+{%- endcomment -%}
+{%- assign bs = block.settings -%}
+{%- assign dm = request.design_mode -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+{%- case block.type -%}
+  {%- when 'onx_stock' -%}
+    {%- liquid
+      assign low = bs.low_threshold | default: 0
+      assign managed = false
+      if current_variant.inventory_management == 'shopify'
+        assign managed = true
+      endif
+      assign state = 'out'
+      assign text = bs.text_out
+      if current_variant.available
+        if managed and current_variant.inventory_quantity > 0
+          assign state = 'in'
+          assign text = bs.text_in
+          if low > 0 and current_variant.inventory_quantity <= low and bs.text_low != blank
+            assign state = 'low'
+            assign text = bs.text_low | replace: '||count||', current_variant.inventory_quantity
+          endif
+        else
+          assign state = 'untracked'
+          assign text = bs.text_untracked
+        endif
+      endif
+    -%}
+    <div class="product__block onx-stock is-{{ state }}" data-onx-stock
+      data-text-in="{{ bs.text_in | escape }}"
+      data-text-low="{{ bs.text_low | escape }}"
+      data-text-out="{{ bs.text_out | escape }}"
+      data-text-untracked="{{ bs.text_untracked | escape }}"
+      data-low="{{ low }}"
+      {% if text == blank %}hidden{% endif %}
+      {{ block.shopify_attributes }}>
+      <span class="onx-stock__dot" aria-hidden="true"></span>
+      <span data-onx-stock-text>{{ text | escape }}</span>
+      <script type="application/json" data-onx-stock-data>
+        {
+          {%- for v in product.variants -%}
+            "{{ v.id }}": {"a": {{ v.available }}, "m": {% if v.inventory_management == 'shopify' %}true{% else %}false{% endif %}, "s": {% if v.inventory_quantity > 0 %}true{% else %}false{% endif %}{% if low > 0 and v.inventory_management == 'shopify' and v.inventory_quantity <= low %}, "q": {{ v.inventory_quantity }}{% endif %}}{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        }
+      </script>
+    </div>
+
+  {%- when 'onx_bundles' -%}
+    {%- liquid
+      assign buy = settings.onx_bxgy_buy | default: 3
+      assign get = settings.onx_bxgy_get | default: 1
+      assign cycle = buy | plus: get
+      assign col = settings.onx_bxgy_collection
+      assign eligible = false
+      if settings.onx_bxgy_enabled
+        if col == blank
+          assign eligible = true
+        else
+          assign handles = product.collections | map: 'handle'
+          if handles contains col.handle
+            assign eligible = true
+          endif
+        endif
+      endif
+      assign title = bs.title
+      if dm == false and title contains '['
+        assign title = ''
+      endif
+      assign default_tier = bs.default_tier | plus: 0
+      assign unit = current_variant.price
+      assign thumb = current_variant.featured_media | default: product.featured_media
+    -%}
+    {%- if eligible or dm -%}
+      <div class="product__block onx-bundles" data-onx-bundles
+        data-buy="{{ buy }}" data-get="{{ get }}"
+        data-form="AddToCartForm--{{ unique }}"
+        data-unit-label="{{ 'general.onx.per_unit' | t | escape }}"
+        data-save-label="{{ 'general.onx.save_pct' | t | escape }}"
+        {{ block.shopify_attributes }}>
+        {%- unless eligible -%}
+          <p class="onx-editor-note">{% render 'onx-text', text: '[Ce produit ne fait pas partie de la collection de l’offre « 3 achetés = 1 offert » : le sélecteur de packs est masqué en ligne.]' %}</p>
+        {%- endunless -%}
+        {%- if title != blank -%}<p class="onx-bundles__title" id="onx-bundles-title-{{ block.id }}">{% render 'onx-text', text: title %}</p>{%- endif -%}
+
+        <div class="onx-bundles__list" role="radiogroup" aria-labelledby="onx-bundles-title-{{ block.id }}">
+          {%- assign tier_index = 0 -%}
+          {%- for i in (1..3) -%}
+            {%- liquid
+              assign k = 't' | append: i
+              assign k_qty = k | append: '_qty'
+              assign k_label = k | append: '_label'
+              assign k_sub = k | append: '_sub'
+              assign k_flag = k | append: '_flag'
+              assign qty = bs[k_qty] | plus: 0
+              if qty < 1
+                continue
+              endif
+              assign tier_index = tier_index | plus: 1
+              assign label = bs[k_label]
+              assign sub = bs[k_sub]
+              assign flag = bs[k_flag]
+              if dm == false
+                if flag contains '['
+                  assign flag = ''
+                endif
+                if sub contains '['
+                  assign sub = ''
+                endif
+              endif
+              assign free = qty | divided_by: cycle | floor | times: get
+              assign paid = qty | minus: free
+              assign total = unit | times: paid
+              assign full = unit | times: qty
+              assign per = total | divided_by: qty
+              assign pct = 0
+              if free > 0
+                assign pct = free | times: 100.0 | divided_by: qty | round
+                assign compare_total = full
+              elsif current_variant.compare_at_price > unit
+                assign compare_total = current_variant.compare_at_price | times: qty
+                assign pct = compare_total | minus: total | times: 100.0 | divided_by: compare_total | round
+              else
+                assign compare_total = 0
+              endif
+              assign checked = false
+              if i == default_tier
+                assign checked = true
+              endif
+              assign pct_label = 'general.onx.save_pct' | t | replace: '||pct||', pct
+              assign per_money = per | money
+              assign per_label = 'general.onx.per_unit' | t | replace: '||price||', per_money
+            -%}
+            <div class="onx-tier-wrap">
+              <label class="onx-tier{% if checked %} is-selected{% endif %}{% if flag != blank %} has-flag{% endif %}" data-onx-tier data-qty="{{ qty }}" data-free="{{ free }}">
+                <input type="radio" class="onx-tier__input" name="onx-tier-{{ block.id }}" value="{{ qty }}"{% if checked %} checked{% endif %} data-onx-tier-input>
+                {%- if flag != blank -%}<span class="onx-tier__flag">{% render 'onx-text', text: flag %}</span>{%- endif -%}
+                <span class="onx-tier__radio" aria-hidden="true"></span>
+                <span class="onx-tier__thumb" aria-hidden="true">
+                  {%- if thumb != blank -%}
+                    {{ thumb.preview_image | image_url: width: 120 | image_tag: loading: 'lazy', width: 60, height: 60, alt: '' }}
+                  {%- else -%}
+                    {% render 'onx-icon', icon: 'box', size: 22 %}
+                  {%- endif -%}
+                  {%- if qty > 1 -%}<span class="onx-tier__x">×{{ qty }}</span>{%- endif -%}
+                </span>
+                <span class="onx-tier__info">
+                  <span class="onx-tier__name">{{ label | escape }}</span>
+                  {%- if qty > 1 -%}
+                    <span class="onx-tier__unit" data-onx-tier-unit>{{ per_label }}</span>
+                  {%- elsif sub != blank -%}
+                    <span class="onx-tier__unit">{% render 'onx-text', text: sub %}</span>
+                  {%- endif -%}
+                  {%- if qty > 1 and sub != blank -%}<span class="onx-tier__sub">{% render 'onx-text', text: sub %}</span>{%- endif -%}
+                  <span class="onx-tier__chip" data-onx-tier-chip{% if pct == 0 %} hidden{% endif %}>{{ pct_label }}</span>
+                </span>
+                <span class="onx-tier__prices">
+                  <span class="onx-tier__total" data-onx-tier-total>{{ total | money }}</span>
+                  <s class="onx-tier__compare" data-onx-tier-compare{% if compare_total <= total %} hidden{% endif %}>{{ compare_total | money }}</s>
+                  {%- if qty > 1 -%}<span class="onx-tier__per" data-onx-tier-per>{{ per_money }} / {{ 'general.onx.item' | t }}</span>{%- endif -%}
+                </span>
+              </label>
+
+              {%- if qty > 1 and product.has_only_default_variant == false -%}
+                <div class="onx-tier__slots" data-onx-slots{% unless checked %} hidden{% endunless %}>
+                  <p class="onx-tier__slots-hint">{{ 'general.onx.bundle_pick' | t }}</p>
+                  {%- for n in (1..qty) -%}
+                    <label class="onx-slot">
+                      <span class="onx-slot__label">{{ 'general.onx.bundle_item' | t: number: n }}</span>
+                      <select class="onx-slot__select" data-onx-slot>
+                        {%- for v in product.variants -%}
+                          <option value="{{ v.id }}" data-price="{{ v.price }}"{% if v == current_variant %} selected{% endif %}{% unless v.available %} disabled{% endunless %}>{{ v.title | escape }}{% unless v.available %} · {{ 'products.product.sold_out' | t }}{% endunless %}</option>
+                        {%- endfor -%}
+                      </select>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if bs.note != blank -%}<p class="onx-bundles__note">{% render 'onx-icon', icon: 'gift', size: 14 %}<span>{% render 'onx-text', text: bs.note %}</span></p>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+  {%- when 'onx_delivery' -%}
+    {%- liquid
+      assign ship = bs.ship_days
+      assign dmin = bs.delivery_min
+      assign dmax = bs.delivery_max | default: dmin
+      assign ready = true
+      if dmin == blank
+        assign ready = false
+      endif
+    -%}
+    {%- if ready -%}
+      <div class="product__block onx-delivery" data-onx-delivery
+        data-ship="{{ ship }}" data-min="{{ dmin }}" data-max="{{ dmax }}"
+        data-business="{{ bs.business_days }}" data-cutoff="{{ bs.cutoff_hour }}" hidden
+        {{ block.shopify_attributes }}>
+        <ol class="onx-delivery__steps{% if ship == blank %} onx-delivery__steps--2{% endif %}" role="list">
+          <li class="onx-delivery__step is-done">
+            <span class="onx-delivery__icon">{% render 'onx-icon', icon: 'cart', size: 18 %}</span>
+            <strong data-onx-date="order"></strong>
+            <span>{{ bs.label_order | escape }}</span>
+          </li>
+          {%- if ship != blank -%}
+          <li class="onx-delivery__step">
+            <span class="onx-delivery__icon">{% render 'onx-icon', icon: 'truck', size: 18 %}</span>
+            <strong data-onx-date="ship"></strong>
+            <span>{{ bs.label_ship | escape }}</span>
+          </li>
+          {%- endif -%}
+          <li class="onx-delivery__step">
+            <span class="onx-delivery__icon">{% render 'onx-icon', icon: 'box', size: 18 %}</span>
+            <strong data-onx-date="delivery"></strong>
+            <span>{{ bs.label_delivery | escape }}</span>
+          </li>
+        </ol>
+        {%- if bs.note != blank -%}<p class="onx-delivery__note">{{ bs.note | escape }}</p>{%- endif -%}
+      </div>
+    {%- elsif dm -%}
+      <div class="product__block onx-delivery onx-delivery--empty" {{ block.shopify_attributes }}>
+        <p class="onx-editor-note">{% render 'onx-text', text: '[Délais de livraison : renseignez au moins la livraison minimum et maximum dans ce bloc pour afficher la frise.]' %}</p>
+      </div>
+    {%- endif -%}
+
+  {%- when 'onx_shipping' -%}
+    {%- liquid
+      assign limit = settings.free_shipping_limit | plus: 0
+      assign limit_cents = limit | times: 100
+      assign left = limit_cents | minus: cart.total_price
+      assign percent = 0
+      if limit_cents > 0
+        assign percent = cart.total_price | times: 100 | divided_by: limit_cents
+        if percent > 100
+          assign percent = 100
+        endif
+      endif
+      assign left_money = left | money_without_trailing_zeros
+      assign msg_left = bs.text_left | replace: '||amount||', left_money
+    -%}
+    {%- if limit > 0 -%}
+      <div class="product__block onx-ship{% if left <= 0 %} is-done{% endif %}" data-onx-ship
+        data-limit="{{ limit_cents }}"
+        data-text-left="{{ bs.text_left | escape }}"
+        data-text-done="{{ bs.text_done | escape }}"
+        {{ block.shopify_attributes }}>
+        <p class="onx-ship__text">
+          {% render 'onx-icon', icon: 'truck', size: 18 %}
+          <span data-onx-ship-text>{% if left <= 0 %}{{ bs.text_done | escape }}{% else %}{{ msg_left | escape }}{% endif %}</span>
+        </p>
+        <div class="onx-ship__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ percent }}" aria-label="{{ 'general.onx.free_shipping_progress' | t | escape }}">
+          <span data-onx-ship-bar style="--p: {{ percent }}%"></span>
+        </div>
+      </div>
+    {%- elsif dm -%}
+      <div class="product__block onx-ship" {{ block.shopify_attributes }}>
+        <p class="onx-editor-note">{% render 'onx-text', text: '[Livraison offerte : renseignez le seuil dans Paramètres du thème > Panier > « Free shipping minimum amount ».]' %}</p>
+      </div>
+    {%- endif -%}
+{%- endcase -%}

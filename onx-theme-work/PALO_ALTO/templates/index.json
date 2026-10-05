@@ -1,0 +1,451 @@
+{
+  "sections": {
+    "hero": {
+      "type": "onx-hero",
+      "settings": {
+        "layout": "overlay",
+        "content_align": "top",
+        "mobile_media": "bottom",
+        "scheme": "winter",
+        "eyebrow": "ONX / Ensembles Essentials",
+        "proof_text": "",
+        "show_stars": true,
+        "title": "Les ensembles Essentials pour l'hiver.",
+        "title_highlight": "pour l'hiver",
+        "title_is_h1": true,
+        "subtitle": "105 € au lieu de 275 €.",
+        "cta_label": "Choisir mon ensemble",
+        "cta_link": "/collections/ensembles-essentials",
+        "cta_style": "signal",
+        "cta2_label": "",
+        "cta2_link": "",
+        "offer_text": "3 achetés = 1 offert — appliqué automatiquement au panier, sans code",
+        "offer_link": "/collections/ensembles-essentials",
+        "micro_text": "Livraison offerte · Retour 14 jours",
+        "image": "shopify://shop_images/IMG_3710.jpg",
+        "media_badge": "",
+        "test_id": ""
+      },
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "text": "Ensemble complet : hoodie + jogging assortis"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "text": "Plusieurs coloris au choix"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "text": "Paiement 100 % sécurisé"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ]
+    },
+    "usp": {
+      "type": "onx-usp",
+      "settings": {
+        "scheme": "surface",
+        "compact": true
+      },
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "",
+            "link": ""
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "",
+            "link": ""
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison offerte",
+            "text": "",
+            "link": "/pages/livraison"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "return",
+            "title": "Retour 14 jours",
+            "text": "",
+            "link": "/pages/retours-et-remboursements"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    },
+    "bestsellers": {
+      "type": "onx-products",
+      "settings": {
+        "eyebrow": "",
+        "title": "Nos ensembles",
+        "limit": 8,
+        "mobile_layout": "scroll",
+        "scheme": "light"
+      },
+      "blocks": {
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "label": "Ensembles",
+            "collection": "ensembles-essentials",
+            "cta_label": "Tout voir"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1"
+      ]
+    },
+    "collections": {
+      "type": "onx-collections",
+      "settings": {
+        "eyebrow": "",
+        "title": "Choisis ton design",
+        "feature_first": true,
+        "scheme": "light"
+      },
+      "blocks": {
+        "collection_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/IMG_3703.jpg",
+            "title": "Classique",
+            "text": "",
+            "tag": "",
+            "cta_label": "Voir",
+            "link": "/products/ensemble-essentials-logo"
+          }
+        },
+        "collection_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/IMG_3716.jpg",
+            "title": "1977",
+            "text": "",
+            "tag": "",
+            "cta_label": "Voir",
+            "link": "/products/ensemble-essentials-1977"
+          }
+        },
+        "collection_3": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/IMG_3714.jpg",
+            "title": "NBA",
+            "text": "",
+            "tag": "",
+            "cta_label": "Voir",
+            "link": "/products/ensemble-essentials-nba"
+          }
+        }
+      },
+      "block_order": [
+        "collection_1",
+        "collection_2",
+        "collection_3"
+      ]
+    },
+    "reviews": {
+      "type": "onx-reviews",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Avis clients",
+        "title": "Ils ont choisi ONX",
+        "score": "[4,8/5]",
+        "count_text": "[Basé sur XXX avis vérifiés]",
+        "source": "",
+        "cta_label": "Lire tous les avis",
+        "cta_link": "",
+        "scheme": "light"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "",
+            "text": "[Copiez ici un avis client réel.]",
+            "author": "[Prénom N.]",
+            "verified": false,
+            "product": ""
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "",
+            "text": "[Copiez ici un avis client réel.]",
+            "author": "[Prénom N.]",
+            "verified": false,
+            "product": ""
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "headline": "",
+            "text": "[Copiez ici un avis client réel.]",
+            "author": "[Prénom N.]",
+            "verified": false,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ]
+    },
+    "ugc": {
+      "type": "onx-ugc",
+      "settings": {
+        "eyebrow": "",
+        "title": "Le look",
+        "social_label": "",
+        "scheme": "winter",
+        "social_link": ""
+      },
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-1977-gris.jpg",
+            "product": "ensemble-essentials-1977"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-nba-gris.jpg",
+            "product": "ensemble-essentials-nba"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-logo-clair.jpg",
+            "product": "ensemble-essentials-logo"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-1977-noir.jpg",
+            "product": "ensemble-essentials-1977"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-nba-noir.jpg",
+            "product": "ensemble-essentials-nba"
+          }
+        },
+        "photo_6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-logo-gris.jpg",
+            "product": "ensemble-essentials-logo"
+          }
+        },
+        "photo_7": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-1977-gris-2.jpg",
+            "product": "ensemble-essentials-1977"
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6",
+        "photo_7"
+      ]
+    },
+    "why": {
+      "type": "onx-why",
+      "settings": {
+        "eyebrow": "Pourquoi ONX ?",
+        "title": "Pourquoi commander chez ONX ?",
+        "intro": "Une offre simple, des prix clairs et aucune mauvaise surprise au paiement.",
+        "them_label": "",
+        "cta_label": "Découvrir la collection",
+        "cta_link": "/collections/ensembles-essentials",
+        "scheme": "ice"
+      },
+      "blocks": {
+        "reason_1": {
+          "type": "reason",
+          "settings": {
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Sur tous les ensembles, appliqué automatiquement au panier, sans code."
+          }
+        },
+        "reason_2": {
+          "type": "reason",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Connexion chiffrée (HTTPS/SSL), aucune donnée bancaire conservée par ONX."
+          }
+        },
+        "reason_3": {
+          "type": "reason",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison offerte",
+            "text": "Sur chaque ensemble, en 13 à 15 jours, en France et dans l'Union européenne."
+          }
+        },
+        "reason_4": {
+          "type": "reason",
+          "settings": {
+            "icon": "return",
+            "title": "Retour sous 14 jours",
+            "text": "Tu as 14 jours après réception pour changer d'avis."
+          }
+        }
+      },
+      "block_order": [
+        "reason_1",
+        "reason_2",
+        "reason_3",
+        "reason_4"
+      ],
+      "disabled": true
+    },
+    "faq": {
+      "type": "onx-faq",
+      "settings": {
+        "eyebrow": "",
+        "title": "FAQ",
+        "intro": "",
+        "contact_label": "Nous contacter",
+        "contact_link": "/pages/contact",
+        "open_first": false,
+        "schema_markup": true,
+        "scheme": "light"
+      },
+      "blocks": {
+        "question_offer": {
+          "type": "question",
+          "settings": {
+            "question": "L'offre 3 achetés = 1 offert ?",
+            "answer": "<p>Ajoute 4 ensembles au panier : le moins cher est offert, automatiquement.</p>"
+          }
+        },
+        "question_size": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle taille choisir ?",
+            "answer": "<p>Du S au XL, sweat et jogging de la même taille. Un doute ? Écris-nous.</p>"
+          }
+        },
+        "question_delay": {
+          "type": "question",
+          "settings": {
+            "question": "Délais de livraison ?",
+            "answer": "<p>13 à 15 jours. Livraison offerte.</p>"
+          }
+        },
+        "question_return": {
+          "type": "question",
+          "settings": {
+            "question": "Retours ?",
+            "answer": "<p>14 jours après réception pour changer d'avis.</p>"
+          }
+        },
+        "question_code": {
+          "type": "question",
+          "settings": {
+            "question": "Comment avoir -15 % ?",
+            "answer": "<p>Inscris-toi à la newsletter : ton code s'affiche aussitôt. Non cumulable avec le 3 + 1.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_offer",
+        "question_size",
+        "question_delay",
+        "question_return",
+        "question_code"
+      ]
+    },
+    "newsletter": {
+      "type": "onx-newsletter",
+      "settings": {
+        "incentive": "",
+        "show_code": true,
+        "title": "-15 % sur ta 1re commande",
+        "text": "Ton code s'affiche dès l'inscription.",
+        "button_label": "Recevoir mon code",
+        "legal": "<p>En t'inscrivant, tu acceptes nos e-mails. <a href=\"/policies/privacy-policy\">Confidentialité</a></p>",
+        "scheme": "stone"
+      }
+    },
+    "final_cta": {
+      "type": "onx-cta",
+      "settings": {
+        "title": "3 achetés = 1 offert.",
+        "text": "",
+        "cta_label": "Je choisis",
+        "cta_link": "/collections/ensembles-essentials",
+        "micro_text": "Livraison offerte · Retour 14 jours",
+        "scheme": "winter"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "usp",
+    "bestsellers",
+    "collections",
+    "reviews",
+    "ugc",
+    "why",
+    "faq",
+    "newsletter",
+    "final_cta"
+  ]
+}

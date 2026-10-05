@@ -1,0 +1,398 @@
+{%- comment -%}
+  ONX — « Pourquoi ONX ? » : raisons de choisir la marque + tableau comparatif optionnel.
+  Comparez uniquement des éléments vérifiables. Ne citez pas de concurrent nommé.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign intro = s.intro
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if intro contains '['
+      assign intro = ''
+    endif
+  endif
+  assign reasons_count = 0
+  assign rows_count = 0
+-%}
+{%- capture reasons -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type != 'reason' -%}{%- continue -%}{%- endif -%}
+    {%- liquid
+      assign t = block.settings.title
+      assign d = block.settings.text
+      if dm == false
+        if t contains '['
+          continue
+        endif
+        if d contains '['
+          assign d = ''
+        endif
+      endif
+      if t == blank
+        continue
+      endif
+      assign reasons_count = reasons_count | plus: 1
+    -%}
+    <div class="onx-why__reason" {{ block.shopify_attributes }}>
+      <span class="onx-why__num">{{ reasons_count | prepend: '0' | slice: -2, 2 }}</span>
+      <div>
+        <h3 class="onx-why__reason-title">{% render 'onx-icon', icon: block.settings.icon, size: 20 %}<span>{% render 'onx-text', text: t %}</span></h3>
+        {%- if d != blank -%}<p class="onx-why__reason-text">{% render 'onx-text', text: d %}</p>{%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+{%- capture rows -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type != 'row' -%}{%- continue -%}{%- endif -%}
+    {%- liquid
+      assign f = block.settings.feature
+      if dm == false and f contains '['
+        continue
+      endif
+      if f == blank
+        continue
+      endif
+      assign rows_count = rows_count | plus: 1
+    -%}
+    <tr {{ block.shopify_attributes }}>
+      <th scope="row">{% render 'onx-text', text: f %}</th>
+      <td class="onx-why__us">{% if block.settings.us %}<span class="onx-why__yes" aria-label="{{ 'general.onx.yes' | t }}">{% render 'onx-icon', icon: 'check', size: 18 %}</span>{% else %}<span class="onx-why__no" aria-label="{{ 'general.onx.no' | t }}">—</span>{% endif %}</td>
+      <td>{% if block.settings.them %}<span class="onx-why__yes onx-why__yes--muted" aria-label="{{ 'general.onx.yes' | t }}">{% render 'onx-icon', icon: 'check', size: 18 %}</span>{% else %}<span class="onx-why__no" aria-label="{{ 'general.onx.no' | t }}">{% render 'onx-icon', icon: 'close', size: 16 %}</span>{% endif %}</td>
+    </tr>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if reasons_count > 0 or rows_count > 0 or dm -%}
+<section class="onx-why onx-section onx-scheme--{{ s.scheme }}" data-onx-section="why">
+  <div class="onx-container">
+    <div class="onx-section__head onx-section__head--center">
+      {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+      {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      {%- if intro != blank -%}<p class="onx-lead onx-muted">{% render 'onx-text', text: intro %}</p>{%- endif -%}
+    </div>
+    <div class="onx-why__layout{% if rows_count > 0 and reasons_count > 0 %} onx-why__layout--split{% endif %}">
+      {%- if reasons_count > 0 -%}<div class="onx-why__reasons">{{ reasons }}</div>{%- endif -%}
+      {%- if rows_count > 0 -%}
+        <div class="onx-why__table-wrap">
+          <table class="onx-why__table">
+            <thead>
+              <tr>
+                <th scope="col"><span class="visually-hidden">{{ 'general.onx.feature' | t }}</span></th>
+                <th scope="col" class="onx-why__us">{% render 'onx-wordmark', size: 'table' %}</th>
+                <th scope="col">{{ s.them_label | escape }}</th>
+              </tr>
+            </thead>
+            <tbody>{{ rows }}</tbody>
+          </table>
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if s.cta_label != blank -%}
+      <div class="onx-section__foot onx-section__foot--center"><a class="onx-btn onx-btn--signal onx-btn--lg" href="{{ s.cta_link | default: routes.all_products_collection_url }}">{{ s.cta_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</a></div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Pourquoi ONX ?",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Pourquoi ONX ?"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Pourquoi choisir ONX"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Introduction",
+      "default": "[Ce qui rend ONX différent, en une ou deux phrases.]"
+    },
+    {
+      "type": "text",
+      "id": "them_label",
+      "label": "Colonne comparée",
+      "default": "Les autres"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton",
+      "default": "Découvrir ONX"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "light",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Raison",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "award",
+          "options": [
+            {
+              "value": "check",
+              "label": "Coche"
+            },
+            {
+              "value": "check-circle",
+              "label": "Coche cerclée"
+            },
+            {
+              "value": "truck",
+              "label": "Livraison"
+            },
+            {
+              "value": "lock",
+              "label": "Paiement sécurisé"
+            },
+            {
+              "value": "return",
+              "label": "Retour"
+            },
+            {
+              "value": "chat",
+              "label": "Service client"
+            },
+            {
+              "value": "star",
+              "label": "Étoile"
+            },
+            {
+              "value": "gift",
+              "label": "Cadeau"
+            },
+            {
+              "value": "shield",
+              "label": "Garantie / protection"
+            },
+            {
+              "value": "bolt",
+              "label": "Rapidité"
+            },
+            {
+              "value": "leaf",
+              "label": "Naturel"
+            },
+            {
+              "value": "clock",
+              "label": "Temps"
+            },
+            {
+              "value": "tag",
+              "label": "Prix / promo"
+            },
+            {
+              "value": "box",
+              "label": "Colis"
+            },
+            {
+              "value": "heart",
+              "label": "Cœur"
+            },
+            {
+              "value": "award",
+              "label": "Qualité"
+            },
+            {
+              "value": "globe",
+              "label": "International"
+            },
+            {
+              "value": "phone",
+              "label": "Téléphone"
+            },
+            {
+              "value": "mail",
+              "label": "E-mail"
+            },
+            {
+              "value": "sparkle",
+              "label": "Design / nouveauté"
+            },
+            {
+              "value": "ruler",
+              "label": "Taille"
+            },
+            {
+              "value": "smile",
+              "label": "Satisfaction"
+            },
+            {
+              "value": "card",
+              "label": "Carte bancaire"
+            },
+            {
+              "value": "users",
+              "label": "Communauté"
+            },
+            {
+              "value": "cart",
+              "label": "Panier"
+            },
+            {
+              "value": "snowflake",
+              "label": "Hiver / flocon"
+            },
+            {
+              "value": "thermometer",
+              "label": "Chaleur / température"
+            },
+            {
+              "value": "mountain",
+              "label": "Montagne / outdoor"
+            },
+            {
+              "value": "wind",
+              "label": "Coupe-vent"
+            },
+            {
+              "value": "drop",
+              "label": "Imperméable"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "[Qualité]"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Explication",
+          "default": "[Preuve concrète : matière, contrôle, fabrication…]"
+        }
+      ]
+    },
+    {
+      "type": "row",
+      "name": "Ligne de comparaison",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Critère",
+          "default": "[Critère vérifiable]"
+        },
+        {
+          "type": "checkbox",
+          "id": "us",
+          "label": "ONX : oui",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "them",
+          "label": "Les autres : oui",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Pourquoi ONX ?",
+      "blocks": [
+        {
+          "type": "reason",
+          "settings": {
+            "icon": "award",
+            "title": "[Qualité]"
+          }
+        },
+        {
+          "type": "reason",
+          "settings": {
+            "icon": "sparkle",
+            "title": "[Design]"
+          }
+        },
+        {
+          "type": "reason",
+          "settings": {
+            "icon": "tag",
+            "title": "[Juste prix]"
+          }
+        },
+        {
+          "type": "reason",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service]"
+          }
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

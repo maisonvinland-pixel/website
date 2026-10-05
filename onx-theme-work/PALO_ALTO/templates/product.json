@@ -1,0 +1,413 @@
+{
+  "sections": {
+    "main": {
+      "type": "product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "subheading": "breadcrumbs",
+            "show_rating": true,
+            "show_rating_count": true,
+            "onx_pill": "3 achetés = 1 offert"
+          }
+        },
+        "onx_benefits": {
+          "type": "onx_benefits",
+          "settings": {
+            "lead": "Le combo hoodie + jogging assorti, prêt à porter.",
+            "b1": "Ensemble complet : sweat à capuche + jogging",
+            "b2": "Disponible du S au XL",
+            "b3": "3 achetés = 1 offert, automatique au panier",
+            "b4": "Livraison offerte en 13 à 15 jours"
+          }
+        },
+        "inventory_countdown": {
+          "type": "inventory_countdown",
+          "settings": {},
+          "disabled": true
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+            "info_page": "",
+            "info_page_title_override": "",
+            "show_labels": true,
+            "show_quantity": false,
+            "show_payment_button": true,
+            "enable_subscriptions_selectors": false
+          }
+        },
+        "onx_trust": {
+          "type": "onx_trust",
+          "settings": {
+            "icon_1": "lock",
+            "text_1": "Paiement 100 % sécurisé",
+            "icon_2": "truck",
+            "text_2": "Livraison offerte en 13 à 15 jours",
+            "icon_3": "return",
+            "text_3": "Retour possible sous 14 jours",
+            "icon_4": "gift",
+            "text_4": "-15 % sur ta 1re commande avec la newsletter",
+            "show_payment_icons": true
+          }
+        },
+        "onx_offer": {
+          "type": "onx_offer",
+          "settings": {
+            "title": "Offre ONX : 3 achetés = 1 offert",
+            "lines": "Ajoute 4 ensembles : le moins cher est offert\nRemise automatique au panier, sans code",
+            "icon": "gift",
+            "code": ""
+          },
+          "disabled": true
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "product_accordions": {
+          "type": "product_accordions",
+          "settings": {
+            "accordion_heading_1": "Livraison",
+            "accordion_text_1": "<p><strong>Livraison offerte</strong> en France et dans l'Union européenne.</p><p>Délai : <strong>13 à 15 jours</strong> à compter de ta commande. Tu reçois un e-mail dès l'expédition de ton colis.</p><p>Détails sur notre page <a href=\"/pages/livraison\">Livraison</a>.</p>",
+            "accordion_page_1": "",
+            "accordion_heading_2": "Retours & échanges",
+            "accordion_text_2": "<p>Tu disposes de <strong>14 jours après réception</strong> pour changer d'avis, sans justification. Écris-nous avec ton numéro de commande et on t'indique la marche à suivre.</p><p>Tout est expliqué sur notre page <a href=\"/pages/retours-et-remboursements\">Retours et remboursements</a>.</p>",
+            "accordion_page_2": "",
+            "accordion_heading_3": "Paiement sécurisé",
+            "accordion_text_3": "<p>Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Vos données bancaires ne sont pas conservées par ONX.</p>",
+            "accordion_page_3": "",
+            "accordion_heading_4": "Guide des tailles",
+            "accordion_text_4": "<p>Les ensembles sont disponibles en <strong>S, M, L et XL</strong>. Le sweat et le jogging sont de la même taille.</p><p>Entre deux tailles ou un doute ? Écris-nous à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a> avant de commander, on te conseille.</p>",
+            "accordion_page_4": "",
+            "accordion_heading_5": "",
+            "accordion_text_5": "",
+            "accordion_page_5": ""
+          }
+        },
+        "upsell": {
+          "type": "upsell",
+          "disabled": true,
+          "settings": {
+            "product": ""
+          }
+        },
+        "onx_stock": {
+          "type": "onx_stock",
+          "settings": {
+            "text_in": "En stock, prêt à partir",
+            "low_threshold": 0,
+            "text_low": "Plus que ||count|| en stock",
+            "text_untracked": "Disponible — expédition offerte",
+            "text_out": "Épuisé dans cette variante"
+          }
+        },
+        "onx_bundles": {
+          "type": "onx_bundles",
+          "settings": {
+            "title": "Plus tu en prends, plus tu économises",
+            "default_tier": "2",
+            "t1_qty": 1,
+            "t1_label": "À l'unité",
+            "t1_sub": "Prix normal",
+            "t1_flag": "",
+            "t2_qty": 4,
+            "t2_label": "Pack 3 + 1 offert",
+            "t2_sub": "Le moins cher est offert",
+            "t2_flag": "Recommandé",
+            "t3_qty": 8,
+            "t3_label": "Pack 6 + 2 offerts",
+            "t3_sub": "Les 2 moins chers sont offerts",
+            "t3_flag": "Le + d'offerts",
+            "note": "Remise appliquée automatiquement au panier, sans code"
+          }
+        },
+        "onx_delivery": {
+          "type": "onx_delivery",
+          "settings": {
+            "business_days": false,
+            "cutoff_hour": 0,
+            "label_order": "Commandé",
+            "label_ship": "Expédié",
+            "label_delivery": "Chez toi",
+            "note": "Livraison offerte en France et dans l'Union européenne.",
+            "delivery_min": 13,
+            "delivery_max": 15
+          }
+        },
+        "onx_shipping": {
+          "type": "onx_shipping",
+          "settings": {
+            "text_left": "Plus que ||amount|| pour la livraison offerte",
+            "text_done": "La livraison est offerte sur ta commande"
+          },
+          "disabled": true
+        }
+      },
+      "block_order": [
+        "title",
+        "onx_stock",
+        "onx_bundles",
+        "form",
+        "onx_delivery",
+        "onx_shipping",
+        "onx_trust",
+        "onx_offer",
+        "inventory_countdown",
+        "onx_benefits",
+        "description",
+        "product_accordions",
+        "upsell"
+      ],
+      "settings": {
+        "wrapper": "normal",
+        "image_size": "large",
+        "enable_zoom": true,
+        "enable_video_looping": false,
+        "bg_color": ""
+      }
+    },
+    "usp": {
+      "type": "onx-usp",
+      "settings": {
+        "scheme": "surface",
+        "compact": true
+      },
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Automatique au panier"
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison offerte",
+            "text": "En 13 à 15 jours"
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "return",
+            "title": "Retour sous 14 jours",
+            "text": "Tu peux changer d'avis"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    },
+    "ugc": {
+      "type": "onx-ugc",
+      "settings": {
+        "eyebrow": "Lookbook ONX",
+        "title": "Le look Essentials",
+        "social_label": "",
+        "scheme": "winter"
+      },
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-1977-gris.jpg",
+            "product": "ensemble-essentials-1977"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-nba-gris.jpg",
+            "product": "ensemble-essentials-nba"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-logo-clair.jpg",
+            "product": "ensemble-essentials-logo"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-1977-noir.jpg",
+            "product": "ensemble-essentials-1977"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-nba-noir.jpg",
+            "product": "ensemble-essentials-nba"
+          }
+        },
+        "photo_6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-logo-gris.jpg",
+            "product": "ensemble-essentials-logo"
+          }
+        },
+        "photo_7": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/onx-look-1977-gris-2.jpg",
+            "product": "ensemble-essentials-1977"
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6",
+        "photo_7"
+      ]
+    },
+    "sma_reviews_section_auto": {
+      "type": "reviews-importer-product",
+      "settings": {
+        "lai_product": ""
+      }
+    },
+    "reviews": {
+      "type": "onx-reviews",
+      "settings": {
+        "scheme": "surface",
+        "eyebrow": "Avis clients",
+        "title": "Ils ont choisi ONX"
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {}
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "disabled": true
+    },
+    "faq": {
+      "type": "onx-faq",
+      "settings": {
+        "scheme": "light",
+        "title": "Questions fréquentes",
+        "eyebrow": "FAQ",
+        "contact_label": "Nous contacter",
+        "contact_link": "/pages/contact",
+        "schema_markup": true,
+        "intro": "Une autre question ? Notre équipe te répond.",
+        "open_first": false
+      },
+      "blocks": {
+        "question_offer": {
+          "type": "question",
+          "settings": {
+            "question": "Comment fonctionne l'offre 3 achetés = 1 offert ?",
+            "answer": "<p>Ajoute 4 ensembles au panier (designs, coloris et tailles au choix) : le moins cher des 4 est offert automatiquement, sans code. L'offre se cumule : 8 ensembles = 2 offerts.</p>"
+          }
+        },
+        "question_size": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle taille choisir ?",
+            "answer": "<p>Les ensembles existent en S, M, L et XL. Le sweat et le jogging sont de la même taille. Entre deux tailles ? Écris-nous à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a> avant de commander, on te conseille.</p>"
+          }
+        },
+        "question_delay": {
+          "type": "question",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison.</p>"
+          }
+        },
+        "question_track": {
+          "type": "question",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>Tu reçois un e-mail dès l'expédition de ton colis. Une question sur ta commande ? Écris-nous en indiquant ton numéro de commande.</p>"
+          }
+        },
+        "question_return": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner un article ?",
+            "answer": "<p>Oui. Tu as <strong>14 jours après réception</strong> pour changer d'avis, sans te justifier. Écris-nous avec ton numéro de commande. Tout est expliqué sur la page <a href=\"/pages/retours-et-remboursements\">Retours et remboursements</a>.</p>"
+          }
+        },
+        "question_code": {
+          "type": "question",
+          "settings": {
+            "question": "Comment obtenir -15 % ?",
+            "answer": "<p>Inscris-toi à la newsletter : ton code de bienvenue s'affiche tout de suite. Il est valable une fois, à saisir à l'étape de paiement. Il n'est pas cumulable avec l'offre 3 achetés = 1 offert.</p>"
+          }
+        },
+        "question_secure": {
+          "type": "question",
+          "settings": {
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": "<p>Oui. Le paiement s'effectue sur une page sécurisée, via une connexion chiffrée (HTTPS/SSL). Tes données bancaires ne sont pas conservées par ONX.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_offer",
+        "question_size",
+        "question_delay",
+        "question_track",
+        "question_return",
+        "question_code",
+        "question_secure"
+      ]
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "wrapper": "normal",
+        "limit": 4,
+        "product_recommendations_heading": "Complète ton pack 3 + 1",
+        "bg_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "usp",
+    "ugc",
+    "sma_reviews_section_auto",
+    "reviews",
+    "faq",
+    "related"
+  ]
+}

@@ -1,0 +1,271 @@
+{%- comment -%}
+  ONX — Preuve sociale : note globale + avis clients.
+  RÈGLE : uniquement de vrais avis. Les blocs livrés sont des placeholders [ ]
+  automatiquement masqués sur la boutique en ligne tant qu'ils ne sont pas remplacés.
+  Compatible blocs d'application (Judge.me, Loox, Ali Reviews…).
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign score = s.score
+  assign count = s.count_text
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if score contains '['
+      assign score = ''
+    endif
+    if count contains '['
+      assign count = ''
+    endif
+  endif
+  assign shown = 0
+-%}
+{%- capture cards -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == '@app' -%}{%- continue -%}{%- endif -%}
+    {%- liquid
+      assign txt = block.settings.text
+      assign author = block.settings.author
+      if dm == false
+        if txt contains '[' or author contains '['
+          continue
+        endif
+      endif
+      if txt == blank
+        continue
+      endif
+      assign shown = shown | plus: 1
+      assign stars = block.settings.rating | plus: 0
+      assign p = block.settings.product
+    -%}
+    <figure class="onx-review" {{ block.shopify_attributes }}>
+      {%- if block.settings.image != blank -%}
+        <div class="onx-review__media">{{ block.settings.image | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 25vw, 80vw', loading: 'lazy', class: 'onx-cover' }}</div>
+      {%- endif -%}
+      <div class="onx-review__body">
+        <div class="onx-stars onx-stars--sm" role="img" aria-label="{{ stars }}/5">
+          {%- for i in (1..5) -%}<span class="{% if i > stars %}is-off{% endif %}">★</span>{%- endfor -%}
+        </div>
+        {%- if block.settings.headline != blank -%}<p class="onx-review__headline">{% render 'onx-text', text: block.settings.headline %}</p>{%- endif -%}
+        <blockquote class="onx-review__text">{% render 'onx-text', text: txt %}</blockquote>
+        <figcaption class="onx-review__meta">
+          <span class="onx-review__author">{% render 'onx-text', text: author %}</span>
+          {%- if block.settings.verified -%}<span class="onx-review__verified">{% render 'onx-icon', icon: 'check-circle', size: 14 %}{{ 'general.onx.verified_buyer' | t }}</span>{%- endif -%}
+        </figcaption>
+        {%- if p != blank -%}
+          <a class="onx-review__product" href="{{ p.url }}">
+            {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 96 | image_tag: loading: 'lazy', width: 40, height: 40, class: 'onx-review__product-img' }}{%- endif -%}
+            <span>{{ p.title | escape }}</span>
+            {% render 'onx-icon', icon: 'arrow-right', size: 14 %}
+          </a>
+        {%- endif -%}
+      </div>
+    </figure>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign has_app = false -%}
+{%- for block in section.blocks -%}{%- if block.type == '@app' -%}{%- assign has_app = true -%}{%- endif -%}{%- endfor -%}
+
+{%- if shown > 0 or score != blank or has_app or dm -%}
+<section id="onx-reviews" class="onx-reviews onx-section onx-scheme--{{ s.scheme }}" data-onx-section="reviews">
+  <div class="onx-container">
+    <div class="onx-reviews__head">
+      <div>
+        {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+        {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      </div>
+      {%- if score != blank -%}
+        <div class="onx-score">
+          <span class="onx-score__value">{% render 'onx-text', text: score %}</span>
+          <span class="onx-score__meta">
+            <span class="onx-stars" aria-hidden="true">★★★★★</span>
+            {%- if count != blank -%}<span class="onx-score__count">{% render 'onx-text', text: count %}</span>{%- endif -%}
+            {%- if s.source != blank -%}<span class="onx-score__source">{{ s.source | escape }}</span>{%- endif -%}
+          </span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if shown > 0 or dm -%}
+      <div class="onx-reviews__track" data-onx-scroller>{{ cards }}</div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == '@app' -%}
+        <div class="onx-reviews__app" {{ block.shopify_attributes }}>{% render block %}</div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if s.cta_label != blank and s.cta_link != blank -%}
+      <div class="onx-section__foot"><a class="onx-btn onx-btn--ghost" href="{{ s.cta_link }}">{{ s.cta_label | escape }}</a></div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Avis clients",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Ils ont choisi ONX"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Nos clients en parlent mieux que nous"
+    },
+    {
+      "type": "header",
+      "content": "Note globale (données réelles uniquement)"
+    },
+    {
+      "type": "text",
+      "id": "score",
+      "label": "Note",
+      "default": "[4,8/5]",
+      "info": "Reprenez la note affichée par votre application d'avis."
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Volume",
+      "default": "[Basé sur XXX avis vérifiés]"
+    },
+    {
+      "type": "text",
+      "id": "source",
+      "label": "Source (optionnel)",
+      "info": "Ex. Avis vérifiés par Judge.me"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton (optionnel)",
+      "default": "Lire tous les avis"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "light",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "review",
+      "name": "Avis",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Note",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Titre de l'avis (optionnel)"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Avis (copie d'un vrai avis)",
+          "default": "[Copiez ici un avis client réel.]"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Prénom + initiale",
+          "default": "[Prénom N.]"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Achat vérifié",
+          "default": false,
+          "info": "Cochez uniquement si l'avis provient d'une commande réelle."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo client (optionnel)"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit concerné (optionnel)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Avis clients",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

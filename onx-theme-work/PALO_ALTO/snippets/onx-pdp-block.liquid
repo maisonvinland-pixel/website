@@ -1,0 +1,100 @@
+{%- comment -%}
+  ONX — Blocs de la fiche produit (section « Product pages »).
+  Types : onx_benefits | onx_trust | onx_offer
+  Les champs texte acceptent les sources dynamiques (métadonnées produit) dans l'éditeur.
+{%- endcomment -%}
+{%- assign bs = block.settings -%}
+{%- assign dm = request.design_mode -%}
+
+{%- case block.type -%}
+  {%- when 'onx_benefits' -%}
+    {%- liquid
+      assign lead = bs.lead
+      if dm == false and lead contains '['
+        assign lead = ''
+      endif
+      assign items = bs.b1 | append: '§§' | append: bs.b2 | append: '§§' | append: bs.b3 | append: '§§' | append: bs.b4 | split: '§§'
+      assign any = false
+    -%}
+    {%- capture list -%}
+      {%- for item in items -%}
+        {%- assign it = item | strip -%}
+        {%- if it == blank -%}{%- continue -%}{%- endif -%}
+        {%- if it contains '[' and dm == false -%}{%- continue -%}{%- endif -%}
+        {%- assign any = true -%}
+        <li class="onx-checklist__item"><span class="onx-checklist__icon">{% render 'onx-icon', icon: 'check', size: 14 %}</span><span>{% render 'onx-text', text: it %}</span></li>
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if lead != blank or any -%}
+      <div class="product__block onx-pdp-benefits" {{ block.shopify_attributes }}>
+        {%- if lead != blank -%}<p class="onx-pdp-benefits__lead">{% render 'onx-text', text: lead %}</p>{%- endif -%}
+        {%- if any -%}<ul class="onx-checklist" role="list">{{ list }}</ul>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+  {%- when 'onx_trust' -%}
+    {%- capture trust -%}
+      {%- for i in (1..4) -%}
+        {%- liquid
+          assign k_t = 'text_' | append: i
+          assign k_i = 'icon_' | append: i
+          assign t = bs[k_t]
+          if t == blank
+            continue
+          endif
+          if dm == false and t contains '['
+            continue
+          endif
+        -%}
+        <li class="onx-trust__item">{% render 'onx-icon', icon: bs[k_i], size: 20 %}<span>{% render 'onx-text', text: t %}</span></li>
+      {%- endfor -%}
+    {%- endcapture -%}
+    <div class="product__block onx-trust" {{ block.shopify_attributes }}>
+      {%- if trust != blank -%}<ul class="onx-trust__list" role="list">{{ trust }}</ul>{%- endif -%}
+      {%- if bs.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+        <div class="onx-payments" aria-label="{{ 'general.onx.payment_methods' | t }}">
+          {%- for type in shop.enabled_payment_types limit: 8 -%}
+            {{ type | payment_type_svg_tag: class: 'onx-payments__icon' }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+  {%- when 'onx_offer' -%}
+    {%- liquid
+      assign title = bs.title
+      assign lines = bs.lines | newline_to_br | split: '<br />'
+      assign code = bs.code
+      if dm == false
+        if title contains '['
+          assign title = ''
+        endif
+        if code contains '['
+          assign code = ''
+        endif
+      endif
+      assign any = false
+    -%}
+    {%- capture rows -%}
+      {%- for line in lines -%}
+        {%- assign l = line | strip -%}
+        {%- if l == blank -%}{%- continue -%}{%- endif -%}
+        {%- if l contains '[' and dm == false -%}{%- continue -%}{%- endif -%}
+        {%- assign any = true -%}
+        <li>{% render 'onx-icon', icon: bs.icon, size: 18 %}<span>{% render 'onx-text', text: l %}</span></li>
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- if title != blank or any -%}
+      <div class="product__block onx-pdp-offer" {{ block.shopify_attributes }}>
+        {%- if title != blank -%}<p class="onx-pdp-offer__title">{% render 'onx-icon', icon: 'tag', size: 16 %}<span>{% render 'onx-text', text: title %}</span></p>{%- endif -%}
+        {%- if any -%}<ul class="onx-pdp-offer__list" role="list">{{ rows }}</ul>{%- endif -%}
+        {%- if code != blank -%}
+          <button type="button" class="onx-code onx-code--sm" data-onx-copy="{{ code | escape }}" data-onx-track="promo_code_copy" data-onx-track-label="{{ code | escape }}">
+            <span class="onx-code__label">{{ 'general.onx.code' | t }}</span>
+            <span class="onx-code__value">{% render 'onx-text', text: code %}</span>
+            <span class="onx-code__action" data-onx-copy-label>{% render 'onx-icon', icon: 'copy', size: 14 %}{{ 'general.onx.copy' | t }}</span>
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+{%- endcase -%}

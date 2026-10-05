@@ -1,0 +1,435 @@
+<title>Charte ONX Hiver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&family=Geist+Mono:wght@500;700&display=swap">
+<style>
+/* Layout : document de marque sur fond Neige, couverture nuit polaire, planches pleine largeur. Thème unique (identité fixe). */
+:root {
+  --night: #081530; --deep: #0E2A5E; --blue: #1652F0; --light: #5B8CFF; --aurora: #8FD8FF;
+  --ice: #E1ECF9; --frost: #F1F6FC; --snow: #F8FBFE; --paper: #FFFFFF; --ink: #0A1A36; --muted: #56688A; --line: #D3DFEE;
+  --star: #F2B53D; --success: #12805A;
+  --grad-winter: radial-gradient(120% 80% at 85% 0%, rgba(91,140,255,.38) 0%, transparent 55%), radial-gradient(90% 70% at 0% 100%, rgba(143,216,255,.16) 0%, transparent 60%), linear-gradient(165deg, #0E2A5E 0%, #081530 62%);
+  --f-display: "Host Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Host Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--snow); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.6; margin: 0; }
+.page { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 48px); padding-block: 0 96px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.75rem, 1.3rem + 2vw, 2.5rem); line-height: 1.08; font-weight: 700; }
+h3 { font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; max-width: 65ch; }
+.label { font-family: var(--f-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+/* Couverture */
+.cover { display: grid; gap: 28px; padding-block: clamp(48px, 8vw, 112px) clamp(40px, 6vw, 72px); padding-inline: clamp(20px, 4vw, 48px); margin-top: 16px; border-radius: 28px; background: var(--grad-winter); background-color: var(--night); color: #F1F6FC; }
+.cover .label { color: var(--aurora); }
+.cover .wm { color: #FFFFFF; }
+.cover .wm .dot { color: var(--aurora); }
+.cover .toc a { background: rgba(255,255,255,.06); color: #FFFFFF; box-shadow: inset 0 0 0 1px rgba(143,216,255,.25); }
+.wm { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; line-height: 0.9; margin: 0; }
+.wm { display: inline-flex; align-items: flex-start; }
+.wm .dot { color: var(--blue); letter-spacing: 0; margin-left: 0.03em; font-size: 0.6em; line-height: 1; transform: translateY(-0.1em); }
+.on-dark .wm, .plate.dark .wm { color: #FFFFFF; } .on-dark .wm .dot, .plate.dark .wm .dot, .ad .wm .dot { color: var(--aurora); }
+.cover .wm { font-size: clamp(96px, 24vw, 260px); margin-left: -0.04em; }
+.cover-meta { display: flex; flex-wrap: wrap; gap: 12px 40px; align-items: baseline; justify-content: space-between; }
+.cover-meta p { font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem); max-width: 46ch; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; }
+.toc a { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--deep); text-decoration: none; padding: 8px 12px; border-radius: 999px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+.toc a:hover { box-shadow: inset 0 0 0 1.5px var(--deep); }
+
+section.block { display: grid; gap: 28px; padding-block: clamp(48px, 6vw, 80px); border-bottom: 1px solid var(--line); }
+.head { display: grid; gap: 12px; }
+.grid { display: grid; gap: 16px; }
+.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.plate { background: var(--paper); border-radius: 22px; padding: clamp(20px, 3vw, 32px); box-shadow: inset 0 0 0 1px var(--line); min-width: 0; }
+.plate.dark { background: var(--deep); color: var(--snow); box-shadow: none; }
+.plate.dark .label, .plate.dark .muted { color: #A6A5A1; }
+
+/* Wordmark */
+.wm-stage { display: grid; place-items: center; min-height: 220px; border-radius: 16px; background: var(--snow); }
+.plate.dark .wm-stage { background: var(--night); }
+.wm-stage .wm { font-size: clamp(56px, 10vw, 104px); }
+.rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rules li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
+.yes::before, .no::before { font-family: var(--f-mono); font-weight: 700; }
+.yes::before { content: "✓"; color: var(--success); }
+.no::before { content: "✕"; color: var(--blue); }
+.wm-specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 4px; }
+.spec { display: grid; gap: 2px; }
+.spec strong { font-family: var(--f-mono); font-weight: 700; font-size: 14px; }
+
+/* Palette */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 12px; }
+.sw { border-radius: 16px; overflow: hidden; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); display: grid; }
+.sw-chip { height: 112px; display: flex; align-items: flex-end; padding: 12px; font-family: var(--f-mono); font-size: 12px; }
+.sw-body { padding: 14px; display: grid; gap: 6px; }
+.sw-name { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.sw-name h3 { font-size: 1rem; }
+.copy { font-family: var(--f-mono); font-size: 12px; font-weight: 700; border: 0; background: var(--ice); color: var(--deep); border-radius: 6px; padding: 4px 8px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.copy:hover { background: var(--deep); color: var(--paper); }
+.sw-body p { font-size: 13px; color: var(--muted); line-height: 1.45; }
+.ratio { display: flex; height: 56px; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); }
+.ratio span { display: flex; align-items: center; padding: 0 14px; font-family: var(--f-mono); font-size: 12px; }
+.contrast { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.contrast th, .contrast td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.contrast th { font-family: var(--f-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.pair { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 30px; border-radius: 6px; font-weight: 700; padding: 0 10px; }
+.ok { color: var(--success); font-weight: 700; }
+.ko { color: var(--blue); font-weight: 700; }
+.scroll-x { overflow-x: auto; }
+
+/* Typo */
+.type-row { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: baseline; padding-block: 18px; border-bottom: 1px solid var(--line); }
+.type-row:last-child { border-bottom: 0; }
+.type-row .meta { display: grid; gap: 2px; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.type-row .meta b { color: var(--deep); font-weight: 700; }
+.sample { min-width: 0; overflow-wrap: anywhere; }
+.t-display { font-family: var(--f-display); font-weight: 800; font-size: clamp(40px, 6vw, 88px); line-height: 0.98; letter-spacing: -0.035em; }
+.t-h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(34px, 4.4vw, 60px); line-height: 1.04; letter-spacing: -0.02em; }
+.t-h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.08; letter-spacing: -0.02em; }
+.t-h3 { font-family: var(--f-display); font-weight: 700; font-size: 22px; line-height: 1.25; }
+.t-body { font-size: 16px; }
+.t-small { font-size: 14px; }
+.t-label { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+@media (max-width: 620px) { .type-row { grid-template-columns: 1fr; gap: 6px; } }
+
+/* Composants */
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 8px; font-family: var(--f-display); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; border: 1.5px solid transparent; cursor: default; }
+.btn-signal { background: var(--blue); color: #FFFFFF; box-shadow: 0 12px 32px -10px rgba(22,82,240,.45); }
+.btn-primary { background: var(--deep); color: var(--paper); }
+.btn-ghost { background: transparent; color: var(--deep); border-color: var(--deep); }
+.btn-link { background: transparent; color: var(--deep); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1.5px; padding: 0 6px; }
+.btn-off { background: var(--ice); color: var(--muted); }
+.badge { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 8px; border-radius: 4px; font-family: var(--f-mono); font-weight: 500; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.b-sale { background: var(--blue); color: #FFFFFF; }
+.b-best { background: var(--deep); color: var(--paper); }
+.b-new { background: var(--ice); color: var(--deep); }
+.b-lim { background: var(--paper); color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); }
+.b-sold { background: var(--ice); color: var(--muted); }
+.comp-note { font-size: 13px; color: var(--muted); }
+.comp { display: grid; gap: 14px; align-content: start; }
+
+.card { width: 100%; max-width: 260px; display: grid; gap: 6px; }
+.card-img { aspect-ratio: 4 / 5; border-radius: 14px; background: linear-gradient(160deg, var(--frost), var(--ice)); position: relative; }
+.card-img .stack { position: absolute; top: 10px; left: 10px; display: grid; gap: 6px; justify-items: start; }
+.card-title { font-weight: 600; font-size: 15px; margin-top: 6px; }
+.stars { letter-spacing: 1px; font-size: 14px; color: var(--star); }
+.price { display: flex; gap: 8px; align-items: baseline; font-variant-numeric: tabular-nums; }
+.price b { font-size: 17px; font-weight: 800; }
+.price s { font-size: 14px; color: var(--muted); }
+.save { font-size: 12px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: .04em; }
+.card .btn { min-height: 44px; font-size: 12px; letter-spacing: 0.08em; width: 100%; }
+
+/* Formes */
+.radii { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+.r { display: grid; gap: 8px; justify-items: start; }
+.r i { display: block; width: 100%; height: 72px; background: linear-gradient(150deg, var(--blue), var(--deep)); }
+.spacing { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
+.sp { display: grid; gap: 6px; justify-items: center; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.sp i { display: block; background: var(--blue); border-radius: 2px; }
+.shadows { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+.sh { height: 96px; border-radius: 14px; background: var(--paper); display: flex; align-items: flex-end; padding: 12px; font-family: var(--f-mono); font-size: 12px; }
+
+/* Pubs */
+.formats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; align-items: end; }
+.ad { border-radius: 14px; overflow: hidden; position: relative; background: var(--grad-winter); background-color: var(--night); color: #F1F6FC; display: grid; }
+.ad-916 { aspect-ratio: 9 / 16; }
+.ad-45 { aspect-ratio: 4 / 5; background: var(--snow); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.ad-11 { aspect-ratio: 1 / 1; background: var(--blue); color: #FFFFFF; }
+.ad-in { position: absolute; inset: 0; padding: 7% 8%; display: flex; flex-direction: column; justify-content: space-between; }
+.ad .wm { font-size: 22px; }
+.ad-11 .wm { color: #FFFFFF; } .ad-11 .wm .dot { color: var(--aurora); }
+.ad h3 { font-size: clamp(22px, 2.6vw, 30px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.ad .chip { align-self: flex-start; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; background: rgba(143,216,255,.16); color: var(--aurora); box-shadow: inset 0 0 0 1px rgba(143,216,255,.35); }
+.ad-45 .chip { background: var(--blue); color: #FFFFFF; box-shadow: none; }
+.ad-11 .chip { background: #FFFFFF; color: var(--blue); box-shadow: none; }
+.safe { position: absolute; inset: 14% 0 20% 0; border-top: 1px dashed rgba(245,243,238,0.35); border-bottom: 1px dashed rgba(245,243,238,0.35); pointer-events: none; }
+.fmt-cap { display: grid; gap: 2px; margin-top: 10px; font-size: 13px; }
+.fmt-cap b { font-family: var(--f-mono); font-size: 12px; }
+
+.donts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.voice { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.quote { font-family: var(--f-display); font-weight: 700; font-size: 1.25rem; line-height: 1.3; letter-spacing: -0.01em; }
+footer.end { padding-block: 48px 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; align-items: baseline; }
+footer.end .wm { font-size: 40px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+  <header class="cover">
+    <span class="label">Charte graphique · ONX Hiver · v2.0</span>
+    <h1 class="wm" aria-label="ONX">ONX<span class="dot">°</span></h1>
+    <div class="cover-meta">
+      <p>ONX est une marque d'hiver moderne et premium. L'air froid, la glace, la nuit polaire et la lumière bleue composent son univers. La neige donne l'espace, le bleu profond inspire confiance, le Bleu ONX fait agir.</p>
+      <nav class="toc" aria-label="Sommaire">
+        <a href="#wordmark">Wordmark</a><a href="#couleurs">Couleurs</a><a href="#typo">Typographie</a><a href="#composants">Composants</a><a href="#formes">Formes</a><a href="#pubs">Publicités</a><a href="#regles">Règles</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="block" id="wordmark">
+    <div class="head">
+      <span class="label">01 · Wordmark</span>
+      <h2>Le nom est le logo</h2>
+      <p class="muted">Aucun symbole, aucun pictogramme, aucun monogramme. Trois lettres capitales, un interlettrage large et un degré en exposant comme signature. Le ° évoque la température et le froid : c'est un caractère typographique, pas un dessin.</p>
+    </div>
+    <div class="grid two">
+      <div class="plate comp">
+        <div class="wm-stage"><span class="wm">ONX<span class="dot">°</span></span></div>
+        <span class="label">Sur fond clair · Bleu profond + ° Bleu ONX</span>
+      </div>
+      <div class="plate dark comp">
+        <div class="wm-stage" style="background: var(--grad-winter)"><span class="wm">ONX<span class="dot">°</span></span></div>
+        <span class="label">Sur fond nuit · Blanc + ° Aurore</span>
+      </div>
+    </div>
+    <div class="plate">
+      <div class="wm-specs">
+        <div class="spec"><span class="label">Police</span><strong>Host Grotesk 800</strong></div>
+        <div class="spec"><span class="label">Casse</span><strong>Capitales</strong></div>
+        <div class="spec"><span class="label">Interlettrage</span><strong>+0,16 em</strong></div>
+        <div class="spec"><span class="label">Header</span><strong>30 px · 24 px mobile</strong></div>
+        <div class="spec"><span class="label">Zone de protection</span><strong>Hauteur du O</strong></div>
+        <div class="spec"><span class="label">Taille minimale</span><strong>16 px / 12 mm</strong></div>
+      </div>
+    </div>
+    <div class="grid two">
+      <ul class="rules plate">
+        <li class="yes"><span>Toujours en texte vivant ou en export vectoriel de la police.</span></li>
+        <li class="yes"><span>Le ° est Bleu ONX sur fond clair et Aurore sur fond sombre.</span></li>
+        <li class="yes"><span>Signatures dérivées autorisées : ONX ESSENTIALS, ONX SELECT, ONX / COLLECTION.</span></li>
+      </ul>
+      <ul class="rules plate">
+        <li class="no"><span>Pas d'icône, de cadre, de dégradé, d'ombre ni de contour autour du nom.</span></li>
+        <li class="no"><span>Pas d'interlettrage serré, pas de minuscules, pas d'italique.</span></li>
+        <li class="no"><span>Pas de flocon, de montagne ou de dessin à la place du °.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="couleurs">
+    <div class="head">
+      <span class="label">02 · Couleurs</span>
+      <h2>Une palette de froid lumineux</h2>
+      <p class="muted">Le bleu profond inspire confiance, le Bleu ONX déclenche l'action, la Glace et la Neige donnent de l'air. L'Aurore est la lumière : elle n'apparaît que sur fond sombre. Cliquez sur un code HEX pour le copier.</p>
+    </div>
+    <div class="swatches" id="swatches"></div>
+    <div class="plate comp">
+      <span class="label">Proportions conseillées sur un écran, une pub ou un e-mail</span>
+      <div class="ratio" role="img" aria-label="60 % Neige, Blanc et Givre, 25 % Bleu profond et Nuit, 15 % maximum Bleu ONX">
+        <span style="flex: 60; background: var(--snow); color: var(--ink)">Neige / Blanc / Givre 60 %</span>
+        <span style="flex: 25; background: var(--deep); color: #FFFFFF">Profond / Nuit 25 %</span>
+        <span style="flex: 15; background: var(--blue); color: #FFFFFF">≤15 %</span>
+      </div>
+    </div>
+    <div class="plate scroll-x">
+      <table class="contrast">
+        <thead><tr><th>Combinaison</th><th>Aperçu</th><th>Contraste</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Blanc sur Bleu ONX (boutons d'achat)</td><td><span class="pair" style="background: var(--blue); color: #FFFFFF">Aa</span></td><td>6,0 : 1</td><td class="ok">AA</td></tr>
+          <tr><td>Bleu ONX sur Neige (économies, liens)</td><td><span class="pair" style="background: var(--snow); color: var(--blue); box-shadow: inset 0 0 0 1px var(--line)">-20 €</span></td><td>5,8 : 1</td><td class="ok">AA</td></tr>
+          <tr><td>Bleu profond sur Neige (titres)</td><td><span class="pair" style="background: var(--snow); color: var(--deep); box-shadow: inset 0 0 0 1px var(--line)">Aa</span></td><td>13,4 : 1</td><td class="ok">AAA</td></tr>
+          <tr><td>Brume sur Neige (texte secondaire)</td><td><span class="pair" style="background: var(--snow); color: var(--muted); box-shadow: inset 0 0 0 1px var(--line)">Aa</span></td><td>5,4 : 1</td><td class="ok">AA</td></tr>
+          <tr><td>Aurore sur Nuit polaire</td><td><span class="pair" style="background: var(--night); color: var(--aurora)">Aa</span></td><td>11,6 : 1</td><td class="ok">AAA</td></tr>
+          <tr><td>Aurore sur Neige</td><td><span class="pair" style="background: var(--snow); color: var(--aurora); box-shadow: inset 0 0 0 1px var(--line)">Aa</span></td><td>1,6 : 1</td><td class="ko">Interdit</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="typo">
+    <div class="head">
+      <span class="label">03 · Typographie</span>
+      <h2>Une grotesque pour parler, une mono pour étiqueter</h2>
+      <p class="muted">Host Grotesk porte la voix de la marque : titres, textes, prix, boutons. Geist Mono sert aux étiquettes, badges et codes promo. Les deux sont gratuites (Google Fonts) et intégrées à la bibliothèque Shopify.</p>
+    </div>
+    <div class="plate">
+      <div class="type-row"><div class="meta"><b>Display</b>40 → 88 px · 800<br>interligne 0,98 · -0,035 em</div><div class="sample t-display">L'essentiel, en mieux.</div></div>
+      <div class="type-row"><div class="meta"><b>H1</b>34 → 60 px · 700<br>1,04 · -0,02 em</div><div class="sample t-h1">Les plus populaires</div></div>
+      <div class="type-row"><div class="meta"><b>H2</b>28 → 44 px · 700<br>1,08 · -0,02 em</div><div class="sample t-h2">Pourquoi choisir ONX</div></div>
+      <div class="type-row"><div class="meta"><b>H3</b>18 → 22 px · 700</div><div class="sample t-h3">Livraison suivie</div></div>
+      <div class="type-row"><div class="meta"><b>Body</b>16 px · 400 · 1,6</div><div class="sample t-body">Le texte courant reste simple et lisible, autour de 65 caractères par ligne, jamais en dessous de 16 px sur mobile.</div></div>
+      <div class="type-row"><div class="meta"><b>Small</b>14 px · 400</div><div class="sample t-small muted">Frais de livraison calculés à l'étape suivante.</div></div>
+      <div class="type-row"><div class="meta"><b>Label</b>Geist Mono 12 px · 500<br>capitales +0,14 em</div><div class="sample t-label">ONX Select · Offre du moment</div></div>
+      <div class="type-row"><div class="meta"><b>Prix</b>17 px carte · 24–30 px fiche · 800</div><div class="sample"><span class="price"><b style="font-size: 28px">79,90 €</b><s>99,90 €</s></span><span class="save">Tu économises 20,00 €</span></div></div>
+    </div>
+  </section>
+
+  <section class="block" id="composants">
+    <div class="head">
+      <span class="label">04 · Composants</span>
+      <h2>Boutons, badges, carte produit</h2>
+      <p class="muted">Un seul bouton Bleu ONX visible par écran : celui qui fait acheter. La navigation passe en bleu profond, en contour ou en lien.</p>
+    </div>
+    <div class="grid two">
+      <div class="plate comp">
+        <span class="label">Boutons · 52 px, 58 px en grand</span>
+        <div class="row"><span class="btn btn-signal">Ajouter au panier</span><span class="comp-note">Bleu ONX : achat (ajout au panier, paiement, CTA du hero, barre collante)</span></div>
+        <div class="row"><span class="btn btn-primary">Voir tout →</span><span class="comp-note">Bleu profond : navigation commerciale</span></div>
+        <div class="row"><span class="btn btn-ghost">Découvrir</span><span class="comp-note">Ghost : action secondaire</span></div>
+        <div class="row"><span class="btn btn-link">Voir les collections →</span><span class="comp-note">Lien : tertiaire</span></div>
+        <div class="row"><span class="btn btn-off">Épuisé</span><span class="comp-note">Désactivé</span></div>
+      </div>
+      <div class="plate comp">
+        <span class="label">Badges · 2 maximum par carte</span>
+        <div class="row"><span class="badge b-sale">-20%</span><span class="badge b-best">Best-seller</span><span class="badge b-new">Nouveau</span><span class="badge b-lim">Offre limitée</span><span class="badge b-sold">Épuisé</span></div>
+        <p class="comp-note">Ordre de priorité : épuisé, puis réduction, puis badge commercial. Le badge commercial se règle par la métadonnée produit <code>custom.badge</code>. « Nouveau » s'affiche automatiquement d'après la vraie date de publication.</p>
+        <span class="label" style="margin-top: 8px">Carte produit</span>
+        <div class="card">
+          <div class="card-img"><div class="stack"><span class="badge b-sale">-20%</span><span class="badge b-best">Best-seller</span></div></div>
+          <span class="card-title">Nom du produit</span>
+          <span class="stars" aria-label="Note réelle de l'application d'avis">★★★★★ <span class="muted" style="font-size: 13px">(note réelle)</span></span>
+          <span class="price"><b>79,90 €</b><s>99,90 €</s></span>
+          <span class="save">Économise 20,00 €</span>
+          <span class="btn btn-primary">+ Ajouter au panier</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="formes">
+    <div class="head">
+      <span class="label">05 · Formes, ombres, espacements</span>
+      <h2>Des angles doux, des ombres froides</h2>
+    </div>
+    <div class="plate comp">
+      <span class="label">Rayons</span>
+      <div class="radii">
+        <div class="r"><i style="border-radius: 4px"></i><span class="label">4 · badges</span></div>
+        <div class="r"><i style="border-radius: 8px"></i><span class="label">8 · boutons</span></div>
+        <div class="r"><i style="border-radius: 14px"></i><span class="label">14 · cartes</span></div>
+        <div class="r"><i style="border-radius: 22px"></i><span class="label">22 · blocs</span></div>
+        <div class="r"><i style="border-radius: 999px"></i><span class="label">999 · pills</span></div>
+      </div>
+    </div>
+    <div class="grid two">
+      <div class="plate comp">
+        <span class="label">Espacements · échelle 4 pt</span>
+        <div class="spacing">
+          <div class="sp"><i style="width: 4px; height: 4px"></i>4</div><div class="sp"><i style="width: 8px; height: 8px"></i>8</div><div class="sp"><i style="width: 12px; height: 12px"></i>12</div><div class="sp"><i style="width: 16px; height: 16px"></i>16</div><div class="sp"><i style="width: 24px; height: 24px"></i>24</div><div class="sp"><i style="width: 32px; height: 32px"></i>32</div><div class="sp"><i style="width: 48px; height: 48px"></i>48</div><div class="sp"><i style="width: 64px; height: 64px"></i>64</div>
+        </div>
+        <p class="comp-note">Sections : 56 px en mobile, jusqu'à 104 px en desktop. Marges latérales : 16 à 60 px.</p>
+      </div>
+      <div class="plate comp" style="background: var(--snow)">
+        <span class="label">Ombres</span>
+        <div class="shadows">
+          <div class="sh" style="box-shadow: 0 1px 2px rgba(8,21,48,.06)">sm · repos</div>
+          <div class="sh" style="box-shadow: 0 10px 28px -12px rgba(8,21,48,.22)">md · survol</div>
+          <div class="sh" style="box-shadow: 0 28px 56px -20px rgba(8,21,48,.34)">lg · modale</div>
+        </div>
+      </div>
+    </div>
+    <div class="grid two">
+      <div class="plate comp">
+        <span class="label">Dégradé Hiver · sections premium, hero, footer</span>
+        <div style="height: 150px; border-radius: 16px; background: var(--grad-winter); background-color: var(--night); display: flex; align-items: flex-end; padding: 14px;"><span class="label" style="color: var(--aurora)">Profond → Nuit · halos Bleu clair et Aurore</span></div>
+      </div>
+      <div class="plate comp">
+        <span class="label">Dégradé Glace · bénéfices, « Pourquoi ONX »</span>
+        <div style="height: 150px; border-radius: 16px; background: linear-gradient(180deg, var(--frost), var(--ice)); box-shadow: inset 0 0 0 1px var(--line); display: flex; align-items: flex-end; padding: 14px;"><span class="label">Givre → Glace · reflet blanc</span></div>
+      </div>
+      <div class="plate comp" style="background: var(--grad-winter); background-color: var(--night); box-shadow: none">
+        <span class="label" style="color: var(--aurora)">Carte verre · uniquement sur fond sombre</span>
+        <div style="height: 150px; border-radius: 16px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(143,216,255,.18); display: flex; align-items: flex-end; padding: 14px;"><span class="label" style="color: #F1F6FC">Blanc 5 % · filet Aurore 18 % · flou 8 px</span></div>
+      </div>
+      <div class="plate comp">
+        <span class="label">Halo d'action · bouton Bleu ONX</span>
+        <div style="height: 150px; display: grid; place-items: center;"><span class="btn btn-signal">Profiter de l'offre hiver</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="pubs">
+    <div class="head">
+      <span class="label">06 · Publicités et réseaux</span>
+      <h2>De la pub à la page, le même univers</h2>
+      <p class="muted">Le visiteur doit reconnaître la pub qu'il vient de voir dès l'arrivée sur la landing page. Reprenez le même titre, la même couleur de fond et le même code promo.</p>
+    </div>
+    <div class="formats">
+      <div>
+        <div class="ad ad-916"><div class="safe"></div><div class="ad-in"><span class="wm">ONX<span class="dot">°</span></span><div style="display: grid; gap: 12px"><span class="chip">Collection hiver</span><h3>L'hiver, sans compromis.</h3></div></div></div>
+        <div class="fmt-cap"><b>9:16 · 1080×1920</b><span class="muted">TikTok, Reels, Stories, Snap. Gardez le texte entre les pointillés (zones d'interface masquées en haut et en bas).</span></div>
+      </div>
+      <div>
+        <div class="ad ad-45"><div class="ad-in"><span class="wm">ONX<span class="dot">°</span></span><div style="display: grid; gap: 12px"><span class="chip">Nouveau</span><h3>Prêt pour -10 °C.</h3></div></div></div>
+        <div class="fmt-cap"><b>4:5 · 1080×1350</b><span class="muted">Feed Meta et Instagram. Fond Givre → Glace, produit centré, titre en bas.</span></div>
+      </div>
+      <div>
+        <div class="ad ad-11"><div class="ad-in"><span class="wm">ONX<span class="dot">°</span></span><div style="display: grid; gap: 12px"><span class="chip">Code ONXHIVER</span><h3>Offre hiver.</h3></div></div></div>
+        <div class="fmt-cap"><b>1:1 · 1080×1080</b><span class="muted">Promotions uniquement. Le fond Bleu ONX annonce une offre et rien d'autre.</span></div>
+      </div>
+    </div>
+    <div class="voice">
+      <div class="plate comp"><span class="label">Ton</span><p class="quote">Direct, chaleureux, sûr de lui. Des phrases courtes. Le bénéfice face au froid d'abord.</p><p class="comp-note">ONX tutoie (site, pubs, e-mails). Les questions des clients restent naturelles (« Comment vous contacter ? »).</p></div>
+      <div class="plate comp"><span class="label">CTA à privilégier</span><p class="quote">Ajouter au panier · Profiter de l'offre hiver · Découvrir la collection · Je m'équipe</p><p class="comp-note">À éviter quand une action commerciale est possible : « En savoir plus ».</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="regles">
+    <div class="head">
+      <span class="label">07 · Règles</span>
+      <h2>Ce qui protège la marque</h2>
+    </div>
+    <div class="donts">
+      <ul class="rules plate">
+        <li class="yes"><span>Uniquement de vrais avis, de vraies notes et de vrais chiffres.</span></li>
+        <li class="yes"><span>Compte à rebours seulement si l'offre a une vraie date de fin.</span></li>
+        <li class="yes"><span>Stock bas affiché seulement depuis l'inventaire réel.</span></li>
+        <li class="yes"><span>Photos produits sur fond blanc ou Givre ; lifestyle en lumière froide (neige, montagne, ville l'hiver).</span></li>
+      </ul>
+      <ul class="rules plate">
+        <li class="no"><span>Pas de codes de Noël : rouge et vert, sapins, bonhommes de neige, neige qui tombe.</span></li>
+        <li class="no"><span>Pas de flocons décoratifs ni de section entière en Bleu ONX ; l'Aurore jamais sur fond clair.</span></li>
+        <li class="no"><span>Pas de faux logos presse, de faux partenaires ni de certifications non obtenues.</span></li>
+        <li class="no"><span>Pas de texte entre [crochets] publié : ce sont des placeholders, masqués automatiquement par le thème.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="end">
+    <span class="wm">ONX<span class="dot">°</span></span>
+    <span class="label">Référence code : snippets/onx-brand-guide.liquid · snippets/onx-head.liquid · assets/onx.css</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var colors = [
+    ['Nuit polaire', '#081530', 'Bleu nuit', 'Footer, sections premium, contraste.', '#8FD8FF'],
+    ['Bleu profond', '#0E2A5E', 'Primary dark', 'Titres, boutons de navigation, confiance.', '#FFFFFF'],
+    ['Bleu ONX', '#1652F0', 'Primary', 'Boutons d\u2019achat, badges promo, liens, progression.', '#FFFFFF'],
+    ['Bleu clair', '#5B8CFF', 'Primary light', 'Survols et dégradés sur fond sombre.', '#081530'],
+    ['Aurore', '#8FD8FF', 'Accent', 'Lumière sur fond sombre : labels, ° du wordmark.', '#081530'],
+    ['Glace', '#E1ECF9', 'Ice', 'Fonds secondaires, onglets, icônes.', '#0E2A5E'],
+    ['Givre', '#F1F6FC', 'Very pale', 'Fond des visuels produits, réassurance.', '#0E2A5E'],
+    ['Neige', '#F8FBFE', 'Background', 'Fond général.', '#0E2A5E'],
+    ['Encre', '#0A1A36', 'Text', 'Texte courant.', '#FFFFFF'],
+    ['Brume', '#56688A', 'Muted', 'Textes secondaires, prix barrés.', '#FFFFFF'],
+    ['Givre bord', '#D3DFEE', 'Border', 'Filets et contours.', '#0E2A5E'],
+    ['Étoiles', '#F2B53D', 'Rating', 'Notes clients uniquement.', '#0A1A36']
+  ];
+  var wrap = document.getElementById('swatches');
+  colors.forEach(function (c) {
+    var el = document.createElement('div');
+    el.className = 'sw';
+    el.innerHTML = '<div class="sw-chip" style="background:' + c[1] + ';color:' + c[4] + ';box-shadow: inset 0 -1px 0 var(--line)">' + c[2] + '</div>' +
+      '<div class="sw-body"><div class="sw-name"><h3>' + c[0] + '</h3><button type="button" class="copy" data-hex="' + c[1] + '" aria-label="Copier ' + c[1] + '">' + c[1] + '</button></div><p>' + c[3] + '</p></div>';
+    wrap.appendChild(el);
+  });
+  wrap.addEventListener('click', function (e) {
+    var b = e.target.closest('.copy'); if (!b) return;
+    var hex = b.getAttribute('data-hex');
+    var done = function () { b.textContent = 'Copié'; setTimeout(function () { b.textContent = hex; }, 1400); };
+    try {
+      navigator.clipboard.writeText(hex).then(done, function () { selectText(b); });
+    } catch (err) { selectText(b); }
+  });
+  function selectText(node) { var r = document.createRange(); r.selectNodeContents(node); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+})();
+</script>

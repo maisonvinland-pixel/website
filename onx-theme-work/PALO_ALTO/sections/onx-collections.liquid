@@ -1,0 +1,194 @@
+{%- comment -%}
+  ONX — Collections (cartes visuelles). La 1re carte peut être « mise en avant »
+  (plus grande) pour prioriser la collection la plus rentable.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+  endif
+  comment
+    En ligne, une carte sans collection ni image n'est pas affichée.
+  endcomment
+  assign visible_count = 0
+  for block in section.blocks
+    if block.settings.collection != blank or block.settings.image != blank or block.settings.link != blank or dm
+      assign visible_count = visible_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if visible_count > 0 -%}
+<section class="onx-collections onx-section onx-scheme--{{ s.scheme }}" data-onx-section="collections">
+  <div class="onx-container">
+    {%- if eyebrow != blank or title != blank -%}
+      <div class="onx-section__head">
+        {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+        {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="onx-collections__grid{% if s.feature_first %} onx-collections__grid--feature{% endif %} onx-collections__grid--{{ visible_count }}" data-onx-scroller>
+      {%- for block in section.blocks -%}
+        {%- if block.settings.collection == blank and block.settings.image == blank and dm == false -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign c = block.settings.collection
+          assign name = block.settings.title | default: c.title
+          assign line = block.settings.text
+          if dm == false and line contains '['
+            assign line = ''
+          endif
+          assign img = block.settings.image | default: c.featured_image | default: c.products.first.featured_image
+          assign url = block.settings.link | default: c.url | default: routes.collections_url
+          assign alt = name | strip_html | escape
+        -%}
+        <a class="onx-collection-card{% if forloop.first and s.feature_first %} onx-collection-card--feature{% endif %}" href="{{ url }}" {{ block.shopify_attributes }} data-onx-track="collection_card_click" data-onx-track-label="{{ name | escape }}">
+          <div class="onx-collection-card__media">
+            {%- if img != blank -%}
+              {{ img | image_url: width: 1200 | image_tag: widths: '360, 540, 720, 900, 1200', sizes: '(min-width: 990px) 33vw, 80vw', loading: 'lazy', class: 'onx-cover', alt: alt }}
+            {%- else -%}
+              {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'onx-placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="onx-collection-card__body">
+            {%- if block.settings.tag != blank -%}<span class="onx-badge onx-badge--light">{{ block.settings.tag | escape }}</span>{%- endif -%}
+            <h3 class="onx-collection-card__title">{{ name | default: 'Collection' | escape }}</h3>
+            {%- if line != blank -%}<p class="onx-collection-card__text">{% render 'onx-text', text: line %}</p>{%- endif -%}
+            <span class="onx-collection-card__cta">{{ block.settings.cta_label | default: 'Découvrir' | escape }} {% render 'onx-icon', icon: 'arrow-right', size: 16 %}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Collections",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "ONX / Collections"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Trouvez votre style"
+    },
+    {
+      "type": "checkbox",
+      "id": "feature_first",
+      "label": "Mettre en avant la 1re collection",
+      "default": true,
+      "info": "Placez votre collection la plus rentable en premier."
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "light",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien (optionnel)",
+          "info": "Remplace le lien de la collection, ex. vers une fiche produit."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optionnelle)",
+          "info": "Par défaut : image de la collection."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Nom affiché (optionnel)"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Phrase courte",
+          "default": "[Une phrase qui donne envie]"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Étiquette (optionnelle)",
+          "info": "Ex. NOUVEAU, -20 %, TOP VENTE."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Texte du lien",
+          "default": "Découvrir"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Collections",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

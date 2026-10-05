@@ -1,0 +1,287 @@
+{%- comment -%} ONX — USP / réassurance immédiate (3 à 4 éléments). {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign count = 0
+-%}
+{%- capture items -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign t = block.settings.title
+      assign d = block.settings.text
+      if dm == false
+        if t contains '['
+          assign t = ''
+        endif
+        if d contains '['
+          assign d = ''
+        endif
+      endif
+    -%}
+    {%- if t != blank -%}
+      {%- assign count = count | plus: 1 -%}
+      <li class="onx-usp__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}<a class="onx-usp__link" href="{{ block.settings.link }}">{%- endif -%}
+        <span class="onx-usp__icon">{% render 'onx-icon', icon: block.settings.icon, size: 22 %}</span>
+        <span class="onx-usp__text">
+          <strong class="onx-usp__title">{% render 'onx-text', text: t %}</strong>
+          {%- if d != blank -%}<span class="onx-usp__desc">{% render 'onx-text', text: d %}</span>{%- endif -%}
+        </span>
+        {%- if block.settings.link != blank -%}</a>{%- endif -%}
+      </li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if count > 0 -%}
+  <section class="onx-usp onx-scheme--{{ s.scheme }}{% if s.compact %} onx-usp--compact{% endif %}" data-onx-section="usp">
+    <div class="onx-container">
+      <ul class="onx-usp__list onx-usp__list--{{ count }}" role="list">{{ items }}</ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Réassurance (USP)",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "surface",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "compact",
+      "label": "Version compacte (bandeau)",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "N'affichez que des engagements réellement tenus. Texte entre [ ] = masqué en ligne."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "Engagement",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "check",
+          "options": [
+            {
+              "value": "check",
+              "label": "Coche"
+            },
+            {
+              "value": "check-circle",
+              "label": "Coche cerclée"
+            },
+            {
+              "value": "truck",
+              "label": "Livraison"
+            },
+            {
+              "value": "lock",
+              "label": "Paiement sécurisé"
+            },
+            {
+              "value": "return",
+              "label": "Retour"
+            },
+            {
+              "value": "chat",
+              "label": "Service client"
+            },
+            {
+              "value": "star",
+              "label": "Étoile"
+            },
+            {
+              "value": "gift",
+              "label": "Cadeau"
+            },
+            {
+              "value": "shield",
+              "label": "Garantie / protection"
+            },
+            {
+              "value": "bolt",
+              "label": "Rapidité"
+            },
+            {
+              "value": "leaf",
+              "label": "Naturel"
+            },
+            {
+              "value": "clock",
+              "label": "Temps"
+            },
+            {
+              "value": "tag",
+              "label": "Prix / promo"
+            },
+            {
+              "value": "box",
+              "label": "Colis"
+            },
+            {
+              "value": "heart",
+              "label": "Cœur"
+            },
+            {
+              "value": "award",
+              "label": "Qualité"
+            },
+            {
+              "value": "globe",
+              "label": "International"
+            },
+            {
+              "value": "phone",
+              "label": "Téléphone"
+            },
+            {
+              "value": "mail",
+              "label": "E-mail"
+            },
+            {
+              "value": "sparkle",
+              "label": "Design / nouveauté"
+            },
+            {
+              "value": "ruler",
+              "label": "Taille"
+            },
+            {
+              "value": "smile",
+              "label": "Satisfaction"
+            },
+            {
+              "value": "card",
+              "label": "Carte bancaire"
+            },
+            {
+              "value": "users",
+              "label": "Communauté"
+            },
+            {
+              "value": "cart",
+              "label": "Panier"
+            },
+            {
+              "value": "snowflake",
+              "label": "Hiver / flocon"
+            },
+            {
+              "value": "thermometer",
+              "label": "Chaleur / température"
+            },
+            {
+              "value": "mountain",
+              "label": "Montagne / outdoor"
+            },
+            {
+              "value": "wind",
+              "label": "Coupe-vent"
+            },
+            {
+              "value": "drop",
+              "label": "Imperméable"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "[Engagement]"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Précision (optionnel)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien (optionnel)",
+          "info": "Ex. vers la politique de retour."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Réassurance (USP)",
+      "blocks": [
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "[Livraison suivie]",
+            "text": "[Expédiée sous X jours]"
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "return",
+            "title": "[Retours simples]",
+            "text": "[Sous X jours]"
+          }
+        },
+        {
+          "type": "usp",
+          "settings": {
+            "icon": "chat",
+            "title": "[Service client réactif]",
+            "text": "[Réponse sous 24 h]"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+{%- comment -%}
+==========================================================================
+  ONX HIVER — CHARTE GRAPHIQUE (référence développeur — ce snippet n'affiche rien)
+  Version illustrée : ONX-Charte-Graphique.html (livrée avec le thème)
+==========================================================================
+
+IDÉE DIRECTRICE
+  ONX est une marque d'hiver moderne et premium : air froid, glace, nuit
+  polaire, lumière bleue. La neige et le blanc donnent l'espace. Le bleu
+  profond porte la confiance, le Bleu ONX porte l'action, l'Aurore apporte
+  la lumière sur les fonds sombres. Aucun code de Noël (pas de rouge/vert,
+  pas de sapins, pas de neige qui tombe).
+
+WORDMARK : ONX°
+  Typographique uniquement. Host Grotesk ExtraBold (800), capitales,
+  interlettrage +0,16 em, signature « ° » (degré : la température, le froid).
+  Le degré est en Bleu ONX sur fond clair, en Aurore sur fond sombre.
+  Header 30 px desktop / 24 px mobile. Zone de protection : hauteur du O.
+  Réglage : Paramètres du thème > ONX — Marque hiver > Signature (°, point, aucune).
+
+PALETTE (HEX)                          Rôle
+  Nuit polaire  #081530  bleu nuit     footer, sections premium, contraste
+  Bleu profond  #0E2A5E  primary dark  titres, boutons principaux, confiance
+  Bleu ONX      #1652F0  primary       CTA d'achat, badges promo, liens, progression
+  Bleu clair    #5B8CFF  primary light survols et dégradés sur fond sombre
+  Aurore        #8FD8FF  accent        lumière sur fond sombre uniquement (labels, ° du wordmark)
+  Glace         #E1ECF9  ice           fonds secondaires, onglets, icônes
+  Givre         #F1F6FC  very pale     fonds de cartes produit, blocs de réassurance
+  Neige         #F8FBFE  background    fond général
+  Blanc         #FFFFFF  surface       cartes, panier
+  Encre         #0A1A36  text          texte courant
+  Brume         #56688A  muted         texte secondaire, prix barrés
+  Givre bord    #D3DFEE  border        filets, contours
+  Promo         #1652F0  sale          badges de réduction = Bleu ONX (pas de rouge)
+  Étoiles       #F2B53D                notes uniquement
+  Succès        #12805A · Alerte #9A5B00 · Erreur #C22F3D (formulaires)
+
+  Contrastes vérifiés : blanc / Bleu ONX 6,0:1 · Bleu ONX / Neige 5,8:1 ·
+  Bleu profond / Neige 13,4:1 · Brume / Neige 5,4:1 · Aurore / Nuit 11,6:1.
+  Répartition : 60 % Neige/Blanc/Givre · 25 % Bleu profond/Nuit · ≤ 15 % Bleu ONX · Aurore en touches.
+
+DÉGRADÉS & EFFETS (tokens --onx-grad-winter / --onx-grad-ice)
+  Hiver : Bleu profond → Nuit polaire (165°) + halo Bleu clair en haut à droite
+          + halo Aurore en bas à gauche + texture givre (bruit 7 %).
+  Glace : Givre → Glace (vertical) + reflet blanc en haut à droite.
+  Verre : cartes sur fond sombre = blanc 4,5 % + filet Aurore 16 % + flou 8 px.
+  Halo CTA : 0 12px 32px -10px Bleu ONX 45 %.
+
+TYPOGRAPHIE (2 familles, bibliothèque Shopify)
+  Host Grotesk : titres, texte, boutons, prix — Geist Mono : labels, badges, codes
+  Display clamp(40→88 px) 800 / 0,98 / -0,035em · H1 34→60 700 · H2 28→44 700
+  H3 18→22 700 · Body 16 / 1,6 · Small 14 · Label 12 mono capitales +0,14em
+  Bouton 15 px 700 capitales +0,06em · Badge 12 mono capitales · Prix 17 / 24→30 800
+  Économie : 12–15 px 700 capitales, Bleu ONX. Mot-clé du hero : dégradé Bleu clair → Aurore.
+
+FORMES · OMBRES · ESPACES
+  Rayons : 4 badges · 8 boutons/champs · 14 cartes/images · 22 grands blocs · 999 pills
+  Ombres (teinte nuit 8,21,48) : sm cartes · md survol/popup · lg panier/modale · glow CTA
+  Espacements 4 pt : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 — sections 56 → 104 px
+
+COMPOSANTS
+  Bouton Bleu ONX : 1 action d'achat par écran (ATC, checkout, hero, barre collante)
+  Bouton Bleu profond : navigation commerciale · Ghost : secondaire · Lien : tertiaire
+  Badges : -XX % Bleu ONX · BEST-SELLER Bleu profond · NOUVEAU Glace · OFFRE LIMITÉE contour Bleu ONX
+  Cartes produit : visuel sur Givre, titre Bleu profond, économie en capitales Bleu ONX
+  Accordéons : bouton rond Glace → Bleu ONX ouvert · Panier : progression dégradé Bleu clair → Bleu ONX
+
+RÈGLES
+  - Jamais de faux avis, faux stock, fausse urgence, faux chiffres.
+  - Pas de flocons décoratifs : le flocon est une icône de réassurance, pas un motif.
+  - Pas de section entière en Bleu ONX ; l'Aurore ne s'utilise jamais sur fond clair.
+  - Les textes entre [crochets] sont des placeholders, masqués en ligne.
+==========================================================================
+{%- endcomment -%}

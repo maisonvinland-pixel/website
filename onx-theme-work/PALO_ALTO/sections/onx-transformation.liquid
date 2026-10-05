@@ -1,0 +1,247 @@
+{%- comment -%}
+  ONX — Transformation : Avant → Après (curseur de comparaison) ou Problème → Solution.
+  À n'utiliser que si le produit s'y prête et avec des visuels réels.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign dm = request.design_mode
+  assign eyebrow = s.eyebrow
+  assign title = s.title
+  assign text = s.text
+  if dm == false
+    if eyebrow contains '['
+      assign eyebrow = ''
+    endif
+    if title contains '['
+      assign title = ''
+    endif
+    if text contains '['
+      assign text = ''
+    endif
+  endif
+-%}
+{%- capture before_list -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'before' -%}
+      {%- unless block.settings.text contains '[' and dm == false -%}
+        {%- if block.settings.text != blank -%}
+          <li {{ block.shopify_attributes }}>{% render 'onx-icon', icon: 'close', size: 16 %}<span>{% render 'onx-text', text: block.settings.text %}</span></li>
+        {%- endif -%}
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- capture after_list -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'after' -%}
+      {%- unless block.settings.text contains '[' and dm == false -%}
+        {%- if block.settings.text != blank -%}
+          <li {{ block.shopify_attributes }}>{% render 'onx-icon', icon: 'check', size: 16 %}<span>{% render 'onx-text', text: block.settings.text %}</span></li>
+        {%- endif -%}
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign has_images = false -%}
+{%- if s.image_before != blank and s.image_after != blank -%}{%- assign has_images = true -%}{%- endif -%}
+
+{%- if title != blank or has_images or dm -%}
+<section class="onx-transfo onx-section onx-scheme--{{ s.scheme }}" data-onx-section="transformation">
+  <div class="onx-container onx-transfo__inner{% unless has_images or s.image_after != blank or dm %} onx-transfo__inner--text{% endunless %}">
+    <div class="onx-transfo__copy">
+      {%- if eyebrow != blank -%}<p class="onx-eyebrow">{% render 'onx-text', text: eyebrow %}</p>{%- endif -%}
+      {%- if title != blank -%}<h2 class="onx-h2">{% render 'onx-text', text: title %}</h2>{%- endif -%}
+      {%- if text != blank -%}<p class="onx-lead onx-muted">{% render 'onx-text', text: text %}</p>{%- endif -%}
+
+      <div class="onx-transfo__lists">
+        {%- if before_list != blank -%}
+          <div class="onx-transfo__col onx-transfo__col--before">
+            <p class="onx-transfo__label">{{ s.before_label | escape }}</p>
+            <ul role="list">{{ before_list }}</ul>
+          </div>
+        {%- endif -%}
+        {%- if after_list != blank -%}
+          <div class="onx-transfo__col onx-transfo__col--after">
+            <p class="onx-transfo__label">{{ s.after_label | escape }}</p>
+            <ul role="list">{{ after_list }}</ul>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if s.cta_label != blank -%}
+        <a class="onx-btn onx-btn--signal onx-btn--lg" href="{{ s.cta_link | default: routes.all_products_collection_url }}">{{ s.cta_label | escape }}{% render 'onx-icon', icon: 'arrow-right', size: 18 %}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if has_images or s.image_after != blank or dm -%}
+    <div class="onx-transfo__visual">
+      {%- if has_images -%}
+        <div class="onx-compare" data-onx-compare style="--pos: 50%;">
+          {{ s.image_after | image_url: width: 1400 | image_tag: widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', class: 'onx-compare__img', alt: s.after_label }}
+          <div class="onx-compare__before" aria-hidden="true">
+            {{ s.image_before | image_url: width: 1400 | image_tag: widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', class: 'onx-compare__img', alt: s.before_label }}
+          </div>
+          <span class="onx-compare__tag onx-compare__tag--before">{{ s.before_label | escape }}</span>
+          <span class="onx-compare__tag onx-compare__tag--after">{{ s.after_label | escape }}</span>
+          <span class="onx-compare__handle" aria-hidden="true"><span></span></span>
+          <input class="onx-compare__range" type="range" min="0" max="100" value="50" aria-label="{{ 'general.onx.compare' | t }}" data-onx-compare-range>
+        </div>
+      {%- elsif s.image_after != blank -%}
+        <div class="onx-transfo__single">{{ s.image_after | image_url: width: 1400 | image_tag: widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', class: 'onx-cover' }}</div>
+      {%- else -%}
+        <div class="onx-transfo__single onx-hero__frame--placeholder">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'onx-placeholder-svg' }}
+          {%- if dm -%}<span class="onx-ph onx-ph--badge">[IMAGES AVANT / APRÈS — visuels réels uniquement]</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "ONX — Transformation",
+  "tag": "div",
+  "class": "onx-shopify-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Avant / Après"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "[Le changement que vous allez ressentir]"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texte"
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Libellé « avant »",
+      "default": "Sans ONX"
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "Libellé « après »",
+      "default": "Avec ONX"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_before",
+      "label": "Image avant",
+      "info": "Avec l'image après : active le curseur de comparaison."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_after",
+      "label": "Image après"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Bouton",
+      "default": "Je passe à ONX"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Palette",
+      "default": "stone",
+      "options": [
+        {
+          "value": "winter",
+          "label": "Hiver (dégradé nuit — premium)"
+        },
+        {
+          "value": "dark",
+          "label": "Nuit polaire"
+        },
+        {
+          "value": "ice",
+          "label": "Givre (dégradé glacé)"
+        },
+        {
+          "value": "stone",
+          "label": "Glace"
+        },
+        {
+          "value": "light",
+          "label": "Neige (clair)"
+        },
+        {
+          "value": "surface",
+          "label": "Blanc"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "before",
+      "name": "Problème (avant)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Problème",
+          "default": "[Frustration du client]"
+        }
+      ]
+    },
+    {
+      "type": "after",
+      "name": "Solution (après)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Solution",
+          "default": "[Résultat avec le produit]"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ONX — Transformation",
+      "blocks": [
+        {
+          "type": "before"
+        },
+        {
+          "type": "before"
+        },
+        {
+          "type": "before"
+        },
+        {
+          "type": "after"
+        },
+        {
+          "type": "after"
+        },
+        {
+          "type": "after"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

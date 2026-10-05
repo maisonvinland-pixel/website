@@ -1,0 +1,28 @@
+{%- comment -%}
+  ONX — Barre d'achat collante (apparaît quand le bouton principal sort de l'écran,
+  disparaît quand il redevient visible). Déclenche le vrai bouton du formulaire :
+  variante sélectionnée, quantité et panier coulissant restent gérés par le thème.
+{%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+{%- assign img = v.featured_image | default: product.featured_image -%}
+<div class="onx-sticky-atc onx-sticky-atc--{{ settings.onx_sticky_atc }}"
+  data-onx-sticky-atc
+  data-target="#AddToCart--{{ section.id }}"
+  data-section="#ProductTemplate--{{ section.id }}"
+  aria-hidden="true">
+  <div class="onx-sticky-atc__inner">
+    {%- if img != blank -%}
+      {{ img | image_url: width: 120 | image_tag: loading: 'lazy', width: 48, height: 48, class: 'onx-sticky-atc__img', alt: '' }}
+    {%- endif -%}
+    <div class="onx-sticky-atc__info">
+      <p class="onx-sticky-atc__title">{{ product.title | strip_html | escape }}</p>
+      <p class="onx-sticky-atc__price">
+        <span data-onx-sticky-price>{{ v.price | money }}</span>
+        <s data-onx-sticky-compare{% unless v.compare_at_price > v.price %} hidden{% endunless %}>{{ v.compare_at_price | money }}</s>
+      </p>
+    </div>
+    <button type="button" class="onx-btn onx-btn--signal onx-sticky-atc__btn" data-onx-sticky-btn data-onx-track="sticky_atc_click" tabindex="-1">
+      <span data-onx-sticky-label>{%- if v.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
+    </button>
+  </div>
+</div>

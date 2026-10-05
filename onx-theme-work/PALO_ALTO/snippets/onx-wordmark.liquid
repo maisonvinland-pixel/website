@@ -1,0 +1,27 @@
+{%- comment -%}
+  ONX — Wordmark typographique (aucun logo graphique). Signature : ONX° (degré) par défaut.
+  Accepte :
+  - tag : balise HTML (défaut 'span')
+  - size : 'header' | 'footer' | 'xl'
+  - link : true/false (lien vers l'accueil)
+  - tone : '' | 'light'
+{%- endcomment -%}
+{%- liquid
+  assign wm_text = settings.onx_wordmark | default: shop.name
+  assign wm_tag = tag | default: 'span'
+  assign wm_size = size | default: 'header'
+-%}
+{%- capture wm_inner -%}
+  <span class="onx-wordmark__text">{{ wm_text | escape }}</span>
+  {%- case settings.onx_wordmark_sign -%}
+    {%- when 'degree' -%}<span class="onx-wordmark__sign onx-wordmark__sign--degree" aria-hidden="true">°</span>
+    {%- when 'dot' -%}<span class="onx-wordmark__sign onx-wordmark__sign--dot" aria-hidden="true">.</span>
+  {%- endcase -%}
+{%- endcapture -%}
+<{{ wm_tag }} class="onx-wordmark onx-wordmark--{{ wm_size }}{% if tone == 'light' %} onx-wordmark--light{% endif %}">
+  {%- if link -%}
+    <a href="{{ routes.root_url }}" class="onx-wordmark__link" aria-label="{{ wm_text | escape }} — {{ 'general.onx.home' | t }}">{{ wm_inner }}</a>
+  {%- else -%}
+    {{ wm_inner }}
+  {%- endif -%}
+</{{ wm_tag }}>

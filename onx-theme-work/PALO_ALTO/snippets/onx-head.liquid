@@ -1,0 +1,146 @@
+{%- comment -%}
+  ONX — Design tokens (rendu dans <head>, après css-variables).
+  Toutes les couleurs/typos sont pilotées depuis :
+  Éditeur de thème > Paramètres du thème > « Couleurs » + « ONX — Marque ».
+  Référence complète : snippets/onx-brand-guide.liquid
+{%- endcomment -%}
+{%- liquid
+  assign label_font = settings.onx_label_font
+  assign label_font_bold = label_font | font_modify: 'weight', 'bold'
+
+  comment
+    Palette ONX Hiver — les couleurs principales viennent de « Couleurs »,
+    les nuances hivernales de « ONX — Marque & conversion ».
+  endcomment
+  assign c_bg = settings.color_body_bg | default: '#F8FBFE'
+  assign c_text = settings.color_body_text | default: '#0A1A36'
+  assign c_heading = settings.color_headings | default: '#0E2A5E'
+  assign c_accent = settings.color_accent | default: '#1652F0'
+  assign c_border = settings.color_borders_and_lines | default: '#D3DFEE'
+  assign c_sale = settings.color_saving_badge | default: '#1652F0'
+  assign c_primary = settings.color_button_primary | default: '#0E2A5E'
+  assign c_dark = settings.onx_color_dark | default: '#081530'
+  assign c_surface = settings.onx_color_surface | default: '#FFFFFF'
+  assign c_stone = settings.onx_color_stone | default: '#E1ECF9'
+  assign c_frost = settings.onx_color_frost | default: '#F1F6FC'
+  assign c_muted = settings.onx_color_muted | default: '#56688A'
+  assign c_accent_deep = settings.onx_color_accent_deep | default: '#1652F0'
+  assign c_aurora = settings.onx_color_aurora | default: '#8FD8FF'
+  assign c_light = settings.onx_color_primary_light | default: '#5B8CFF'
+
+  assign c_accent_ink = '#FFFFFF'
+  assign accent_brightness = c_accent | color_brightness
+  if accent_brightness > 170
+    assign c_accent_ink = '#0A1A36'
+  endif
+
+  assign c_primary_ink = '#FFFFFF'
+  assign primary_brightness = c_primary | color_brightness
+  if primary_brightness > 170
+    assign c_primary_ink = '#0A1A36'
+  endif
+-%}
+
+{%- style -%}
+  {%- if label_font != blank -%}
+    {{ label_font | font_face: font_display: 'swap' }}
+    {{ label_font_bold | font_face: font_display: 'swap' }}
+  {%- endif -%}
+
+  :root {
+    /* — Palette ONX Hiver — */
+    --onx-bg: {{ c_bg }};                 /* Neige */
+    --onx-surface: {{ c_surface }};       /* Blanc */
+    --onx-frost: {{ c_frost }};           /* Givre */
+    --onx-stone: {{ c_stone }};           /* Glace */
+    --onx-dark: {{ c_dark }};             /* Nuit polaire */
+    --onx-dark-2: {{ c_dark | color_lighten: 6 }};
+    --onx-deep: {{ c_primary }};          /* Bleu profond */
+    --onx-text: {{ c_text }};             /* Encre */
+    --onx-heading: {{ c_heading }};
+    --onx-muted: {{ c_muted }};           /* Brume */
+    --onx-border: {{ c_border }};
+    --onx-border-strong: {{ c_border | color_darken: 16 }};
+    --onx-accent: {{ c_accent }};         /* Bleu ONX : actions d'achat */
+    --onx-accent-ink: {{ c_accent_ink }};
+    --onx-accent-hover: {{ c_accent | color_darken: 8 }};
+    --onx-accent-soft: {{ c_accent | color_modify: 'alpha', 0.08 }};
+    --onx-accent-glow: {{ c_accent | color_modify: 'alpha', 0.45 }};
+    --onx-accent-deep: {{ c_accent_deep }};
+    --onx-light: {{ c_light }};           /* Bleu clair (sur fonds sombres) */
+    --onx-aurora: {{ c_aurora }};         /* Aurore : accent lumineux, fonds sombres uniquement */
+    --onx-aurora-soft: {{ c_aurora | color_modify: 'alpha', 0.18 }};
+    --onx-sale: {{ c_sale }};
+    --onx-primary: {{ c_primary }};
+    --onx-primary-ink: {{ c_primary_ink }};
+    --onx-primary-hover: {{ c_accent }};
+    --onx-success: #12805A;
+    --onx-success-soft: #E4F4EE;
+    --onx-warning: #9A5B00;
+    --onx-warning-soft: #FDF3E1;
+    --onx-error: #C22F3D;
+    --onx-error-soft: #FCEBED;
+    --onx-star: #F2B53D;
+    --onx-shadow-color: 8, 21, 48;
+    --onx-grad-winter: radial-gradient(120% 80% at 85% 0%, {{ c_light | color_modify: 'alpha', 0.38 }} 0%, transparent 55%), radial-gradient(90% 70% at 0% 100%, {{ c_aurora | color_modify: 'alpha', 0.16 }} 0%, transparent 60%), linear-gradient(165deg, {{ c_primary }} 0%, {{ c_dark }} 62%);
+    --onx-grad-ice: radial-gradient(80% 60% at 90% 0%, rgba(255, 255, 255, 0.9) 0%, transparent 60%), linear-gradient(180deg, {{ c_frost }} 0%, {{ c_stone }} 100%);
+
+    /* — Typographie — */
+    --onx-font-heading: var(--FONT-STACK-HEADING);
+    --onx-font-body: var(--FONT-STACK-BODY);
+    --onx-font-label: {% if label_font != blank %}{{ label_font.family }}, {{ label_font.fallback_families }}{% else %}ui-monospace, SFMono-Regular, Menlo, monospace{% endif %};
+    --onx-weight-label: {{ label_font.weight | default: 500 }};
+    --onx-weight-heading: 700;
+    --onx-weight-display: 800;
+
+    --onx-fs-display: clamp(2.5rem, 1.6rem + 4.6vw, 5.5rem);
+    --onx-fs-h1: clamp(2.125rem, 1.5rem + 3vw, 3.75rem);
+    --onx-fs-h2: clamp(1.75rem, 1.35rem + 1.9vw, 2.75rem);
+    --onx-fs-h3: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+    --onx-fs-body: 1rem;
+    --onx-fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+    --onx-fs-small: 0.875rem;
+    --onx-fs-label: 0.75rem;
+    --onx-fs-button: 0.9375rem;
+
+    /* — Formes — */
+    --onx-radius-xs: 4px;
+    --onx-radius-sm: 8px;
+    --onx-radius-md: 14px;
+    --onx-radius-lg: 22px;
+    --onx-radius-pill: 999px;
+
+    /* — Ombres — */
+    --onx-shadow-sm: 0 1px 2px rgba(8, 21, 48, 0.06), 0 2px 8px -4px rgba(8, 21, 48, 0.08);
+    --onx-shadow-md: 0 14px 34px -16px rgba(8, 21, 48, 0.28);
+    --onx-shadow-lg: 0 30px 60px -24px rgba(8, 21, 48, 0.42);
+    --onx-shadow-glow: 0 12px 32px -10px var(--onx-accent-glow);
+
+    /* — Espacements (échelle 4 pt) — */
+    --onx-space-1: 4px;
+    --onx-space-2: 8px;
+    --onx-space-3: 12px;
+    --onx-space-4: 16px;
+    --onx-space-5: 24px;
+    --onx-space-6: 32px;
+    --onx-space-7: 48px;
+    --onx-space-8: 64px;
+    --onx-space-9: 96px;
+    --onx-section-y: clamp(56px, 4rem + 3vw, 104px);
+    --onx-gutter: clamp(16px, 4vw, 60px);
+    --onx-max: 1360px;
+
+    /* — Wordmark — */
+    --onx-wm-size: {{ settings.onx_wordmark_size | default: 30 }}px;
+    --onx-wm-size-mobile: {{ settings.onx_wordmark_size_mobile | default: 24 }}px;
+
+    /* — Mouvement — */
+    --onx-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --onx-dur: 220ms;
+
+    /* — Hauteurs tactiles — */
+    --onx-tap: 48px;
+    --onx-btn-h: 52px;
+    --onx-btn-h-lg: 58px;
+  }
+{%- endstyle -%}

@@ -1,0 +1,69 @@
+{
+  "sections": {
+    "hero": {
+      "type": "collection-image-with-title",
+      "settings": {}
+    },
+    "subcollections": {
+      "type": "subcollections",
+      "settings": {}
+    },
+    "main": {
+      "type": "collection",
+      "settings": {}
+    },
+    "usp": {
+      "type": "onx-usp",
+      "settings": {
+        "scheme": "surface",
+        "compact": true
+      },
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "gift",
+            "title": "3 achetés = 1 offert",
+            "text": "Automatique au panier"
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison offerte",
+            "text": "En 13 à 15 jours"
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "return",
+            "title": "Retour sous 14 jours",
+            "text": "Tu peux changer d'avis"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "lock",
+            "title": "Paiement sécurisé",
+            "text": "Données chiffrées (SSL)"
+          }
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "subcollections",
+    "usp",
+    "main"
+  ]
+}
