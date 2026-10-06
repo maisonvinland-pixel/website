@@ -33,7 +33,7 @@ export const Accum: React.FC<{ samples: number; render: (t: number) => React.Rea
 const accrocheShake = (t: number) => (t > C.acc ? 3.2 * easeIn(inv(C.acc, C.drop, t)) : 0);
 
 function Chips({ t }: { t: number }) {
-  if (t < C.svc || t >= C.drop + 0.12) return null;
+  if (t < C.svc || t >= C.r0 + 0.3) return null;
   return (
     <>
       {CHIPS.map((c, i) => {
@@ -54,7 +54,8 @@ function Chips({ t }: { t: number }) {
         // les points collés passent derrière la bulle quand elle tourne
         const behind = clamp((0.08 - anchor.facing) / 0.16);
         // à l'éclatement, les points sautent avec la bulle
-        const pop = t > C.drop ? 1 - clamp((t - C.drop) / 0.1) : 1;
+        // les points s'enfoncent dans la gomme avant le plan suivant
+        const pop = 1 - easeIn(clamp((t - (C.r0 - 0.25)) / 0.4));
         const s = (0.92 + 0.08 * fly) * pop;
         return (
           <div

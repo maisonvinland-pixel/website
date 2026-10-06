@@ -172,18 +172,19 @@ function makeContactShadowTexture() {
 const FLOATERS = (() => {
   const r = rng(21);
   const cols = ["#F3A2BE", "#EC88AC", "#FCD3E1", "#F3A2BE", "#FCD3E1", "#FCD3E1", "#EC88AC", "#F3A2BE", "#FCD3E1"];
+  // en périphérie du cadre, jamais devant la bulle
   const pts: [number, number, number][] = [
-    [-3.2, 2.6, -4],
-    [3.6, -0.6, -6],
-    [-4.2, -1.2, 2.4],
-    [2.4, 2.9, 2.2],
-    [5.2, 1.6, -2.5],
-    [-5.0, 0.4, -1.5],
-    [0.6, 3.6, -7],
-    [-1.4, 1.9, 6.6], // premier plan du titre (bascule de point)
-    [3.1, -1.1, 4.4],
+    [-3.4, 2.8, -4],
+    [3.8, -0.4, -6],
+    [-4.6, -1.0, 1.6],
+    [2.9, 3.1, 1.6],
+    [5.4, 1.8, -2.5],
+    [-5.4, 0.6, -2.2],
+    [0.8, 3.9, -7],
+    [-2.6, 2.6, 5.4], // premier plan du titre (bascule de point), en haut à gauche
+    [4.4, -1.0, 3.2],
   ];
-  return pts.map((p, i) => ({ p: new THREE.Vector3(...p), r: 0.12 + r() * 0.2 + (i === 7 ? 0.22 : 0), color: cols[i], ph: r() * 6 }));
+  return pts.map((p, i) => ({ p: new THREE.Vector3(...p), r: 0.08 + r() * 0.13 + (i === 7 ? 0.12 : 0), color: cols[i], ph: r() * 6 }));
 })();
 
 export const Engine: React.FC = () => {

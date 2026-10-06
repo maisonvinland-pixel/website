@@ -86,10 +86,10 @@ export const Kinetic: React.FC<{
                   let dx = 0;
                   if (style === "stretch") {
                     // la lettre est étirée comme de la gomme puis revient en place
-                    ty = (1 - easeOutExpo(p)) * 115;
+                    ty = (1 - easeOutExpo(p)) * 145;
                     sy = lerp(1.9, 1, springOut(clamp(local / 0.9), 9, 0.28));
                   } else {
-                    ty = (1 - easeOutExpo(p)) * 112;
+                    ty = (1 - easeOutExpo(p)) * 145;
                     rot = (1 - easeOutExpo(p)) * 7;
                     sy = lerp(1.18, 1, springOut(clamp(local / 0.8), 8, 0.35));
                   }
@@ -171,7 +171,7 @@ export const RollWord: React.FC<{
             {[...w.text].map((ch, ci) => {
               const pin = clamp((t - w.at - ci * 0.022) / 0.6);
               const pout = clamp((t - next - ci * 0.018) / 0.32);
-              const ty = (1 - easeOutExpo(pin)) * 130 - easeIn(pout) * 160;
+              const ty = (1 - easeOutExpo(pin)) * 150 - easeIn(pout) * 160;
               const pa = clamp((t - w.at - ci * 0.022) / 0.9);
               return (
                 <span
