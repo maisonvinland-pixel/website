@@ -1,0 +1,90 @@
+{%- comment -%}
+  Alo Doudou : produits complémentaires à activer d'un geste (upsell).
+  Les produits proposés sont ceux de la collection « Upsell » (handle : upsell) :
+  ajoute ou retire des produits de cette collection pour changer l'upsell.
+  Activé = ajouté au panier en même temps que le produit principal.
+{%- endcomment -%}
+{%- liquid
+  assign st = block.settings
+  assign pool = collections['upsell'].products
+  assign shown = 0
+-%}
+{%- capture cards -%}
+  {%- for up in pool -%}
+    {%- if up.id == product.id or up.available == false -%}{%- continue -%}{%- endif -%}
+    {%- assign v = up.selected_or_first_available_variant -%}
+    {%- assign shown = shown | plus: 1 -%}
+    <div class="alo-ups__card" data-alo-ups-item data-variant-id="{{ v.id }}">
+      <a class="alo-ups__media" href="{{ up.url }}" target="_blank" rel="noopener" aria-label="En savoir plus sur {{ up.title | escape }}">
+        {%- if up.featured_image != blank -%}
+          {{ up.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: up.title, class: 'alo-ups__img' }}
+        {%- else -%}
+          <span class="alo-ups__ph" aria-hidden="true">
+            <svg viewBox="0 0 48 48" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M24 4v40M6.7 14l34.6 20M6.7 34l34.6-20M24 4l-4 4M24 4l4 4M24 44l-4-4M24 44l4-4"/></svg>
+          </span>
+        {%- endif -%}
+        <span class="alo-ups__more">En savoir plus</span>
+      </a>
+      <div class="alo-ups__panel">
+        <span class="alo-ups__title">{{ up.title }}</span>
+        <span class="alo-ups__row">
+          <span class="alo-ups__price" data-alo-ups-price>{{ v.price | money }}</span>
+          <s class="alo-ups__compare" data-alo-ups-compare{% unless v.compare_at_price > v.price %} hidden{% endunless %}>{{ v.compare_at_price | money }}</s>
+          {%- if st.badge != blank -%}<span class="alo-ups__badge">{{ st.badge }}</span>{%- endif -%}
+        </span>
+        {%- if up.has_only_default_variant == false -%}
+          <span class="alo-ups__vars" role="group" aria-label="Choisir le format">
+            {%- for variant in up.variants -%}
+              {%- if variant.available -%}
+                <button
+                  type="button"
+                  class="alo-ups__var{% if variant.id == v.id %} is-active{% endif %}"
+                  data-alo-ups-var="{{ variant.id }}"
+                  data-price="{{ variant.price | money | escape }}"
+                  data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                  aria-pressed="{% if variant.id == v.id %}true{% else %}false{% endif %}"
+                >{{ variant.title }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+        <label class="alo-ups__toggle">
+          <input type="checkbox" class="alo-ups__input" {% if st.checked %}checked{% endif %} aria-label="Ajouter {{ up.title | escape }} à ma commande">
+          <span class="alo-ups__switch" aria-hidden="true"></span>
+        </label>
+        <span class="alo-ups__added" aria-hidden="true">Ajouté à ta commande ✓</span>
+      </div>
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if shown > 0 -%}
+  {{ 'alo-boutique.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'alo-boutique.js' | asset_url }}" defer="defer"></script>
+  <div class="alo-ups" data-alo-ups data-form-id="{{ product_form_id }}" {{ block.shopify_attributes }}>
+    {%- if st.heading != blank -%}
+      <p class="alo-ups__head">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/></svg>
+        {{ st.heading }}
+      </p>
+    {%- endif -%}
+    <div class="alo-ups__track" data-alo-ups-track>{{ cards }}</div>
+    {%- if shown > 1 -%}
+      <div class="alo-ups__nav">
+        <div class="alo-ups__dots">
+          {%- for i in (1..shown) -%}
+            <button type="button" class="alo-ups__dot{% if forloop.first %} is-active{% endif %}" data-alo-ups-dot="{{ forloop.index0 }}" aria-label="Produit {{ i }}"></button>
+          {%- endfor -%}
+        </div>
+        <div class="alo-ups__arrows">
+          <button type="button" class="alo-ups__arrow" data-alo-ups-prev aria-label="Précédent" disabled>
+            <svg width="9" height="14" viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7.5 1.5 2 7l5.5 5.5"/></svg>
+          </button>
+          <button type="button" class="alo-ups__arrow" data-alo-ups-next aria-label="Suivant">
+            <svg width="9" height="14" viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5 7 7l-5.5 5.5"/></svg>
+          </button>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

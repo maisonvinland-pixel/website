@@ -1,0 +1,42 @@
+<link rel='stylesheet' href='{{ 'minicart.css' | asset_url }}' media='print' onload="this.media='all'">
+<script src='{{ 'alo-doudou.js' | asset_url }}' defer='defer'></script>
+{%- assign action_after_add_cart = settings.action_after_add_cart -%}
+<div class='minicart'>
+  <cart-notification>
+    <div
+      id='header__minicart'
+      class='header__minicart {{ action_after_add_cart }}{% if action_after_add_cart == 'show_popup' %} relative{% endif %}'
+    >
+      <a
+        id='cart-icon-bubble'
+        href='{{ routes.cart_url }}'
+        aria-label='Ouvrir mon panier'
+        class='{% if template != 'cart' and action_after_add_cart != 'go_to_cart_page' %}minicart__action{% endif %} header-icon header-color w-44 h-44 inline-flex content-center {% if action_after_add_cart == 'show_popup' %}show-overlay{% else %}overlay{% endif %}'
+      >
+        <h-count class='relative lh-1 fs-0'>
+          <svg width='22' height='22' aria-hidden='true'><use href='#icon-bag'></use></svg>
+          <span class='absolute lh-1 cart-count h-count inline-flex align-center justify-content-center rounded-50 overflow-hidden fs-10'>
+            {%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}~{%- endif -%}
+            <span class='visually-hidden'>{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          </span>
+        </h-count>
+      </a>
+      {%- if template != 'cart' and action_after_add_cart != 'go_to_cart_page' -%}
+        <div class='minicart__wrapper flex flex-column color-default {% if action_after_add_cart == 'open_drawer' %} bls__drawer invisible fixed z-15 inset-y-0 h-full transition-popup{% if settings.rtl %} right left-0{% else %} left right-0{% endif %}{% endif %}{% if action_after_add_cart == 'show_popup' %} popup_cart invisible absolute z-10 transition-popup right-0 rounded shadow{% endif %}'>
+          {%- if action_after_add_cart == 'open_drawer' -%}
+            <div class='minicart__header flex gap-10 align-center justify-between px-30 py-18 color-default'>
+              <div class='h5 minicart-heading alo-cart-title my-0'>
+                Ton panier
+                <span class='cart-count cart-count-drawer'>({{ cart.item_count }})</span>
+              </div>
+              <button class='btn-reset button-close close-cart-button pointer inline-flex align-center' aria-label='{{ 'accessibility.close' | t }}'>
+                <svg width='13' height='13' viewBox='0 0 13 13' fill='none' class='transition'><use href='#icon-close' /></svg>
+              </button>
+            </div>
+          {%- endif -%}
+          {%- render 'alo-minicart-inner' -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </cart-notification>
+</div>

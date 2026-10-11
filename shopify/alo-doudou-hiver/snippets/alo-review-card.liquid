@@ -1,0 +1,25 @@
+{%- comment -%}
+  Alo Doudou : une carte d'avis client.
+  Paramètres : text, author, rating, product_label, product_url, image, date, attrs
+{%- endcomment -%}
+<figure class="alo-testi__card" {{ attrs }}>
+  {%- if product_label != blank -%}
+    <p class="alo-testi__product">
+      {%- if product_url != blank -%}<a href="{{ product_url }}">{{ product_label }}</a>{%- else -%}{{ product_label }}{%- endif -%}
+    </p>
+  {%- endif -%}
+  <blockquote class="alo-testi__text">{{ text | newline_to_br }}</blockquote>
+  <figcaption class="alo-testi__author">
+    {%- if image != blank -%}
+      {{ image | image_url: width: 120 | image_tag: class: 'alo-testi__avatar', loading: 'lazy', alt: author }}
+    {%- else -%}
+      <span class="alo-testi__avatar alo-testi__avatar--initial" aria-hidden="true">{{ author | slice: 0 | upcase }}</span>
+    {%- endif -%}
+    <span class="alo-testi__who">
+      <strong>{{ author }}</strong>
+      <span class="alo-stars" style="--alo-rating: {{ rating }};" role="img" aria-label="{{ rating }} sur 5"></span>
+      {%- if date != blank -%}<span class="alo-testi__date">{{ date | date: '%d/%m/%Y' }}</span>{%- endif -%}
+    </span>
+    <span class="alo-testi__quote" aria-hidden="true">”</span>
+  </figcaption>
+</figure>

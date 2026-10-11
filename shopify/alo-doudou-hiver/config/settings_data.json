@@ -1,0 +1,264 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "favicon": "shopify://shop_images/alo-doudou-favicon.png",
+    "logo": "shopify://shop_images/alo-doudou-logo.png",
+    "desktop_logo_width": 130,
+    "mobile_logo_width": 100,
+    "page_width": 1200,
+    "fluid_container_width": 1410,
+    "spacing_desktop": 90,
+    "space_mobile": 50,
+    "body_font_size": 15,
+    "heading_text_transform": "unset",
+    "heading_letter_spacing": "negative",
+    "menu_font": "heading_font",
+    "sale_badge_type": "percent",
+    "sale_badge_addons": "none",
+    "new_background": "#1e3360",
+    "pre_order_background": "#4a6fa5",
+    "sold_out_background": "#8a93a6",
+    "custom_badge_background": "#3b82c4",
+    "product_alignment": "center",
+    "product_size": 15,
+    "price_size": 15,
+    "show_vendor": false,
+    "show_secondary_image": true,
+    "product_image_ratio": "portrait",
+    "show_action_on_mobile": true,
+    "swatch_item_type": "variant_images",
+    "search_type": "default",
+    "search_result": "products",
+    "enable_search_suggestion": true,
+    "popular_key_word": "nouveautés, meilleures ventes, cadeau",
+    "collection_suggestion": "meilleures-ventes",
+    "show_search_price": true,
+    "show_message_when_remove": true,
+    "action_after_add_cart": "open_drawer",
+    "show_on_minicart_cart_page": true,
+    "free_shipping_minimum": "40",
+    "choose_gift_wrap_product": "",
+    "product_recommendations_type": "auto",
+    "product_recommendations_heading": "Tu vas aussi adorer…",
+    "minicart_type": "show_beside",
+    "show_on_cart_page": true,
+    "select_product_recommendations": [],
+    "facebook": "",
+    "instagram": "",
+    "twitter": "",
+    "youtube": "",
+    "tiktok": "",
+    "pinterest": "",
+    "vimeo": "",
+    "linkedin": "",
+    "whatsapp": "",
+    "scroll_animation": "slide_in",
+    "store_phone": "",
+    "store_email": "maison.vinland@gmail.com",
+    "store_page": "",
+    "heading_cookies": "Cookies",
+    "content_cookies": "<p>Nous utilisons des cookies pour améliorer ta navigation, mesurer l'audience du site et te proposer des contenus adaptés. En cliquant sur « <strong>Accepter</strong> », tu consens à leur utilisation.</p>",
+    "label_allow": "Accepter",
+    "label_refuse": "Refuser",
+    "page_terms_conditions": "",
+    "rate_color": "#e0a43a",
+    "sections": {
+      "product-quickview": {
+        "type": "product-quickview",
+        "blocks": {
+          "badges_NhM4GM": {
+            "type": "badges",
+            "settings": {}
+          },
+          "title_txJBrx": {
+            "type": "title",
+            "settings": {
+              "show_vendor": false
+            }
+          },
+          "price_NNg9B8": {
+            "type": "price",
+            "settings": {}
+          },
+          "description_pKXRJa": {
+            "type": "description",
+            "settings": {}
+          },
+          "variant_picker_MQYkTJ": {
+            "type": "variant_picker",
+            "settings": {}
+          },
+          "buy_buttons_pDYNX9": {
+            "type": "buy_buttons",
+            "settings": {
+              "show_dynamic_checkout": true
+            }
+          }
+        },
+        "block_order": [
+          "badges_NhM4GM",
+          "title_txJBrx",
+          "price_NNg9B8",
+          "description_pKXRJa",
+          "variant_picker_MQYkTJ",
+          "buy_buttons_pDYNX9"
+        ],
+        "settings": {}
+      },
+      "fake-order": {
+        "type": "fake-order",
+        "settings": {
+          "show_fake_order": false,
+          "disable_mobile": true,
+          "fake_product": [],
+          "fake_user": "",
+          "text_verify": "",
+          "delay_time": "5000",
+          "display_time": "6000"
+        }
+      },
+      "custom-colors": {
+        "type": "custom-colors",
+        "settings": {}
+      },
+      "alo-hiver": {
+        "type": "alo-hiver",
+        "settings": {
+          "enable": true,
+          "density": 90,
+          "crystals": true,
+          "tint": "#9fc3e6",
+          "interact": true,
+          "burst": true,
+          "aurora": true,
+          "icicles": true,
+          "drift": true,
+          "frost": true
+        }
+      }
+    },
+    "content_for_index": [],
+    "color_schemes": {
+      "default": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "primary_color": "#3b82c4",
+          "text_color": "#3c4660",
+          "heading_color": "#15203a",
+          "border_color": "#dde8f3",
+          "btn_primary_color": "#ffffff",
+          "btn_primary_background": "#1e3360",
+          "btn_primary_hover_color": "#ffffff",
+          "btn_primary_hover_background": "#122244",
+          "btn_outline_color": "#1e3360",
+          "btn_outline_border_color": "#1e3360",
+          "button_link_color": "#1e3360",
+          "button_link_hover_color": "#3b82c4"
+        }
+      },
+      "scheme-4faf0e4d-27f4-4d02-bc51-617383bab1a9": {
+        "settings": {
+          "background": "#1e3360",
+          "background_gradient": "",
+          "primary_color": "#e5effa",
+          "text_color": "#ffffff",
+          "heading_color": "#ffffff",
+          "border_color": "#34508a",
+          "btn_primary_color": "#1e3360",
+          "btn_primary_background": "#ffffff",
+          "btn_primary_hover_color": "#ffffff",
+          "btn_primary_hover_background": "#122244",
+          "btn_outline_color": "#ffffff",
+          "btn_outline_border_color": "#ffffff",
+          "button_link_color": "#ffffff",
+          "button_link_hover_color": "#e5effa"
+        }
+      },
+      "scheme-bb1431b0-be4a-4b03-a450-f572c07e3904": {
+        "settings": {
+          "background": "#e5effa",
+          "background_gradient": "",
+          "primary_color": "#3b82c4",
+          "text_color": "#3c4660",
+          "heading_color": "#15203a",
+          "border_color": "#d0e0f0",
+          "btn_primary_color": "#ffffff",
+          "btn_primary_background": "#1e3360",
+          "btn_primary_hover_color": "#ffffff",
+          "btn_primary_hover_background": "#122244",
+          "btn_outline_color": "#1e3360",
+          "btn_outline_border_color": "#1e3360",
+          "button_link_color": "#1e3360",
+          "button_link_hover_color": "#3b82c4"
+        }
+      },
+      "scheme-3d10de96-a479-49bd-819c-e044746b4f3e": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "primary_color": "#3b82c4",
+          "text_color": "#15203a",
+          "heading_color": "#15203a",
+          "border_color": "#dde8f3",
+          "btn_primary_color": "#ffffff",
+          "btn_primary_background": "#1e3360",
+          "btn_primary_hover_color": "#ffffff",
+          "btn_primary_hover_background": "#122244",
+          "btn_outline_color": "#1e3360",
+          "btn_outline_border_color": "#1e3360",
+          "button_link_color": "#1e3360",
+          "button_link_hover_color": "#3b82c4"
+        }
+      },
+      "scheme-2b5c6c91-201d-4fb1-aba3-e6d562656976": {
+        "settings": {
+          "background": "#f4f8fd",
+          "background_gradient": "",
+          "primary_color": "#3b82c4",
+          "text_color": "#3c4660",
+          "heading_color": "#15203a",
+          "border_color": "#dde8f3",
+          "btn_primary_color": "#ffffff",
+          "btn_primary_background": "#1e3360",
+          "btn_primary_hover_color": "#ffffff",
+          "btn_primary_hover_background": "#122244",
+          "btn_outline_color": "#1e3360",
+          "btn_outline_border_color": "#1e3360",
+          "button_link_color": "#1e3360",
+          "button_link_hover_color": "#3b82c4"
+        }
+      },
+      "scheme-accf3b11-ba40-4a3e-bafb-243ece6683ec": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "primary_color": "#3b82c4",
+          "text_color": "#15203a",
+          "heading_color": "#15203a",
+          "border_color": "#dde8f3",
+          "btn_primary_color": "#ffffff",
+          "btn_primary_background": "#1e3360",
+          "btn_primary_hover_color": "#ffffff",
+          "btn_primary_hover_background": "#122244",
+          "btn_outline_color": "#1e3360",
+          "btn_outline_border_color": "#1e3360",
+          "button_link_color": "#1e3360",
+          "button_link_hover_color": "#3b82c4"
+        }
+      }
+    },
+    "enable_cookies": false
+  },
+  "presets": {
+    "Default": {}
+  }
+}

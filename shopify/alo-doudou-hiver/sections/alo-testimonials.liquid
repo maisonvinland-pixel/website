@@ -1,0 +1,186 @@
+{%- comment -%}
+  Alo Doudou : carrousel d'avis clients en cartes inclinées.
+  Source « auto » : les avis saisis dans Contenu > Métaobjets > Avis client (statut Actif).
+  Sur une fiche produit, seuls les avis liés à ce produit sont affichés.
+  Aucun avis = la section ne s'affiche pas.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign reviews = shop.metaobjects.avis_client.values
+  assign current = nil
+  if product and template.name == 'product' and st.filter_product
+    assign current = product
+  endif
+
+  assign rv_count = 0
+  assign rv_sum = 0
+  if st.source == 'blocks'
+    for block in section.blocks
+      if block.settings.text != blank
+        assign rv_count = rv_count | plus: 1
+        assign rv_sum = rv_sum | plus: block.settings.rating
+      endif
+    endfor
+  else
+    if current
+      for review in reviews limit: 50
+        if review.produit.value.id == current.id and review.texte != blank
+          assign rv_count = rv_count | plus: 1
+          assign rv_sum = rv_sum | plus: review.note.value
+        endif
+      endfor
+      if rv_count == 0 and st.fallback_all
+        assign current = nil
+      endif
+    endif
+    if current == nil
+      for review in reviews limit: 50
+        if review.texte != blank
+          assign rv_count = rv_count | plus: 1
+          assign rv_sum = rv_sum | plus: review.note.value
+        endif
+      endfor
+    endif
+  endif
+
+  assign rv_avg = 0
+  if rv_count > 0
+    assign rv_avg = rv_sum | times: 1.0 | divided_by: rv_count | round: 1
+  endif
+-%}
+{%- if rv_count > 0 -%}
+  {{ 'alo-sections.css' | asset_url | stylesheet_tag }}
+  {{ 'alo-avis.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'alo-sections.js' | asset_url }}" defer="defer"></script>
+  <div
+    id="alo-avis"
+    class="alo-testi color-{{ st.color_scheme }} gradient"
+    style="--alo-pt: {{ st.padding_top }}px; --alo-pb: {{ st.padding_bottom }}px;"
+  >
+    <div class="alo-wrap">
+      <div class="alo-head">
+        {%- if st.heading != blank -%}<h2 class="alo-head__title alo-testi__title">{{ st.heading }}</h2>{%- endif -%}
+        {%- if st.show_score -%}
+          <p class="alo-testi__score">
+            <strong>{{ rv_avg | replace: '.', ',' }}</strong> / 5
+            <span class="alo-stars" style="--alo-rating: {{ rv_avg }};" aria-hidden="true"></span>
+            <span class="alo-testi__count">{{ rv_count }} avis</span>
+          </p>
+        {%- endif -%}
+      </div>
+      <div class="alo-slider" data-alo-slider>
+        <button type="button" class="alo-arrow alo-arrow--prev" data-alo-prev aria-label="Avis précédent">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+        </button>
+        <div class="alo-track alo-testi__track" data-alo-track tabindex="0" aria-label="Avis clients">
+          {%- if st.source == 'blocks' -%}
+            {%- for block in section.blocks -%}
+              {%- assign b = block.settings -%}
+              {%- if b.text != blank -%}
+                {%- render 'alo-review-card',
+                  text: b.text,
+                  author: b.author,
+                  rating: b.rating,
+                  product_label: b.product_label,
+                  image: b.avatar,
+                  attrs: block.shopify_attributes
+                -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign shown = 0 -%}
+            {%- for review in reviews limit: 50 -%}
+              {%- if shown >= st.max_reviews -%}{%- break -%}{%- endif -%}
+              {%- if review.texte == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign rp = review.produit.value -%}
+              {%- if current and rp.id != current.id -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                assign label = blank
+                assign link = blank
+                if rp != blank and current == nil
+                  assign label = rp.title
+                  assign link = rp.url
+                endif
+              -%}
+              {%- render 'alo-review-card',
+                text: review.texte.value,
+                author: review.prenom.value,
+                rating: review.note.value,
+                product_label: label,
+                product_url: link,
+                image: review.photo.value,
+                date: review.date.value
+              -%}
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+        <button type="button" class="alo-arrow alo-arrow--next" data-alo-next aria-label="Avis suivant">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="alo-progress" aria-hidden="true"><span data-alo-progress></span></div>
+      {%- if st.disclaimer != blank -%}<p class="alo-testi__legal">{{ st.disclaimer }}</p>{%- endif -%}
+      {%- if st.link_label != blank and st.link_url != blank -%}
+        <p class="alo-testi__more"><a href="{{ st.link_url }}" target="_blank" rel="noopener">{{ st.link_label }}</a></p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="alo-testi-empty" style="padding: 24px 16px; margin: 16px auto; max-width: 640px; text-align: center; border: 1.5px dashed currentColor; border-radius: 16px; font-size: 1.4rem;">
+    <strong>Alo · Avis clients</strong> : aucun avis à afficher pour l'instant.<br>
+    Ajoute tes avis dans <em>Contenu → Métaobjets → Avis client</em>, avec le statut <em>Actif</em>.
+    Ce message n'est visible que dans l'éditeur ; la section reste masquée pour tes clientes tant qu'il n'y a pas d'avis.
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Alo · Avis clients",
+  "tag": "section",
+  "class": "section alo-section",
+  "disabled_on": { "groups": ["header", "footer", "custom.overlay"] },
+  "max_blocks": 15,
+  "settings": [
+    { "type": "paragraph", "content": "Ajoute tes vrais avis dans Contenu > Métaobjets > Avis client (statut Actif). Ils s'affichent ici automatiquement. Sans avis, la section est masquée." },
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Source des avis",
+      "options": [
+        { "value": "auto", "label": "Automatique (Métaobjets > Avis client)" },
+        { "value": "blocks", "label": "Manuelle (blocs ci-dessous)" }
+      ],
+      "default": "auto"
+    },
+    { "type": "checkbox", "id": "filter_product", "label": "Fiche produit : n'afficher que les avis de ce produit", "default": true },
+    { "type": "checkbox", "id": "fallback_all", "label": "Produit sans avis : afficher ceux des autres produits", "default": true },
+    { "type": "range", "id": "max_reviews", "label": "Nombre d'avis maximum", "min": 3, "max": 30, "step": 1, "default": 12 },
+    { "type": "inline_richtext", "id": "heading", "label": "Titre", "default": "Ce qu'elles <em>en disent</em>" },
+    { "type": "checkbox", "id": "show_score", "label": "Afficher la note moyenne et le nombre d'avis", "default": true },
+    { "type": "text", "id": "disclaimer", "label": "Mention sur les avis (obligatoire en France)", "default": "Avis recueillis auprès de clientes ayant commandé chez nous, publiés sans modification." },
+    { "type": "text", "id": "link_label", "label": "Texte du lien", "default": "Lire tous les avis" },
+    { "type": "url", "id": "link_url", "label": "Lien vers tes avis (Google, Trustpilot…)" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Couleurs" },
+    { "type": "range", "id": "padding_top", "label": "Marge haute", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Marge basse", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Avis",
+      "settings": [
+        { "type": "paragraph", "content": "Utilisé seulement si la source est « Manuelle »." },
+        { "type": "text", "id": "product_label", "label": "Produit concerné" },
+        { "type": "textarea", "id": "text", "label": "Texte de l'avis" },
+        { "type": "text", "id": "author", "label": "Prénom et initiale" },
+        { "type": "range", "id": "rating", "label": "Note", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "image_picker", "id": "avatar", "label": "Photo (facultatif)" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Alo · Avis clients" }
+  ]
+}
+{% endschema %}

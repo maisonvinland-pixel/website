@@ -1,0 +1,15 @@
+{%- comment -%} Alo Doudou : un avis dans le bloc près du bouton d'achat. {%- endcomment -%}
+<figure class="alo-atcr__item">
+  {%- if image != blank -%}
+    {{ image | image_url: width: 160 | image_tag: class: 'alo-atcr__img', loading: 'lazy', alt: author }}
+  {%- else -%}
+    <span class="alo-atcr__img alo-atcr__img--initial" aria-hidden="true">{{ author | slice: 0 | upcase | default: '★' }}</span>
+  {%- endif -%}
+  <div class="alo-atcr__body">
+    <figcaption class="alo-atcr__head">
+      <strong>{{ author }}</strong>
+      <span class="alo-stars" style="--alo-rating: {{ rating }};" role="img" aria-label="{{ rating }} sur 5"></span>
+    </figcaption>
+    <blockquote class="alo-atcr__text">{{ text | truncate: 220 }}</blockquote>
+  </div>
+</figure>

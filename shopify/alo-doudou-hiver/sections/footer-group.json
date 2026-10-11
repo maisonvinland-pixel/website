@@ -1,0 +1,78 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "alo_newsletter": {
+      "type": "alo-newsletter",
+      "settings": {
+        "kicker": "Le cercle Alo Doudou",
+        "heading": "-10 % sur ta première commande, rien que pour toi",
+        "text": "<p>Inscris-toi et reçois ton code tout de suite. Ensuite, on t'écrit seulement quand ça vaut vraiment le coup.</p>",
+        "perk_1": "Les nouveautés en avant-première",
+        "perk_2": "Des offres réservées aux abonnées",
+        "perk_3": "Zéro spam, désinscription en un clic",
+        "ticket_value": "-10 %",
+        "ticket_text": "sur ta 1re commande",
+        "placeholder": "Ton adresse e-mail",
+        "button_label": "Je veux mes -10 %",
+        "code": "BIENVENUE10",
+        "note": "En t'inscrivant, tu acceptes de recevoir nos e-mails et notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>.",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "store_info_tUhcyD": {
+          "type": "store_info",
+          "settings": {
+            "image_width": 70,
+            "store_heading": "Alo Doudou",
+            "store_description": "<p>La boutique pensée pour les femmes qui veulent se faire plaisir sans se compliquer la vie. Une question ? On te répond vite par e-mail ou via notre <a href=\"/pages/contact\"><strong>page contact</strong></a>.</p>",
+            "store_address": false,
+            "store_phone": false,
+            "store_email": true,
+            "content_width": "33.333%"
+          }
+        },
+        "link_list_JTq77M": {
+          "type": "link_list",
+          "settings": {"heading": "Boutique", "menu": "boutique", "content_width": "16%"}
+        },
+        "link_list_x4zwRH": {
+          "type": "link_list",
+          "settings": {"heading": "Informations", "menu": "footer", "content_width": "16%"}
+        }
+      },
+      "block_order": ["store_info_tUhcyD", "link_list_JTq77M", "link_list_x4zwRH"],
+      "settings": {
+        "section_width": "fluid_container",
+        "color_scheme": "scheme-2b5c6c91-201d-4fb1-aba3-e6d562656976",
+        "enable_back_top": true,
+        "separator_line": "all-page",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "payment_enable": false,
+        "payment_width": 340,
+        "copyright_text": "© 2026 Alo Doudou. Tous droits réservés.",
+        "footer_heading_size": 16,
+        "padding_top": 60,
+        "padding_bottom": 45,
+        "reset_spacing_on_homepage": false
+      }
+    }
+  },
+  "order": ["alo_newsletter", "footer"]
+}

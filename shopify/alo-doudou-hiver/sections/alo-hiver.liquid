@@ -1,0 +1,105 @@
+{%- comment -%}
+  Alo Doudou : mode hiver animé (neige, cristaux, aurore, stalactites).
+  Section statique rendue dans layout/theme.liquid : réglages dans
+  Personnaliser > Paramètres de l'en-tête/pied de page > « Mode hiver ».
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+-%}
+{%- if st.enable -%}
+  {{ 'alo-hiver.css' | asset_url | stylesheet_tag }}
+  <div
+    id="alo-hiver"
+    class="alo-hiver{% if st.frost %} alo-hiver--frost{% endif %}"
+    data-density="{{ st.density }}"
+    data-crystals="{{ st.crystals }}"
+    data-interact="{{ st.interact }}"
+    data-burst="{{ st.burst }}"
+    data-aurora="{{ st.aurora }}"
+    data-icicles="{{ st.icicles }}"
+    data-drift="{{ st.drift }}"
+    data-tint="{{ st.tint }}"
+    aria-hidden="true"
+  ></div>
+  <script src="{{ 'alo-hiver.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Mode hiver ❄️",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Activer le mode hiver animé",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Neige"
+    },
+    {
+      "type": "range",
+      "id": "density",
+      "label": "Quantité de flocons",
+      "min": 30,
+      "max": 200,
+      "step": 10,
+      "default": 90
+    },
+    {
+      "type": "checkbox",
+      "id": "crystals",
+      "label": "Gros cristaux de neige qui scintillent",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "tint",
+      "label": "Reflet glacé des flocons",
+      "info": "Donne du relief aux flocons pour qu'ils restent visibles sur fond blanc.",
+      "default": "#9fc3e6"
+    },
+    {
+      "type": "checkbox",
+      "id": "interact",
+      "label": "Les flocons s'écartent du doigt ou de la souris",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "burst",
+      "label": "Éclat de flocons à chaque clic",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Décors"
+    },
+    {
+      "type": "checkbox",
+      "id": "aurora",
+      "label": "Aurore boréale dans la barre d'annonce",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "icicles",
+      "label": "Neige et stalactites sous le menu",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "drift",
+      "label": "Congère de neige au-dessus du pied de page",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "frost",
+      "label": "Givre sur les coins de l'écran (ordinateur)",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

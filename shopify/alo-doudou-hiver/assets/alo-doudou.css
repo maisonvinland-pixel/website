@@ -1,0 +1,433 @@
+/* ==========================================================
+   Alo Doudou : identité vague pour le header, le menu et le panier
+   ========================================================== */
+:root {
+  --alo-ink: #111111;
+  --alo-cream: #f3ece0;
+  --alo-paper: #fbf7f0;
+  --alo-sand: #d6c9b4;
+  --alo-ok: #1f7a4d;
+  --alo-font: 'Righteous', var(--font-heading-family, sans-serif);
+  --alo-wave-ink: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%277%27 viewBox=%270 0 20 7%27%3E%3Cpath d=%27M0 3.5Q5 0 10 3.5T20 3.5%27 fill=%27none%27 stroke=%27%23111%27 stroke-width=%271.6%27/%3E%3C/svg%3E');
+  --alo-wave-line: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2710%27 viewBox=%270 0 24 10%27%3E%3Cpath d=%27M0 5Q6 0 12 5T24 5%27 fill=%27none%27 stroke=%27%23111%27 stroke-width=%271.4%27/%3E%3C/svg%3E');
+  --alo-wave-white: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2716%27 height=%2712%27 viewBox=%270 0 16 12%27%3E%3Cpath d=%27M0 6Q4 2 8 6T16 6%27 fill=%27none%27 stroke=%27%23ffffff%27 stroke-opacity=%27.55%27 stroke-width=%271.6%27/%3E%3C/svg%3E');
+  --alo-flag: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2724%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M6 21V3%27 stroke=%27%23111%27 stroke-width=%271.8%27 stroke-linecap=%27round%27/%3E%3Cpath d=%27M6 3.5h12l-3 4 3 4H6z%27 fill=%27%23111%27/%3E%3C/svg%3E');
+}
+
+/* ---------- Icônes du header ---------- */
+.header__action .header-icon,
+.header__menu .nav-toggle {
+  border-radius: 50%;
+  transition: background-color .25s ease;
+}
+.header__action .header-icon svg {
+  width: 22px;
+  height: 22px;
+  transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+.header__action .header-icon:hover,
+.header__menu .nav-toggle:hover {
+  background-color: var(--alo-cream);
+}
+.header__action .header-icon:hover svg {
+  transform: rotate(-8deg) scale(1.1);
+}
+.header__menu .nav-toggle {
+  justify-content: center;
+}
+.header__menu .nav-toggle svg {
+  width: 24px;
+  height: 18px;
+}
+.header__menu .nav-toggle:hover .alo-burger-mid {
+  d: path('M2 9q2.5-2 5 0t5 0t5 0t5 0');
+}
+.alo-burger-mid {
+  transition: d .35s ease;
+}
+
+/* Bulle du compteur panier : forme de galet */
+.header__minicart .cart-count.h-count {
+  background: var(--alo-ink);
+  color: var(--alo-cream);
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid #fff;
+  border-radius: 58% 42% 55% 45% / 50% 55% 45% 50%;
+  animation: alo-pop .6s cubic-bezier(.34, 1.56, .64, 1);
+}
+@keyframes alo-pop {
+  0% { transform: scale(.4); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- Menu : soulignement en vague ---------- */
+@media (min-width: 1025px) {
+  .header__menu .level0 > menu-item > a {
+    position: relative;
+  }
+  .header__menu .level0 > menu-item > a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% + .8em);
+    height: 7px;
+    background: var(--alo-wave-ink) repeat-x 0 50% / 20px 7px;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path .45s ease;
+    pointer-events: none;
+  }
+  .header__menu .level0 > menu-item > a:hover::after,
+  .header__menu .level0 > menu-item > a:focus-visible::after,
+  .header__menu .level0 > menu-item > a[aria-current]::after {
+    clip-path: inset(0 0 0 0);
+    animation: alo-surf 1.2s linear infinite;
+  }
+}
+@keyframes alo-surf {
+  to { background-position: 20px 50%; }
+}
+
+/* ---------- Tiroir panier ---------- */
+.minicart__wrapper,
+.minicart__wrapper .color-default {
+  --color-background: var(--alo-paper);
+  background-color: var(--alo-paper);
+}
+.minicart__wrapper .grey-bg {
+  background-color: var(--alo-cream) !important;
+}
+.minicart__header {
+  position: relative;
+  border-bottom: 0 !important;
+  padding-bottom: 24px !important;
+}
+.minicart__header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 10px;
+  background: var(--alo-wave-line) repeat-x 0 50% / 24px 10px;
+}
+.minicart-heading.alo-cart-title {
+  font-family: var(--alo-font);
+  font-weight: 400;
+  font-size: 2.4rem;
+  letter-spacing: .01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.alo-cart-title .cart-count-drawer {
+  font-family: var(--font-body-family, sans-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  background: var(--alo-ink);
+  color: var(--alo-cream);
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+.minicart__header .close-cart-button {
+  width: 38px;
+  height: 38px;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--alo-ink);
+  background: #fff;
+  transition: transform .3s ease;
+}
+.minicart__header .close-cart-button:hover {
+  transform: rotate(90deg);
+}
+
+/* Barre livraison offerte : le petit bateau vogue vers le drapeau */
+.minicart__wrapper free-ship-progress-bar.cart_shipping,
+.template-cart free-ship-progress-bar.cart_shipping {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  padding: 22px 46px 14px 30px !important;
+}
+.cart_shipping .cart_bar_w {
+  height: 12px !important;
+  background: #fff !important;
+  border: 1.5px solid var(--alo-ink);
+  border-radius: 20px !important;
+}
+.cart_shipping .cart_bar_w::after {
+  content: '';
+  position: absolute;
+  right: -26px;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translateY(-62%);
+  background: var(--alo-flag) no-repeat center / contain;
+}
+.cart_shipping .cart_bar_w span.percent_shipping_bar {
+  border-radius: 20px !important;
+  background-color: var(--alo-ink) !important;
+  background-image: var(--alo-wave-white) !important;
+  background-size: 16px 12px !important;
+  animation: alo-surf-bar 1.4s linear infinite !important;
+  min-width: 14px;
+}
+@keyframes alo-surf-bar {
+  to { background-position: 16px 0; }
+}
+.cart_shipping .percent_shipping_bar svg {
+  width: 34px;
+  height: 34px;
+  right: -1.4rem;
+  animation: alo-bob 2.4s ease-in-out infinite;
+}
+@keyframes alo-bob {
+  0%, 100% { transform: translate(50%, -55%) rotate(-4deg); }
+  50% { transform: translate(50%, -45%) rotate(4deg); }
+}
+.cart_shipping.cart_shipping_free .cart_bar_w span.percent_shipping_bar {
+  background-color: var(--alo-ok) !important;
+}
+.cart_shipping .free-shipping-message {
+  text-align: center;
+  font-size: 1.35rem;
+  margin-top: 14px;
+}
+
+/* Articles du panier : cartes « sticker » comme le logo */
+.minicart .items .cart-item {
+  background: #fff;
+  border: 1.5px solid var(--alo-ink) !important;
+  border-radius: 16px;
+  padding: 12px !important;
+  margin-bottom: 14px !important;
+  box-shadow: 3px 3px 0 var(--alo-sand);
+}
+.minicart .items .cart-item:last-child {
+  padding-bottom: 12px !important;
+  margin-bottom: 4px !important;
+}
+.minicart .cart-item img {
+  border-radius: 10px;
+}
+
+/* Ticket code promo */
+.alo-coupon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 30px;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1.5px dashed var(--alo-ink);
+  border-radius: 12px;
+}
+.alo-coupon::before,
+.alo-coupon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--alo-paper);
+  border: 1.5px dashed var(--alo-ink);
+  transform: translateY(-50%);
+}
+.alo-coupon::before { left: -9px; clip-path: inset(0 0 0 50%); }
+.alo-coupon::after { right: -9px; clip-path: inset(0 50% 0 0); }
+.alo-coupon__icon {
+  flex: 0 0 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--alo-cream);
+  display: grid;
+  place-items: center;
+  color: var(--alo-ink);
+}
+.alo-coupon__icon svg { width: 20px; height: 20px; }
+.alo-coupon__text {
+  flex: 1;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: var(--alo-ink);
+}
+.alo-coupon__text strong {
+  display: block;
+  font-family: var(--alo-font);
+  font-weight: 400;
+  font-size: 1.55rem;
+  letter-spacing: .03em;
+}
+.alo-coupon__hint {
+  display: block;
+  color: #666;
+  font-size: 1.15rem;
+}
+.alo-coupon__btn {
+  flex: 0 0 auto;
+  border: 1.5px solid var(--alo-ink);
+  background: var(--alo-ink);
+  color: #fff;
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+.alo-coupon__btn:hover { transform: translateY(-2px); }
+.alo-coupon.is-applied {
+  border-style: solid;
+  border-color: var(--alo-ok);
+  background: #eef7f1;
+}
+.alo-coupon.is-applied::before,
+.alo-coupon.is-applied::after { border-color: var(--alo-ok); border-style: solid; }
+.alo-coupon.is-applied .alo-coupon__btn {
+  background: var(--alo-ok);
+  border-color: var(--alo-ok);
+  pointer-events: none;
+}
+
+/* Bas du tiroir */
+.alo-ship-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  color: #555;
+  margin: 2px 0 16px;
+}
+.alo-ship-line .alo-ok { color: var(--alo-ok); }
+.minicart .btn-checkout,
+.template-cart .btn-checkout {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  font-size: 1.6rem;
+  border: 2px solid var(--alo-ink) !important;
+  border-radius: 40px !important;
+  box-shadow: 4px 4px 0 var(--alo-sand);
+  transition: transform .15s ease, box-shadow .15s ease !important;
+}
+.minicart .btn-checkout:hover,
+.template-cart .btn-checkout:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--alo-sand);
+}
+.minicart .btn-checkout svg { width: 18px; height: 18px; flex: 0 0 auto; }
+.alo-viewcart {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 1.3rem;
+  color: var(--alo-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alo-trust { margin-top: 16px; }
+.alo-trust__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  text-align: center;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: #333;
+}
+.alo-trust__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.alo-trust__item svg { width: 22px; height: 22px; color: var(--alo-ink); }
+.alo-pay {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.alo-pay svg { height: 22px; width: auto; }
+
+/* Panier vide */
+.alo-empty {
+  padding: 36px 30px;
+  text-align: center;
+}
+.alo-empty__logo {
+  display: block;
+  width: 160px;
+  height: auto;
+  margin: 0 auto 18px;
+  animation: alo-float 4s ease-in-out infinite;
+}
+@keyframes alo-float {
+  50% { transform: translateY(-6px) rotate(-2deg); }
+}
+.alo-empty__title {
+  font-family: var(--alo-font);
+  font-size: 2.4rem;
+  line-height: 1.2;
+  color: var(--alo-ink);
+  margin: 0 0 8px;
+}
+.alo-empty__text { margin: 0 auto; max-width: 30rem; }
+.alo-empty__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+.alo-pill {
+  display: block;
+  padding: 14px 20px;
+  border: 2px solid var(--alo-ink);
+  border-radius: 40px;
+  color: var(--alo-ink);
+  background: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 4px 4px 0 var(--alo-sand);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.alo-pill:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--alo-sand);
+  color: var(--alo-ink);
+}
+.alo-pill--dark { background: var(--alo-ink); color: #fff; }
+.alo-pill--dark:hover { color: #fff; }
+.alo-empty__perks {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  font-size: 1.3rem;
+  color: #444;
+}
+.alo-empty__perks li { padding: 4px 0; }
+.alo-empty__perks li::before { content: '〜  '; }
+
+@media (max-width: 767px) {
+  .alo-coupon { margin: 12px 20px; }
+  .minicart-heading.alo-cart-title { font-size: 2.1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alo-empty__logo,
+  .cart_shipping .percent_shipping_bar svg,
+  .cart_shipping .cart_bar_w span.percent_shipping_bar,
+  .header__menu .level0 > menu-item > a::after,
+  .header__minicart .cart-count.h-count {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,268 @@
+{%- comment -%}
+  Alo Doudou : catalogue « vestiaire d'hiver ».
+  Filtres par catégorie (type de produit), étiquettes prix suspendues,
+  ajout au panier en un clic directement depuis la taille.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign source = st.collection
+  if source == blank
+    assign source = collections.all
+  endif
+  assign types = ''
+  assign tlist = ''
+  assign total = 0
+  for p in source.products limit: st.limit
+    assign total = total | plus: 1
+    assign t = p.type | strip
+    if t != blank
+      assign key = '|' | append: t | append: '|'
+      unless types contains key
+        assign types = types | append: key
+        assign tlist = tlist | append: '§' | append: t
+      endunless
+    endif
+  endfor
+  assign type_list = tlist | remove_first: '§' | split: '§'
+-%}
+{{ 'alo-boutique.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'alo-boutique.js' | asset_url }}" defer="defer"></script>
+<style>
+  .alo-card__soon {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    z-index: 2;
+    transform: translateX(-50%) rotate(-2deg);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #fff;
+    background: var(--alo-ink, #15203a);
+    box-shadow: 3px 3px 0 var(--alo-sand, #c7d9ee);
+  }
+  .alo-card.is-soldout .alo-card__img,
+  .alo-card.is-soldout .alo-card__ph { filter: grayscale(.35) brightness(.97); }
+  .alo-card__add[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
+</style>
+
+<section
+  class="alo-cat color-{{ st.color_scheme }}"
+  data-alo-cat
+  style="--alo-pt: {{ st.padding_top }}px; --alo-pb: {{ st.padding_bottom }}px;"
+>
+  <div class="alo-cat__wrap">
+    <header class="alo-cat__head">
+      {%- if st.kicker != blank -%}
+        <p class="alo-cat__kicker">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/></svg>
+          {{ st.kicker }}
+        </p>
+      {%- endif -%}
+      <h2 class="alo-cat__title">{{ st.heading }}</h2>
+      {%- if st.subheading != blank -%}<p class="alo-cat__sub">{{ st.subheading }}</p>{%- endif -%}
+      <p class="alo-cat__count"><strong data-alo-cat-count>{{ total }}</strong> pièce{% if total > 1 %}s{% endif %} à shopper</p>
+    </header>
+
+    {%- if st.show_filters and type_list.size > 1 -%}
+      <div class="alo-cat__filters" role="tablist" aria-label="Filtrer le catalogue">
+        <button type="button" class="alo-cat__chip is-active" data-alo-cat-filter="*" role="tab" aria-selected="true">
+          Tout <span>{{ total }}</span>
+        </button>
+        {%- for t in type_list -%}
+          {%- assign n = 0 -%}
+          {%- for p in source.products limit: st.limit -%}
+            {%- assign pt = p.type | strip -%}
+            {%- if pt == t -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+          {%- endfor -%}
+          <button type="button" class="alo-cat__chip" data-alo-cat-filter="{{ t | handleize }}" role="tab" aria-selected="false">
+            {{ t }} <span>{{ n }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <ul class="alo-cat__grid" role="list" data-alo-cat-grid>
+      {%- assign pos = 0 -%}
+      {%- for pass in (1..2) -%}
+      {%- for p in source.products limit: st.limit -%}
+        {%- comment -%} D'abord les produits disponibles, puis ceux en rupture {%- endcomment -%}
+        {%- if pass == 1 and p.available == false -%}{%- continue -%}{%- endif -%}
+        {%- if pass == 2 and p.available -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign pos = pos | plus: 1
+          assign v = p.selected_or_first_available_variant
+          assign off = 0
+          if v.compare_at_price > v.price
+            assign off = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+          endif
+          assign tilt = pos | modulo: 3
+        -%}
+        <li class="alo-cat__item" data-alo-cat-item data-type="{{ p.type | strip | handleize }}" style="--i: {{ pos | minus: 1 }};">
+          <article class="alo-card alo-card--t{{ tilt }}{% unless p.available %} is-soldout{% endunless %}">
+            <a class="alo-card__media" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+              {%- if p.featured_image != blank -%}
+                {{ p.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: p.title, class: 'alo-card__img', sizes: '(min-width: 990px) 25vw, 50vw' }}
+                {%- if p.images.size > 1 -%}
+                  {{ p.images[1] | image_url: width: 700 | image_tag: loading: 'lazy', alt: '', class: 'alo-card__img alo-card__img--alt', sizes: '(min-width: 990px) 25vw, 50vw' }}
+                {%- endif -%}
+              {%- else -%}
+                <span class="alo-card__ph" aria-hidden="true">
+                  <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M24 4v40M6.7 14l34.6 20M6.7 34l34.6-20M24 4l-4 4M24 4l4 4M24 44l-4-4M24 44l4-4M6.7 14l1.5 5.4M6.7 14l5.4-1.5M41.3 34l-1.5-5.4M41.3 34l-5.4 1.5M6.7 34l5.4 1.5M6.7 34l1.5-5.4M41.3 14l-5.4-1.5M41.3 14l-1.5 5.4"/></svg>
+                  <span>{{ p.type | default: 'Alo Doudou' }}</span>
+                  <small>Photo bientôt disponible</small>
+                </span>
+              {%- endif -%}
+              {%- unless p.available -%}
+                <span class="alo-card__soon">Bientôt de retour</span>
+              {%- endunless -%}
+              {%- if off > 0 -%}
+                <span class="alo-card__off" aria-label="Réduction de {{ off }} %">-{{ off }}%</span>
+              {%- endif -%}
+              <span class="alo-tag" aria-hidden="true">
+                <span class="alo-tag__string"></span>
+                <span class="alo-tag__body">
+                  <span class="alo-tag__price">{{ v.price | money }}</span>
+                  {%- if off > 0 -%}<s class="alo-tag__was">{{ v.compare_at_price | money }}</s>{%- endif -%}
+                </span>
+              </span>
+            </a>
+            <div class="alo-card__body">
+              {%- if p.type != blank -%}<p class="alo-card__type">{{ p.type }}</p>{%- endif -%}
+              <h3 class="alo-card__title"><a href="{{ p.url }}">{{ p.title }}</a></h3>
+              <p class="alo-card__price">
+                <span>{{ v.price | money }}</span>
+                {%- if off > 0 -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}
+              </p>
+              <div class="alo-card__qa">
+                {%- if p.has_only_default_variant -%}
+                  <button type="button" class="alo-card__add" data-alo-qa="{{ v.id }}"{% unless v.available %} disabled{% endunless %}>
+                    {%- if v.available -%}Ajouter au panier{%- else -%}Épuisé{%- endif -%}
+                  </button>
+                {%- else -%}
+                  <p class="alo-card__qa-label">{% if p.available %}Ajout express{% else %}Tailles bientôt de retour{% endif %}</p>
+                  <div class="alo-card__sizes">
+                    {%- for variant in p.variants -%}
+                      <button
+                        type="button"
+                        class="alo-card__size"
+                        data-alo-qa="{{ variant.id }}"
+                        {% unless variant.available %}disabled{% endunless %}
+                        aria-label="Ajouter {{ p.title | escape }} – {{ variant.title | escape }} au panier"
+                      >{{ variant.title }}</button>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+                <p class="alo-card__msg" data-alo-qa-msg role="status" aria-live="polite"></p>
+              </div>
+            </div>
+          </article>
+        </li>
+      {%- endfor -%}
+      {%- endfor -%}
+    </ul>
+
+    {%- if st.button_label != blank -%}
+      <div class="alo-cat__more">
+        <a class="alo-cat__btn" href="{{ st.button_link | default: source.url }}">{{ st.button_label }}
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 6h13M9.5 1.5 14 6l-4.5 4.5"/></svg>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Catalogue hiver",
+  "tag": "div",
+  "class": "section-alo-catalogue",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Petit titre",
+      "default": "La collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Le vestiaire d'hiver"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sous-titre",
+      "default": "Des pièces douces, chaudes et stylées pour traverser la saison bien au chaud."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection affichée",
+      "info": "Laisse vide pour afficher tout le catalogue."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Nombre maximum de produits",
+      "min": 4,
+      "max": 48,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Afficher les filtres par catégorie",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton",
+      "default": "Voir tout le catalogue"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette de couleurs",
+      "default": "default"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge du haut",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge du bas",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Catalogue hiver"
+    }
+  ]
+}
+{% endschema %}

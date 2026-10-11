@@ -1,0 +1,22 @@
+{%- liquid
+  assign alo_code = 'BIENVENUE10'
+  assign alo_has_code = false
+  for discount in cart.cart_level_discount_applications
+    if discount.type == 'discount_code'
+      assign alo_has_code = true
+    endif
+  endfor
+-%}
+{%- unless alo_has_code -%}
+  <div class='alo-coupon'>
+    <span class='alo-coupon__icon' aria-hidden='true'>
+      <svg width='20' height='20'><use href='#alo-icon-ticket'></use></svg>
+    </span>
+    <div class='alo-coupon__text'>
+      Première commande ?
+      <strong>-10 % avec {{ alo_code }}</strong>
+      <span class='alo-coupon__hint'>Un clic et c'est appliqué au paiement.</span>
+    </div>
+    <button type='button' class='alo-coupon__btn' data-code='{{ alo_code }}'>Appliquer</button>
+  </div>
+{%- endunless -%}

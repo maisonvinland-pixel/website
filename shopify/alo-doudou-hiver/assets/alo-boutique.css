@@ -1,0 +1,1130 @@
+/* ==========================================================
+   Alo Doudou : upsell, catalogue, FAQ et newsletter (hiver)
+   Style « sticker » du site : contour encre, ombre décalée glacée.
+   ========================================================== */
+.alo-ups,
+.alo-cat,
+.alo-faq,
+.alo-nl {
+  --a-ink: var(--alo-ink, #15203a);
+  --a-night: var(--alo-plum, #1e3360);
+  --a-ice: var(--alo-cream, #e5effa);
+  --a-paper: var(--alo-paper, #f4f8fd);
+  --a-shadow: var(--alo-sand, #c7d9ee);
+  --a-accent: var(--alo-berry, #3b82c4);
+  --a-gold: var(--alo-star, #e0a43a);
+  --a-font: var(--alo-font, var(--font-heading-family, sans-serif));
+  --a-ease: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* ==========================================================
+   1. UPSELL (fiche produit)
+   ========================================================== */
+.alo-ups {
+  margin: 4px 0 22px;
+}
+.alo-ups__head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--a-ink);
+}
+.alo-ups__head svg { color: var(--a-accent); }
+.alo-ups__track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 2px 6px 8px 2px;
+  -webkit-overflow-scrolling: touch;
+}
+.alo-ups__track::-webkit-scrollbar { display: none; }
+.alo-ups__card {
+  position: relative;
+  flex: 0 0 100%;
+  display: flex;
+  min-height: 118px;
+  scroll-snap-align: start;
+  border: 1.5px solid var(--a-ink);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 4px 4px 0 var(--a-shadow);
+  transition: transform .3s var(--a-ease), box-shadow .3s ease;
+}
+.alo-ups__card.is-on {
+  box-shadow: 4px 4px 0 var(--a-accent);
+}
+.alo-ups__media {
+  position: relative;
+  flex: 0 0 31%;
+  max-width: 132px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px 8px;
+  background: #fff;
+  color: var(--a-ink);
+  text-decoration: none;
+  border-right: 1.5px solid var(--a-ink);
+}
+.alo-ups__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.alo-ups__ph {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--a-accent);
+  background:
+    radial-gradient(circle at 30% 25%, #fff 0 18%, transparent 19%),
+    linear-gradient(160deg, var(--a-ice), #fff);
+}
+.alo-ups__more {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alo-ups__panel {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 74px 12px 16px;
+  color: #fff;
+  cursor: pointer;
+  background:
+    radial-gradient(1.5px 1.5px at 18% 22%, rgba(255, 255, 255, .7), transparent),
+    radial-gradient(1px 1px at 46% 78%, rgba(255, 255, 255, .6), transparent),
+    radial-gradient(1.5px 1.5px at 72% 30%, rgba(255, 255, 255, .55), transparent),
+    radial-gradient(1px 1px at 88% 82%, rgba(255, 255, 255, .6), transparent),
+    radial-gradient(120% 140% at 100% 0%, #2c4a86 0%, transparent 60%),
+    var(--a-night);
+}
+.alo-ups__title {
+  font-family: var(--a-font);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.alo-ups__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 9px;
+}
+.alo-ups__price {
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+.alo-ups__compare {
+  font-size: 1.25rem;
+  opacity: .7;
+}
+.alo-ups__badge {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 6px;
+  color: var(--a-night);
+  background: linear-gradient(135deg, #fff 0%, #cfe4f8 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .5), 0 4px 12px rgba(10, 20, 50, .25);
+}
+.alo-ups__vars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+.alo-ups__var {
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .45);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.alo-ups__var.is-active {
+  background: #fff;
+  color: var(--a-night);
+  border-color: #fff;
+}
+.alo-ups__toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  margin: 0;
+}
+.alo-ups__input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.alo-ups__switch {
+  position: relative;
+  display: block;
+  width: 52px;
+  height: 30px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, .22);
+  border: 1.5px solid rgba(255, 255, 255, .6);
+  transition: background-color .3s ease, border-color .3s ease;
+}
+.alo-ups__switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  transition: transform .35s var(--a-ease);
+}
+.alo-ups__input:checked + .alo-ups__switch {
+  background: var(--a-gold);
+  border-color: var(--a-gold);
+}
+.alo-ups__input:checked + .alo-ups__switch::after {
+  transform: translateX(22px);
+}
+.alo-ups__input:focus-visible + .alo-ups__switch {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.alo-ups__added {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffe0a3;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .3s ease, opacity .3s ease;
+}
+.alo-ups__card.is-on .alo-ups__added {
+  max-height: 20px;
+  opacity: 1;
+}
+.alo-ups__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+.alo-ups__dots { display: flex; gap: 7px; }
+.alo-ups__dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--a-ink);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color .25s ease, width .25s ease;
+}
+.alo-ups__dot.is-active {
+  width: 22px;
+  border-radius: 9px;
+  background: var(--a-ink);
+}
+.alo-ups__arrows { display: flex; gap: 4px; }
+.alo-ups__arrow {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--a-ink);
+  cursor: pointer;
+  transition: background-color .2s ease, opacity .2s ease;
+}
+.alo-ups__arrow:hover { background: var(--a-ice); }
+.alo-ups__arrow[disabled] { opacity: .3; cursor: default; background: transparent; }
+@media (max-width: 380px) {
+  .alo-ups__panel { padding-right: 68px; }
+  .alo-ups__title { font-size: 1.35rem; }
+}
+
+/* ==========================================================
+   2. CATALOGUE « vestiaire d'hiver »
+   ========================================================== */
+.alo-cat {
+  position: relative;
+  padding: var(--alo-pt, 50px) 0 var(--alo-pb, 50px);
+  overflow: hidden;
+}
+.alo-cat__wrap,
+.alo-faq__wrap,
+.alo-nl__wrap {
+  max-width: var(--fluid-container-width, 1410px);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.alo-cat__head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 26px;
+}
+.alo-cat__kicker,
+.alo-faq__kicker,
+.alo-nl__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 12px;
+  padding: 6px 13px;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.alo-cat__kicker {
+  color: var(--a-night);
+  background: var(--a-ice);
+  border: 1.5px solid var(--a-ink);
+}
+.alo-cat__title {
+  margin: 0 0 10px;
+  font-family: var(--a-font);
+  font-size: clamp(3rem, 5.4vw, 5rem);
+  line-height: 1.05;
+  color: var(--a-ink);
+}
+.alo-cat__sub {
+  margin: 0 0 8px;
+  font-size: 1.55rem;
+  line-height: 1.55;
+}
+.alo-cat__count {
+  margin: 0;
+  font-size: 1.3rem;
+  color: rgba(var(--color-text-rgb, 60, 70, 96), .8);
+}
+.alo-cat__count strong { color: var(--a-accent); }
+
+.alo-cat__filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 30px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px 4px 8px;
+}
+.alo-cat__filters::-webkit-scrollbar { display: none; }
+.alo-cat__chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--a-ink);
+  background: #fff;
+  border: 1.5px solid var(--a-ink);
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--a-shadow);
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+}
+.alo-cat__chip span {
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  background: var(--a-ice);
+  color: var(--a-night);
+}
+.alo-cat__chip:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--a-shadow); }
+.alo-cat__chip.is-active {
+  background: var(--a-night);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--a-accent);
+}
+.alo-cat__chip.is-active span { background: rgba(255, 255, 255, .18); color: #fff; }
+
+.alo-cat__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 14px;
+}
+@media (min-width: 750px) { .alo-cat__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 22px; } }
+@media (min-width: 1100px) { .alo-cat__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.alo-cat__item {
+  animation: alo-rise .6s var(--a-ease) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+.alo-cat__item.is-hidden { display: none; }
+.alo-cat__item.is-in { animation: alo-rise .5s var(--a-ease) both; }
+@keyframes alo-rise {
+  from { opacity: 0; transform: translateY(18px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.alo-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.alo-card__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  border: 1.5px solid var(--a-ink);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--a-ice);
+  box-shadow: 5px 5px 0 var(--a-shadow);
+  transition: transform .4s var(--a-ease), box-shadow .4s ease;
+}
+.alo-card--t0 .alo-card__media { transform: rotate(-.6deg); }
+.alo-card--t1 .alo-card__media { transform: rotate(.5deg); }
+.alo-card:hover .alo-card__media {
+  transform: translate(-2px, -4px) rotate(0);
+  box-shadow: 8px 9px 0 var(--a-shadow);
+}
+.alo-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity .5s ease, transform .8s ease;
+}
+.alo-card__img--alt { opacity: 0; }
+.alo-card:hover .alo-card__img--alt { opacity: 1; }
+.alo-card:hover .alo-card__img { transform: scale(1.04); }
+.alo-card__ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  text-align: center;
+  color: var(--a-night);
+  background:
+    radial-gradient(1.5px 1.5px at 20% 18%, #fff, transparent),
+    radial-gradient(2px 2px at 72% 26%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, #fff, transparent),
+    radial-gradient(2px 2px at 84% 78%, #fff, transparent),
+    radial-gradient(80% 60% at 50% 110%, #fff 0 40%, transparent 41%),
+    linear-gradient(170deg, #dbe9f8 0%, var(--a-ice) 55%, #f6fafe 100%);
+}
+.alo-card__ph svg {
+  width: 44%;
+  max-width: 96px;
+  color: var(--a-accent);
+  opacity: .85;
+  animation: alo-spin 24s linear infinite;
+}
+.alo-card__ph span {
+  font-family: var(--a-font);
+  font-size: 1.7rem;
+  line-height: 1.1;
+}
+.alo-card__ph small {
+  font-size: 1.05rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+@keyframes alo-spin { to { transform: rotate(360deg); } }
+
+/* Pastille de réduction en forme de flocon */
+.alo-card__off {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 2;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--a-accent);
+  clip-path: polygon(50% 0%, 61% 18%, 82% 10%, 80% 32%, 100% 41%, 85% 56%, 96% 76%, 74% 79%, 68% 100%, 50% 88%, 32% 100%, 26% 79%, 4% 76%, 15% 56%, 0% 41%, 20% 32%, 18% 10%, 39% 18%);
+  transform: rotate(-12deg);
+  transition: transform .5s var(--a-ease);
+}
+.alo-card:hover .alo-card__off { transform: rotate(18deg) scale(1.08); }
+
+/* Étiquette carton suspendue */
+.alo-tag {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  animation: alo-swing 4.5s ease-in-out infinite;
+}
+.alo-card:hover .alo-tag { animation-duration: 1.4s; }
+.alo-tag__string {
+  width: 1.5px;
+  height: 16px;
+  background: var(--a-ink);
+}
+.alo-tag__body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 10px 8px;
+  min-width: 64px;
+  background: #fbf6ec;
+  border: 1.5px solid var(--a-ink);
+  border-radius: 6px 6px 10px 10px;
+  clip-path: polygon(22% 0, 78% 0, 100% 16%, 100% 100%, 0 100%, 0 16%);
+  box-shadow: 2px 3px 0 rgba(21, 32, 58, .12);
+}
+.alo-tag__body::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  border: 1.5px solid var(--a-ink);
+  background: var(--a-ice);
+}
+.alo-tag__price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--a-ink);
+  white-space: nowrap;
+}
+.alo-tag__was {
+  font-size: 1.05rem;
+  color: #8a93a6;
+  white-space: nowrap;
+}
+@keyframes alo-swing {
+  0%, 100% { transform: rotate(4deg); }
+  50% { transform: rotate(-5deg); }
+}
+
+.alo-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 2px 0;
+  flex: 1;
+}
+.alo-card__type {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--a-accent);
+}
+.alo-card__title {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  font-weight: 600;
+}
+.alo-card__title a { color: var(--a-ink); text-decoration: none; }
+.alo-card__title a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.alo-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 2px 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--a-ink);
+}
+.alo-card__price s { font-size: 1.25rem; font-weight: 400; color: #8a93a6; }
+.alo-card__qa { margin-top: auto; padding-top: 10px; }
+.alo-card__qa-label {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(var(--color-text-rgb, 60, 70, 96), .7);
+}
+.alo-card__sizes { display: flex; flex-wrap: wrap; gap: 6px; }
+.alo-card__size,
+.alo-card__add {
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--a-ink);
+  background: #fff;
+  border: 1.5px solid var(--a-ink);
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, transform .2s var(--a-ease);
+}
+.alo-card__size {
+  min-width: 40px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+}
+.alo-card__add {
+  width: 100%;
+  height: 42px;
+  border-radius: 30px;
+  background: var(--a-night);
+  color: #fff;
+  border-color: var(--a-night);
+}
+.alo-card__size:hover:not([disabled]) { background: var(--a-night); color: #fff; transform: translateY(-2px); }
+.alo-card__add:hover { transform: translateY(-2px); }
+.alo-card__size[disabled] { opacity: .35; text-decoration: line-through; cursor: not-allowed; }
+.alo-card__size.is-loading,
+.alo-card__add.is-loading { opacity: .6; pointer-events: none; }
+.alo-card__size.is-done,
+.alo-card__add.is-done { background: #1f7a4d; border-color: #1f7a4d; color: #fff; }
+.alo-card__msg {
+  min-height: 0;
+  margin: 6px 0 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.alo-card__msg:empty { display: none; }
+.alo-card__msg a { color: var(--a-accent); }
+.alo-card__msg.is-error { color: #b42318; }
+
+.alo-cat__more { text-align: center; margin-top: 40px; }
+.alo-cat__btn,
+.alo-faq__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-decoration: none;
+  border-radius: 40px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.alo-cat__btn {
+  color: #fff;
+  background: var(--a-night);
+  border: 2px solid var(--a-ink);
+  box-shadow: 4px 4px 0 var(--a-shadow);
+}
+.alo-cat__btn:hover { color: #fff; transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--a-shadow); }
+@media (max-width: 749px) {
+  .alo-cat__filters { justify-content: flex-start; margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
+  .alo-tag { right: 8px; }
+  .alo-tag__body { min-width: 54px; padding: 13px 7px 6px; }
+  .alo-tag__price { font-size: 1.2rem; }
+  .alo-card__off { width: 46px; height: 46px; font-size: 1.1rem; }
+  .alo-card__title { font-size: 1.35rem; }
+  .alo-card__size { min-width: 36px; height: 34px; padding: 0 8px; }
+}
+
+/* ==========================================================
+   3. FAQ « centre d'aide »
+   ========================================================== */
+.alo-faq {
+  padding: var(--alo-pt, 50px) 0 var(--alo-pb, 60px);
+}
+.alo-faq__wrap {
+  display: grid;
+  gap: 28px;
+}
+.alo-faq__intro,
+.alo-faq__main,
+.alo-nl__copy,
+.alo-nl__box { min-width: 0; }
+@media (min-width: 990px) {
+  .alo-faq__wrap {
+    grid-template-columns: minmax(300px, 400px) 1fr;
+    gap: 50px;
+    align-items: start;
+  }
+  .alo-faq__intro { position: sticky; top: 110px; }
+}
+.alo-faq__card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 30px 26px;
+  border-radius: 24px;
+  color: #fff;
+  background: #121d38;
+  border: 1.5px solid var(--a-ink);
+  box-shadow: 6px 6px 0 var(--a-shadow);
+}
+.alo-faq__glow {
+  position: absolute;
+  inset: -40% -30% auto;
+  height: 120%;
+  z-index: -1;
+  background:
+    radial-gradient(40% 35% at 25% 40%, rgba(72, 226, 196, .45), transparent 70%),
+    radial-gradient(40% 40% at 70% 30%, rgba(110, 150, 255, .5), transparent 70%),
+    radial-gradient(35% 35% at 90% 70%, rgba(186, 120, 255, .35), transparent 70%);
+  filter: blur(14px);
+  animation: alo-drift 14s ease-in-out infinite alternate;
+}
+.alo-faq__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 36% 12%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 62% 24%, #fff, transparent),
+    radial-gradient(1px 1px at 86% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 78% 52%, #fff, transparent);
+  opacity: .8;
+}
+@keyframes alo-drift {
+  from { transform: translateX(-6%) rotate(-3deg); }
+  to { transform: translateX(6%) rotate(3deg); }
+}
+.alo-faq__kicker {
+  color: #fff;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .3);
+}
+.alo-faq__title {
+  margin: 0 0 12px;
+  font-family: var(--a-font);
+  font-size: clamp(2.8rem, 4vw, 3.8rem);
+  line-height: 1.08;
+  color: #fff;
+}
+.alo-faq__text { font-size: 1.5rem; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+.alo-faq__text p { margin: 0; }
+.alo-faq__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0 16px;
+  height: 52px;
+  border-radius: 40px;
+  background: #fff;
+  color: var(--a-night);
+  box-shadow: 0 10px 30px rgba(5, 12, 30, .35);
+}
+.alo-faq__search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: var(--a-ink);
+}
+.alo-faq__search input::placeholder { color: #8a93a6; }
+.alo-faq__contact {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px dashed rgba(255, 255, 255, .3);
+}
+.alo-faq__contact p { margin: 0 0 12px; font-size: 1.4rem; color: rgba(255, 255, 255, .85); }
+.alo-faq__cta {
+  padding: 12px 22px;
+  font-size: 1.4rem;
+  color: var(--a-night);
+  background: #fff;
+  border: 2px solid #fff;
+  box-shadow: 4px 4px 0 var(--a-accent);
+}
+.alo-faq__cta:hover { color: var(--a-night); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--a-accent); }
+
+.alo-faq__tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 2px 8px;
+}
+.alo-faq__tabs::-webkit-scrollbar { display: none; }
+.alo-faq__tab {
+  flex: 0 0 auto;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--a-ink);
+  background: var(--a-paper);
+  border: 1.5px solid transparent;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+.alo-faq__tab:hover { border-color: var(--a-ink); }
+.alo-faq__tab.is-active { background: var(--a-night); color: #fff; border-color: var(--a-night); }
+.alo-faq__list { display: flex; flex-direction: column; gap: 12px; }
+.alo-faq__item {
+  border: 1.5px solid var(--a-ink);
+  border-radius: 18px;
+  background: #fff;
+  transition: box-shadow .3s ease, background-color .3s ease, transform .3s ease;
+}
+.alo-faq__item[open] {
+  background: var(--a-paper);
+  box-shadow: 5px 5px 0 var(--a-shadow);
+}
+.alo-faq__item.is-hidden { display: none; }
+.alo-faq__q {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 18px 18px 16px;
+  list-style: none;
+  cursor: pointer;
+}
+.alo-faq__q::-webkit-details-marker { display: none; }
+.alo-faq__num {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-family: var(--a-font);
+  font-size: 1.4rem;
+  color: var(--a-night);
+  background: var(--a-ice);
+  transition: background-color .3s ease, color .3s ease, transform .4s var(--a-ease);
+}
+.alo-faq__item[open] .alo-faq__num { background: var(--a-night); color: #fff; transform: rotate(-8deg); }
+.alo-faq__qtext {
+  flex: 1;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--a-ink);
+}
+.alo-faq__icon {
+  position: relative;
+  flex: 0 0 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid var(--a-ink);
+  transition: transform .4s var(--a-ease), background-color .3s ease;
+}
+.alo-faq__icon::before,
+.alo-faq__icon::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.8px;
+  margin: -.9px 0 0 -6px;
+  background: var(--a-ink);
+  border-radius: 2px;
+  transition: transform .35s ease, background-color .3s ease;
+}
+.alo-faq__icon::after { transform: rotate(90deg); }
+.alo-faq__item[open] .alo-faq__icon { transform: rotate(180deg); background: var(--a-ink); }
+.alo-faq__item[open] .alo-faq__icon::before,
+.alo-faq__item[open] .alo-faq__icon::after { background: #fff; }
+.alo-faq__item[open] .alo-faq__icon::after { transform: rotate(0); }
+.alo-faq__a { padding: 0 20px 20px 68px; }
+.alo-faq__item[open] .alo-faq__a-inner { animation: alo-open .45s ease both; }
+.alo-faq__a-inner { font-size: 1.45rem; line-height: 1.7; }
+.alo-faq__a-inner > :first-child { margin-top: 0; }
+.alo-faq__a-inner > :last-child { margin-bottom: 0; }
+.alo-faq__a-inner a { color: var(--a-accent); }
+.alo-faq__a-inner mark { background: #fff1c9; color: inherit; border-radius: 3px; padding: 0 2px; }
+@keyframes alo-open {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+.alo-faq__empty {
+  margin: 6px 0 0;
+  padding: 20px;
+  border: 1.5px dashed var(--a-ink);
+  border-radius: 18px;
+  font-size: 1.45rem;
+  text-align: center;
+}
+.alo-faq__empty a { color: var(--a-accent); }
+@media (max-width: 749px) {
+  .alo-faq__a { padding-left: 18px; }
+  .alo-faq__qtext { font-size: 1.5rem; }
+}
+
+/* ==========================================================
+   4. NEWSLETTER hiver
+   ========================================================== */
+.alo-nl {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: var(--alo-pt, 70px) 0 var(--alo-pb, 70px);
+  color: #fff;
+  background: linear-gradient(180deg, #121d38 0%, #1e3360 100%);
+}
+.alo-nl__aurora {
+  position: absolute;
+  inset: -30% -10% 20%;
+  z-index: -1;
+  background:
+    radial-gradient(30% 45% at 15% 50%, rgba(72, 226, 196, .45), transparent 70%),
+    radial-gradient(30% 50% at 50% 30%, rgba(110, 150, 255, .5), transparent 70%),
+    radial-gradient(30% 45% at 85% 55%, rgba(186, 120, 255, .4), transparent 70%);
+  filter: blur(20px);
+  animation: alo-drift 16s ease-in-out infinite alternate;
+}
+.alo-nl__flakes {
+  position: absolute;
+  inset: -100% 0 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(2px 2px at 10% 10%, rgba(255, 255, 255, .9), transparent),
+    radial-gradient(1.5px 1.5px at 25% 35%, rgba(255, 255, 255, .8), transparent),
+    radial-gradient(2.5px 2.5px at 40% 15%, rgba(255, 255, 255, .7), transparent),
+    radial-gradient(1.5px 1.5px at 55% 45%, rgba(255, 255, 255, .9), transparent),
+    radial-gradient(2px 2px at 70% 25%, rgba(255, 255, 255, .8), transparent),
+    radial-gradient(1.5px 1.5px at 85% 40%, rgba(255, 255, 255, .8), transparent),
+    radial-gradient(2px 2px at 93% 8%, rgba(255, 255, 255, .7), transparent);
+  background-size: 100% 50%;
+  animation: alo-snowfall 18s linear infinite;
+}
+@keyframes alo-snowfall { to { transform: translateY(50%); } }
+.alo-nl__wrap {
+  display: grid;
+  gap: 34px;
+  align-items: center;
+}
+@media (min-width: 990px) {
+  .alo-nl__wrap { grid-template-columns: 1.1fr 1fr; gap: 70px; }
+}
+.alo-nl__kicker {
+  color: #fff;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .3);
+}
+.alo-nl__title {
+  margin: 0 0 14px;
+  font-family: var(--a-font);
+  font-size: clamp(3rem, 5vw, 4.8rem);
+  line-height: 1.05;
+  color: #fff;
+}
+.alo-nl__text { font-size: 1.6rem; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+.alo-nl__text p { margin: 0; }
+.alo-nl__perks {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.alo-nl__perks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.alo-nl__perks li::before {
+  content: '';
+  flex: 0 0 26px;
+  height: 26px;
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231e3360' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 14px no-repeat,
+    #fff;
+}
+.alo-nl__box {
+  position: relative;
+  padding: 34px 26px 26px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .28);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px rgba(4, 10, 28, .35);
+}
+.alo-nl__ticket {
+  position: absolute;
+  top: -22px;
+  right: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  color: var(--a-night);
+  background: #fff;
+  border-radius: 10px;
+  transform: rotate(4deg);
+  box-shadow: 4px 4px 0 var(--a-gold);
+  animation: alo-wobble 5s ease-in-out infinite;
+}
+.alo-nl__ticket::before,
+.alo-nl__ticket::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #1a2b52;
+}
+.alo-nl__ticket::before { left: -6px; }
+.alo-nl__ticket::after { right: -6px; }
+.alo-nl__ticket-off { font-family: var(--a-font); font-size: 2.2rem; line-height: 1; }
+.alo-nl__ticket-txt { font-size: 1.15rem; font-weight: 700; line-height: 1.15; max-width: 90px; }
+@keyframes alo-wobble {
+  0%, 100% { transform: rotate(4deg); }
+  50% { transform: rotate(-2deg) translateY(-3px); }
+}
+.alo-nl__field {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 40px;
+  background: #fff;
+}
+.alo-nl__field input {
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  padding: 0 16px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  color: var(--a-ink);
+}
+.alo-nl__field input::placeholder { color: #8a93a6; }
+.alo-nl__field:focus-within { box-shadow: 0 0 0 3px rgba(255, 255, 255, .45); }
+.alo-nl__btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 22px;
+  height: 50px;
+  border: 0;
+  border-radius: 40px;
+  font: inherit;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--a-accent), var(--a-night));
+  cursor: pointer;
+  transition: transform .2s var(--a-ease), filter .2s ease;
+}
+.alo-nl__btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.alo-nl__btn svg { transition: transform .25s ease; }
+.alo-nl__btn:hover svg { transform: translateX(3px); }
+.alo-nl__note {
+  margin: 14px 4px 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, .7);
+}
+.alo-nl__note a { color: #fff; }
+.alo-nl__error {
+  margin: 12px 4px 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 1.35rem;
+  background: rgba(255, 90, 90, .18);
+  border: 1px solid rgba(255, 140, 140, .5);
+}
+.alo-nl__error ul { margin: 0; padding-left: 18px; }
+.alo-nl__success { text-align: center; outline: 0; animation: alo-rise .6s var(--a-ease) both; }
+.alo-nl__success-title { margin: 0 0 6px; font-family: var(--a-font); font-size: 2.4rem; }
+.alo-nl__success-text { margin: 0 0 14px; font-size: 1.45rem; color: rgba(255, 255, 255, .85); }
+.alo-nl__code {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 20px;
+  border: 2px dashed #fff;
+  border-radius: 14px;
+}
+.alo-nl__code span { font-family: var(--a-font); font-size: 2.2rem; letter-spacing: .06em; }
+.alo-nl__copybtn {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--a-night);
+  background: #fff;
+  cursor: pointer;
+}
+@media (max-width: 559px) {
+  .alo-nl__field { flex-direction: column; border-radius: 22px; }
+  .alo-nl__btn { justify-content: center; }
+  .alo-nl__box { padding: 34px 18px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alo-cat__item,
+  .alo-tag,
+  .alo-card__ph svg,
+  .alo-faq__glow,
+  .alo-nl__aurora,
+  .alo-nl__flakes,
+  .alo-nl__ticket { animation: none !important; }
+  .alo-ups__track { scroll-behavior: auto; }
+}

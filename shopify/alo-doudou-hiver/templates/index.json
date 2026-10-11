@@ -1,0 +1,374 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_8KKtNU": {
+      "type": "slideshow",
+      "blocks": {
+        "slider_item_YipJd4": {
+          "type": "slider_item",
+          "settings": {
+            "image": "shopify://shop_images/IMG_3815.jpg",
+            "image_mobile": "shopify://shop_images/IMG_3843.jpg",
+            "local_video": "shopify://files/videos/offre-hiver-alo.mp4",
+            "overlay_opacity": 0,
+            "slider_effect": "effect_fadeinup",
+            "subheading": "",
+            "heading": "",
+            "description": "",
+            "first_button_label": "",
+            "first_button_link": "",
+            "first_button_style": false,
+            "second_button_label": "",
+            "second_button_link": "",
+            "second_button_style": true,
+            "content_alignment": "left",
+            "content_position": "middle-left",
+            "content_width": "container",
+            "content_max_width": 50,
+            "content_padding_block": 60,
+            "content_padding_inline": 30,
+            "show_content_background": false,
+            "content_background": "#ffffff",
+            "content_box_opacity": 100,
+            "content_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slider_item_YipJd4"
+      ],
+      "settings": {
+        "section_width": "full_width",
+        "slide_height": "adapt",
+        "desktop_height": 700,
+        "mobile_height": 400,
+        "color_scheme": "",
+        "subheading_font_size": 15,
+        "subheading_font_weight": "subheading_weight",
+        "subheading_spacing_bottom": 10,
+        "heading_font_size": 56,
+        "heading_font_weight": "heading_weight",
+        "heading_uppercase": false,
+        "heading_spacing_bottom": 16,
+        "des_font_size": 16,
+        "des_font_weight": "body_weight",
+        "des_spacing_bottom": 30,
+        "show_arrow": false,
+        "carousel_pagination": "disable",
+        "pagination_position": "center",
+        "autoplay": false,
+        "autorotate_speed": 5,
+        "content_below_image": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "reset_spacing": false
+      }
+    },
+    "1791414949afccd616": {
+      "type": "apps",
+      "settings": {}
+    },
+    "products_carousel_AdKeFt": {
+      "type": "products-carousel",
+      "settings": {
+        "section_width": "fluid_container",
+        "color_scheme": "",
+        "heading": "Les plus aimés",
+        "description": "Les coups de cœur de la boutique, à offrir ou à s'offrir.",
+        "show_view_all_button": true,
+        "header_size": "medium",
+        "header_alignment": "center",
+        "collection": "meilleures-ventes",
+        "items_to_show": 8,
+        "items_per_row": 4,
+        "column_gap": 30,
+        "show_banner": false,
+        "sticky_banner": false,
+        "banner_width": 30,
+        "position": "left",
+        "banner_link": "",
+        "banner_type": "image",
+        "video_url": "",
+        "video_autoplay": true,
+        "show_arrow": true,
+        "carousel_pagination": "show_dots_on_mobile",
+        "infinite": false,
+        "autoplay": false,
+        "autorotate_speed": 5,
+        "reveal": false,
+        "items_per_row_mobile": 2,
+        "padding_top": 0,
+        "padding_bottom": 10,
+        "reset_spacing": false
+      }
+    },
+    "alo_tiktok": {
+      "type": "alo-tiktok",
+      "blocks": {
+        "tiktok_1": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/[BraveDown.Com] [Ensemble Alo Disponible 6 Couleurs] [1791572655] .mp4",
+            "video_url": "",
+            "product": "ensemble-tshirt-pantalon-wide-leg-noir",
+            "views": "",
+            "creator": ""
+          }
+        },
+        "tiktok_2": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/[BraveDown.Com] [Birthday Outfitttt Alo Bday Ootd] [1791572795] .mp4",
+            "video_url": "",
+            "product": "ensemble-lounge-brun-chocolat",
+            "views": "",
+            "creator": ""
+          }
+        },
+        "tiktok_3": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/[BraveDown.Com] [Airlift Set✨✨✨ Alo Aloyoga Ootd] [1791572992] .mp4",
+            "video_url": "",
+            "product": "ensemble-sport-brassiere-legging-nude",
+            "views": "",
+            "creator": ""
+          }
+        },
+        "tiktok_4": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/[BraveDown.Com] [I Love Alo Quarterzip Alo Ootd] [1791572719] .mp4",
+            "video_url": "",
+            "product": "ensemble-tenniscore-rouge-cranberry",
+            "views": "",
+            "creator": ""
+          }
+        }
+      },
+      "block_order": [
+        "tiktok_1",
+        "tiktok_2",
+        "tiktok_3",
+        "tiktok_4"
+      ],
+      "settings": {
+        "heading": "Vu sur TikTok",
+        "handle": "",
+        "subheading": "Les mêmes vêtements, chez nous",
+        "tiktok_url": "",
+        "button_label": "Suivre",
+        "autoscroll": true,
+        "speed": 40,
+        "stat_1_value": "",
+        "stat_1_label": "Abonnés TikTok",
+        "stat_2_value": "",
+        "stat_2_label": "Vues",
+        "stat_3_value": "",
+        "stat_3_label": "Clientes",
+        "stat_4_value": "",
+        "stat_4_label": "Note moyenne",
+        "color_scheme": "default",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "alo_catalogue": {
+      "type": "alo-catalogue",
+      "settings": {
+        "kicker": "La collection",
+        "heading": "La collection de chez Alo Doudou",
+        "subheading": "Des pièces douces, chaudes et stylées pour traverser la saison bien au chaud.",
+        "collection": "",
+        "limit": 24,
+        "show_filters": true,
+        "button_label": "Voir tout le catalogue",
+        "button_link": "shopify://collections/all",
+        "color_scheme": "default",
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    },
+    "alo_testimonials_e4Ybpz": {
+      "type": "alo-testimonials",
+      "blocks": {
+        "review_7qd7En": {
+          "type": "review",
+          "settings": {
+            "product_label": "",
+            "text": "l'ensemble bleu/gris moule trop bien, la matière est archi douce. taille S parfaite foncez.",
+            "author": "{{ metaobjects.avis_client.lea.prenom.value }}",
+            "rating": 5
+          }
+        },
+        "review_ATqWVw": {
+          "type": "review",
+          "settings": {
+            "product_label": "",
+            "text": "reçu l'ensemble noir à bandes blanches, c'est du 1:1 pur. coutures propres, logo impec..",
+            "author": "Chloé",
+            "rating": 5
+          }
+        },
+        "review_V8r6cC": {
+          "type": "review",
+          "settings": {
+            "product_label": "",
+            "text": "la jupe bordeaux est canon 😭 4 étoiles juste pcq le colis a mis 10j à arriver à cause de la poste. mais le rendu vaut largement l'attente !",
+            "author": "Inès",
+            "rating": 4
+          }
+        },
+        "review_xABa43": {
+          "type": "review",
+          "settings": {
+            "product_label": "",
+            "text": "l'ensemble veste zip noire est pépite, coupe oversize exacte. hyper fluide.",
+            "author": "Manon",
+            "rating": 5
+          }
+        },
+        "review_7KBXMV": {
+          "type": "review",
+          "settings": {
+            "product_label": "",
+            "text": "j'ai pris le pack de chaussettes blanches et noires, l'épaisseur est dingue et le logo bouge pas au lavage.",
+            "author": "Cam’s",
+            "rating": 5
+          }
+        },
+        "review_dKUUfG": {
+          "type": "review",
+          "settings": {
+            "product_label": "",
+            "text": "reçue ce matin, trop chaude et bien doublée. les finitions sur les poches sont carrées. 10/10",
+            "author": "Emma",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "review_7qd7En",
+        "review_ATqWVw",
+        "review_V8r6cC",
+        "review_xABa43",
+        "review_7KBXMV",
+        "review_dKUUfG"
+      ],
+      "name": "Alo · Avis clients",
+      "settings": {
+        "source": "blocks",
+        "filter_product": false,
+        "fallback_all": true,
+        "max_reviews": 12,
+        "heading": "Ce qu'elles <em>en disent</em>",
+        "show_score": true,
+        "disclaimer": "Avis recueillis auprès de clientes ayant commandé chez nous, publiés sans modification.",
+        "link_label": "Lire tous les avis",
+        "link_url": "",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "alo_faq": {
+      "type": "alo-faq",
+      "blocks": {
+        "question_01": {
+          "type": "question",
+          "settings": {
+            "category": "Commande & paiement",
+            "question": "Comment passer commande ?",
+            "answer": "<p>Choisis ta taille sur la fiche produit, ajoute l'article au panier puis valide ta commande en quelques clics. Tu reçois aussitôt un <strong>e-mail de confirmation</strong> avec le récapitulatif.</p>"
+          }
+        },
+        "question_02": {
+          "type": "question",
+          "settings": {
+            "category": "Commande & paiement",
+            "question": "Le paiement est-il sécurisé ?",
+            "answer": "<p>Oui. Le paiement est traité par des prestataires certifiés via une connexion chiffrée : <strong>nous n'avons jamais accès à tes coordonnées bancaires</strong>. Les moyens de paiement disponibles sont affichés sur chaque fiche produit et au moment du paiement.</p>"
+          }
+        },
+        "question_04": {
+          "type": "question",
+          "settings": {
+            "category": "Livraison",
+            "question": "Combien coûte la livraison ?",
+            "answer": "<p>La livraison est <strong>offerte dès 40 €</strong> d'achat. En dessous, elle coûte 4,90 €. Le montant exact est toujours affiché avant le paiement.</p>"
+          }
+        },
+        "question_05": {
+          "type": "question",
+          "settings": {
+            "category": "Livraison",
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison. Tous les détails sont sur notre <a href=\"/pages/livraison\">page Livraison</a>.</p>"
+          }
+        },
+        "question_06": {
+          "type": "question",
+          "settings": {
+            "category": "Livraison",
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>Dès que ton colis part, tu reçois un <strong>e-mail d'expédition</strong> avec ton lien de suivi. Pense à vérifier tes courriers indésirables si tu ne le vois pas.</p>"
+          }
+        },
+        "question_11": {
+          "type": "question",
+          "settings": {
+            "category": "Produits & tailles",
+            "question": "Comment choisir ma taille ?",
+            "answer": "<p>Chaque fiche produit précise la coupe (ajustée, oversize, crop…). Tu hésites entre deux tailles ? <a href=\"/pages/contact\">Écris-nous avant de commander</a> : on te conseille avec plaisir.</p>"
+          }
+        },
+        "question_13": {
+          "type": "question",
+          "settings": {
+            "category": "Contact",
+            "question": "Comment vous contacter ?",
+            "answer": "<p>Via notre <a href=\"/pages/contact\">page contact</a> ou par e-mail à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a>. Pense à indiquer ton numéro de commande si tu en as un : une vraie personne te répond.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_01",
+        "question_02",
+        "question_04",
+        "question_05",
+        "question_06",
+        "question_11",
+        "question_13"
+      ],
+      "settings": {
+        "kicker": "Centre d'aide",
+        "heading": "Tes questions, nos réponses",
+        "text": "<p>Tout ce qu'il faut savoir avant de commander. Tape un mot-clé pour trouver ta réponse en un instant.</p>",
+        "search_placeholder": "Livraison, taille, retour…",
+        "open_first": true,
+        "contact_text": "Tu ne trouves pas ta réponse ? Une vraie personne te répond.",
+        "contact_label": "Écris-nous",
+        "contact_link": "/pages/contact",
+        "padding_top": 50,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "slideshow_8KKtNU",
+    "1791414949afccd616",
+    "products_carousel_AdKeFt",
+    "alo_tiktok",
+    "alo_catalogue",
+    "alo_testimonials_e4Ybpz",
+    "alo_faq"
+  ]
+}

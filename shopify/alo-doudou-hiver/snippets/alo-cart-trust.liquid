@@ -1,0 +1,23 @@
+<div class='alo-trust'>
+  <div class='alo-trust__row'>
+    <div class='alo-trust__item'>
+      <svg aria-hidden='true'><use href='#alo-icon-truck'></use></svg>
+      <span>Livraison offerte<br>dès 40 €</span>
+    </div>
+    <div class='alo-trust__item'>
+      <svg aria-hidden='true'><use href='#alo-icon-return'></use></svg>
+      <span>14 jours pour<br>changer d'avis</span>
+    </div>
+    <div class='alo-trust__item'>
+      <svg aria-hidden='true'><use href='#alo-icon-lock'></use></svg>
+      <span>Paiement<br>100 % sécurisé</span>
+    </div>
+  </div>
+  {%- if shop.enabled_payment_types.size > 0 -%}
+    <div class='alo-pay'>
+      {%- for type in shop.enabled_payment_types -%}
+        {{ type | payment_type_svg_tag }}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,46 @@
+{%- liquid
+  assign section_st = section.settings
+  assign enable_login_popup = section_st.enable_login_popup
+  assign routes_login = routes.account_login_url
+  assign login_one_time = true
+  if routes_login contains 'login'
+  assign login_one_time = false
+  endif
+-%}
+{% # theme-check-disable UnclosedHTMLElement %}
+<div class="header_account hidden block-1025">
+  {% if customer %}
+    <div
+      aria-label="header icon account"
+      class="btn-reset pointer header-icon header-color w-44 h-44 inline-flex content-center header__icon-account header-color {% if customer.email == blank %}action-login{% endif %}"
+    >
+  {%- else -%}
+    {%- if enable_login_popup and login_one_time == false -%}
+      <button
+        aria-label="account"
+        class="btn-reset pointer action-login-popup header-icon transition header-color w-44 h-44 inline-flex content-center header__icon-account header-color"
+      >
+    {%- else -%}
+      <a
+        href="{{ routes.account_login_url }}"
+        aria-label="account"
+        class="btn-reset pointer header-icon transition header-color w-44 h-44 inline-flex content-center header__icon-account header-color lh-1"
+      >
+    {%- endif -%}
+  {%- endif -%}
+  {%- if customer -%}
+    <a class="header-color lh-1" href="{{ routes.account_url }}" aria-label="{{ 'customer.account.title' | t }}">
+  {%- endif -%}
+  <svg width="16" height="16" fill="none">
+    <use href="#icon-account" />
+  </svg>
+  {%- if customer -%}
+    </a>
+  {%- endif -%}
+  {%- if customer -%}
+    </div>
+  {%- else -%}
+    {%- if enable_login_popup and login_one_time == false -%}</button>{%- else -%}</a>{%- endif -%}
+  {%- endif -%}
+</div>
+{% # theme-check-disable UnclosedHTMLElement %}

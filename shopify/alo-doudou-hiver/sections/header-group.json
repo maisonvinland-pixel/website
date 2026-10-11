@@ -1,0 +1,92 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "top_bar_CbXNYj": {
+      "type": "top-bar",
+      "blocks": {
+        "text_slider_LFaC38": {
+          "type": "text_slider",
+          "settings": {
+            "text1": "Livraison offerte dès 100€ d'achat🚚",
+            "text2": "<strong>Offre limitée d’hiver!</strong> -10% sur toute la boutique❄️&nbsp;",
+            "text3": "Paiement 100 % sécurisé • Suivie de livraison✅",
+            "change_every": 3,
+            "hidden_on_mobile": false
+          }
+        }
+      },
+      "block_order": [
+        "text_slider_LFaC38"
+      ],
+      "settings": {
+        "section_width": "stretch_width",
+        "color_scheme": "scheme-4faf0e4d-27f4-4d02-bc51-617383bab1a9",
+        "show_mobile": true,
+        "show_separator_line": false,
+        "uppercase": true,
+        "font_size": 13,
+        "font_weight": "heading_weight",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "section_width": "stretch_width",
+        "color_scheme": "",
+        "logo_position": "left",
+        "separator_line": "inner_page",
+        "enable_login_popup": true,
+        "sticky_header_type": "always",
+        "sticky_header_mobile": true,
+        "transparent_header": false,
+        "transparent_mobile": false,
+        "transparent_text_icon_color": "#ffffff",
+        "mega_menu": "main-menu",
+        "dropdowns_animation": "down-to-up",
+        "uppercase_first": false,
+        "hot": "Top",
+        "label_color_hot": "#ffffff",
+        "label_background_hot": "#3b82c4",
+        "new": "Nouveau",
+        "label_color_new": "#ffffff",
+        "label_background_new": "#1e3360",
+        "sale": "Promo",
+        "label_color_sale": "#ffffff",
+        "label_background_sale": "#3b82c4",
+        "redirect_to_link": false,
+        "menu_tab": "custom-collections",
+        "collection_list": [
+          "nouveautes",
+          "meilleures-ventes"
+        ],
+        "menu_mobile_color": "#ffffff",
+        "menu_mobile_background": "#1e3360",
+        "show_search": true,
+        "show_account_icon": true,
+        "show_wishlist_icon": false,
+        "show_shopping_cart": true,
+        "show_currency": false,
+        "show_language": false,
+        "show_recently_viewed": false,
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    }
+  },
+  "order": [
+    "top_bar_CbXNYj",
+    "header"
+  ]
+}

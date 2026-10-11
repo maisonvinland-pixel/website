@@ -1,0 +1,54 @@
+/* ==========================================================
+   Alo Doudou : palette hiver (bleu nuit, glacier et givre)
+   (html:root est prioritaire sur les :root des autres fichiers)
+   ========================================================== */
+html:root {
+  --alo-ink: #15203a;
+  --alo-plum: #1e3360;
+  --alo-cream: #e5effa;
+  --alo-paper: #f4f8fd;
+  --alo-sand: #c7d9ee;
+  --alo-berry: #3b82c4;
+  --alo-star: #e0a43a;
+  --alo-wave-ink: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%277%27 viewBox=%270 0 20 7%27%3E%3Cpath d=%27M0 3.5Q5 0 10 3.5T20 3.5%27 fill=%27none%27 stroke=%27%233b82c4%27 stroke-width=%271.6%27/%3E%3C/svg%3E');
+  --alo-wave-line: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2710%27 viewBox=%270 0 24 10%27%3E%3Cpath d=%27M0 5Q6 0 12 5T24 5%27 fill=%27none%27 stroke=%27%231e3360%27 stroke-width=%271.4%27/%3E%3C/svg%3E');
+  --alo-flag: url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2724%27 viewBox=%270 0 24 24%27%3E%3Cpath d=%27M6 21V3%27 stroke=%27%231e3360%27 stroke-width=%271.8%27 stroke-linecap=%27round%27/%3E%3Cpath d=%27M6 3.5h12l-3 4 3 4H6z%27 fill=%27%233b82c4%27/%3E%3C/svg%3E');
+}
+
+/* Bulle du panier et barre de progression en bleu nuit */
+.header__minicart .cart-count.h-count { background: var(--alo-plum); color: #fff; }
+.alo-cart-title .cart-count-drawer { background: var(--alo-plum); color: #fff; }
+.cart_shipping .cart_bar_w span.percent_shipping_bar { background-color: var(--alo-plum) !important; }
+.cart_shipping.cart_shipping_free .cart_bar_w span.percent_shipping_bar { background-color: #1f7a4d !important; }
+.percent_shipping_bar svg circle { stroke: var(--alo-plum); }
+.percent_shipping_bar svg path[fill='#111'] { fill: var(--alo-plum); }
+.percent_shipping_bar svg path[stroke='#111'] { stroke: var(--alo-plum); }
+.percent_shipping_bar svg path[fill='#f3ece0'] { fill: var(--alo-cream); }
+
+/* Boutons et pastilles en bleu nuit */
+.alo-coupon__btn,
+.alo-pill--dark,
+.alo-vs__pgo,
+.alo-upsell__badge,
+.alo-upsell__input:checked + .alo-upsell__switch {
+  background: var(--alo-plum);
+  border-color: var(--alo-plum);
+  color: #fff;
+}
+.alo-upsell__switch::after { background: var(--alo-plum); }
+.alo-upsell__input:checked + .alo-upsell__switch::after { background: #fff; }
+
+/* Icônes et titres décoratifs */
+.alo-tabs__icon,
+.alo-coupon__icon { color: var(--alo-plum); }
+.alo-head__title em,
+.alo-testi__title em { color: var(--alo-berry); }
+.alo-testi__quote { color: var(--alo-berry); }
+.header__action .header-icon:hover,
+.header__menu .nav-toggle:hover { background-color: var(--alo-cream); color: var(--alo-plum); }
+
+/* Gris rosés remplacés par des gris bleutés */
+.alo-testi__date,
+.alo-testi__legal { color: #7d8aa3; }
+.alo-tabs__row,
+.alo-payicons__item { border-color: #dde8f3; }

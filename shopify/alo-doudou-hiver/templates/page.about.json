@@ -1,0 +1,34 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page-heading": {
+      "type": "page-heading",
+      "blocks": {
+        "breadcrumb_ab01": {"type": "breadcrumb", "settings": {}},
+        "heading_ab01": {"type": "heading", "settings": {"page_title": "", "header_size": "default"}}
+      },
+      "block_order": ["breadcrumb_ab01", "heading_ab01"],
+      "settings": {"section_width": "container", "color_scheme": "", "alignment": "center", "overlay_opacity": 0, "height": "adapt", "padding_top": 60, "padding_bottom": 0}
+    },
+    "main": {"type": "page-default", "settings": {}},
+    "icon_box_ab01": {
+      "type": "icon-box",
+      "blocks": {
+        "ib1": {"type": "icon_box", "settings": {"icon_svg": "free_shipping", "custom_svg": "", "heading": "Livraison offerte dès 40 €", "description": "<p>Suivi par e-mail de l'expédition à la livraison.</p>"}},
+        "ib2": {"type": "icon_box", "settings": {"icon_svg": "check_badge", "custom_svg": "", "heading": "14 jours pour changer d'avis", "description": "<p>Retour simple, remboursement sur ton moyen de paiement.</p>"}},
+        "ib3": {"type": "icon_box", "settings": {"icon_svg": "message_communications", "custom_svg": "", "heading": "Une vraie réponse", "description": "<p>Une question ? Écris-nous, on te répond rapidement.</p>"}}
+      },
+      "block_order": ["ib1", "ib2", "ib3"],
+      "settings": {"section_width": "container", "color_scheme": "", "type": "default", "column_gap": 30, "icon_position": "top", "icon_size": 32, "spacing": 11, "content_alignment": "center", "heading_font_size": 16, "heading_font_weight": "heading_weight", "heading_uppercase": false, "heading_spacing_bottom": 8, "des_font_size": 14, "des_font_weight": "body_weight", "carousel_on_mobile": true, "items_per_row_mobile": "1", "padding_top": 0, "padding_bottom": 0, "reset_spacing": false}
+    }
+  },
+  "order": ["page-heading", "main", "icon_box_ab01"]
+}

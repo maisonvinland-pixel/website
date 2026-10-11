@@ -1,0 +1,373 @@
+{%- comment -%}
+  Alo Doudou : « Vu sur TikTok ».
+  Vidéos verticales en lecture automatique (sans son, au défilement),
+  produit cliquable sur chaque vidéo, vues + créatrice, chiffres clés.
+  Les vidéos s'ajoutent dans le personnalisateur (bloc « Vidéo TikTok ») :
+  importe le fichier .mp4 téléchargé depuis TikTok.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign tiktok_url = st.tiktok_url | default: settings.tiktok
+  assign shown = 0
+-%}
+{%- capture cards -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign b = block.settings
+      assign vid = b.video
+      assign src = ''
+      assign fallback = ''
+      if vid != blank
+        for s in vid.sources
+          if s.mime_type == 'video/mp4'
+            if fallback == ''
+              assign fallback = s.url
+            endif
+            if src == '' and s.height <= 720
+              assign src = s.url
+            endif
+          endif
+        endfor
+      endif
+      if src == ''
+        assign src = fallback
+      endif
+      if src == '' and b.video_url != blank
+        assign src = b.video_url
+      endif
+      assign poster = ''
+      if b.poster != blank
+        assign poster = b.poster | image_url: width: 540
+      elsif vid != blank and vid.preview_image != blank
+        assign poster = vid.preview_image | image_url: width: 540
+      endif
+      assign p = b.product
+    -%}
+    {%- if src == '' and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+    {%- assign shown = shown | plus: 1 -%}
+    <div class="alo-tt__card" data-alo-tt-card {{ block.shopify_attributes }}>
+      <div class="alo-tt__media" data-alo-tt-media>
+        {%- if src != '' -%}
+          <video
+            class="alo-tt__video"
+            data-src="{{ src }}"
+            {% if poster != '' %}poster="{{ poster }}"{% endif %}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label="Vidéo TikTok{% if b.creator != blank %} de {{ b.creator | escape }}{% endif %}"
+          ></video>
+          <button type="button" class="alo-tt__sound" data-alo-tt-sound aria-label="Activer le son">
+            <svg class="alo-tt__muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+            <svg class="alo-tt__unmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+          </button>
+          <span class="alo-tt__play" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+          </span>
+        {%- else -%}
+          <span class="alo-tt__ph">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>
+            <strong>Ajoute ta vidéo</strong>
+            <small>Visible seulement dans l'éditeur</small>
+          </span>
+        {%- endif -%}
+
+        <span class="alo-tt__logo" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>
+        </span>
+
+        {%- if p != blank -%}
+          {%- assign pv = p.selected_or_first_available_variant -%}
+          <a class="alo-tt__product" href="{{ p.url }}" aria-label="Voir {{ p.title | escape }}">
+            <span class="alo-tt__pimg">
+              {%- if p.featured_image != blank -%}
+                {{ p.featured_image | image_url: width: 140 | image_tag: loading: 'lazy', alt: '' }}
+              {%- else -%}
+                <svg width="22" height="22" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M24 4v40M6.7 14l34.6 20M6.7 34l34.6-20"/></svg>
+              {%- endif -%}
+            </span>
+            <span class="alo-tt__pinfo">
+              <span class="alo-tt__ptitle">{{ p.title }}</span>
+              <span class="alo-tt__pprice">
+                {{ pv.price | money }}
+                {%- if pv.compare_at_price > pv.price -%}<s>{{ pv.compare_at_price | money }}</s>{%- endif -%}
+              </span>
+            </span>
+            <svg class="alo-tt__parrow" width="18" height="14" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 6h13M9.5 1.5 14 6l-4.5 4.5"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- if b.views != blank or b.creator != blank -%}
+          <span class="alo-tt__meta">
+            {%- if b.views != blank -%}
+              <span class="alo-tt__views">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M1.5 12S5.5 4.5 12 4.5 22.5 12 22.5 12 18.5 19.5 12 19.5 1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></svg>
+                {{ b.views }}
+              </span>
+            {%- endif -%}
+            {%- if b.creator != blank -%}<span class="alo-tt__creator">{{ b.creator }}</span>{%- endif -%}
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if shown > 0 -%}
+  {{ 'alo-tiktok.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'alo-tiktok.js' | asset_url }}" defer="defer"></script>
+
+  <section
+    class="alo-tt color-{{ st.color_scheme }}"
+    data-alo-tt
+    data-auto="{{ st.autoscroll }}"
+    data-speed="{{ st.speed }}"
+    style="--alo-pt: {{ st.padding_top }}px; --alo-pb: {{ st.padding_bottom }}px;"
+  >
+    <div class="alo-tt__wrap">
+      <header class="alo-tt__head">
+        <h2 class="alo-tt__title">{{ st.heading }}</h2>
+        {%- if st.handle != blank or st.subheading != blank -%}
+          <p class="alo-tt__sub">
+            {%- if st.handle != blank -%}<strong>{{ st.handle }}</strong>{%- endif -%}
+            {%- if st.handle != blank and st.subheading != blank %} · {% endif -%}
+            {{ st.subheading }}
+          </p>
+        {%- endif -%}
+        {%- if tiktok_url != blank and st.button_label != blank -%}
+          <a class="alo-tt__follow" href="{{ tiktok_url }}" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>
+            {{ st.button_label }}
+          </a>
+        {%- endif -%}
+      </header>
+
+      <div class="alo-tt__slider">
+        <div class="alo-tt__track" data-alo-tt-track>{{ cards }}</div>
+        {%- if shown > 1 -%}
+          <button type="button" class="alo-tt__arrow alo-tt__arrow--prev" data-alo-tt-prev aria-label="Vidéo précédente" disabled>
+            <svg width="10" height="16" viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7.5 1.5 2 7l5.5 5.5"/></svg>
+          </button>
+          <button type="button" class="alo-tt__arrow alo-tt__arrow--next" data-alo-tt-next aria-label="Vidéo suivante">
+            <svg width="10" height="16" viewBox="0 0 9 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5 7 7l-5.5 5.5"/></svg>
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- liquid
+        assign has_stats = false
+        if st.stat_1_value != blank or st.stat_2_value != blank or st.stat_3_value != blank or st.stat_4_value != blank
+          assign has_stats = true
+        endif
+      -%}
+      {%- if has_stats -%}
+        <dl class="alo-tt__stats">
+          {%- for i in (1..4) -%}
+            {%- liquid
+              assign vk = 'stat_' | append: i | append: '_value'
+              assign lk = 'stat_' | append: i | append: '_label'
+              assign sv = st[vk]
+              assign sl = st[lk]
+            -%}
+            {%- if sv != blank -%}
+              <div class="alo-tt__stat">
+                <dt class="alo-tt__stat-value" data-alo-tt-count>{{ sv }}</dt>
+                <dd class="alo-tt__stat-label">{{ sl }}</dd>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </dl>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vu sur TikTok",
+  "tag": "div",
+  "class": "section-alo-tiktok",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Vu sur TikTok"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Ton compte TikTok",
+      "info": "Exemple : @tonpseudo"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sous-titre",
+      "default": "nos clientes, leurs réactions."
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "Lien de ton profil TikTok",
+      "info": "Si vide, le lien TikTok des réglages du thème est utilisé. Sans lien, le bouton est masqué."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton",
+      "default": "Suivre"
+    },
+    {
+      "type": "header",
+      "content": "Défilement"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoscroll",
+      "label": "Faire défiler les vidéos automatiquement vers la gauche",
+      "info": "Le défilement s'arrête quand on survole ou touche une vidéo, et quand une vidéo a le son.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Vitesse de défilement",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "info": "Pixels par seconde.",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Chiffres clés",
+      "info": "Laisse une valeur vide pour masquer le chiffre. N'affiche que des chiffres réels."
+    },
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "label": "Chiffre 1"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Légende 1",
+      "default": "Abonnés TikTok"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "label": "Chiffre 2"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Légende 2",
+      "default": "Vues"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "label": "Chiffre 3"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Légende 3",
+      "default": "Clientes"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_value",
+      "label": "Chiffre 4"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Légende 4",
+      "default": "Note moyenne"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette de couleurs",
+      "default": "default"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge du haut",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge du bas",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Vidéo TikTok",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Vidéo",
+          "info": "Télécharge la vidéo depuis TikTok (Partager > Enregistrer la vidéo) puis importe le fichier .mp4 ici."
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Ou lien direct vers un fichier .mp4",
+          "info": "Utilisé seulement si aucune vidéo n'est importée ci-dessus. Les liens tiktok.com ne fonctionnent pas ici."
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Image de couverture (facultatif)"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit montré dans la vidéo"
+        },
+        {
+          "type": "text",
+          "id": "views",
+          "label": "Nombre de vues",
+          "info": "Exemple : 349K"
+        },
+        {
+          "type": "text",
+          "id": "creator",
+          "label": "Nom de la créatrice ou du créateur",
+          "info": "Exemple : @justssofiaa"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vu sur TikTok",
+      "blocks": [
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" }
+      ]
+    }
+  ]
+}
+{% endschema %}

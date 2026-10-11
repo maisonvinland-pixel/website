@@ -1,0 +1,200 @@
+{%- comment -%}
+  Alo Doudou : contenu du tiroir panier.
+  Rendu à l'identique par snippets/minicart.liquid (premier affichage)
+  et sections/minicart-form.liquid (mises à jour après ajout au panier).
+{%- endcomment -%}
+{%- liquid
+  assign theme_st = settings
+  assign free_shipping = theme_st.show_on_minicart_cart_page
+  assign show_currency_code = theme_st.show_currency_code
+  assign action_after_add_cart = theme_st.action_after_add_cart
+  assign minicart_type = theme_st.minicart_type
+  assign shipping_rate = theme_st.free_shipping_minimum | times: 1 | default: 0
+  assign shipping_rate_cents = shipping_rate | times: 100
+  assign shipping_rate_price = shipping_rate | money
+  if show_currency_code
+    assign shipping_rate_price = shipping_rate | money_with_currency
+  endif
+  assign recommendations_heading = theme_st.product_recommendations_heading
+  assign product_recommendations_type = theme_st.product_recommendations_type
+  assign select_product_recommendations = theme_st.select_product_recommendations
+  assign hidden_price = theme_st.hidden_price
+-%}
+{%- if free_shipping and shipping_rate > 0 -%}
+  <free-ship-progress-bar
+    data-order='{{ cart.items_subtotal_price }}'
+    data-fe-amount='{{ shipping_rate }}'
+    data-fe-unavaiable='{{ 'general.cart.free_shipping' | t | escape }}'
+    data-fe-avaiable='{{ 'general.cart.free_shipping_avaiable' | t | escape }}'
+    class='block cart_shipping cart_threshold grey-bg px-30 pt-33 pb-15{% if cart.items.size > 0 and cart.items_subtotal_price >= shipping_rate_cents %} cart_shipping_free{% endif %}'
+  >
+    <div class='progress-bar cart_bar_w relative rounded-10'>
+      <span class='progress percent_shipping_bar transition relative primary-color rounded-10' style='width: 0%;'>
+        <svg width='34' height='34' viewBox='0 0 34 34' fill='none' class='absolute' aria-hidden='true'>
+          <circle cx='17' cy='17' r='16' fill='#fff' stroke='#111' stroke-width='1.5'/>
+          <path d='M8 19.5h18l-3.2 4.8H11.2z' fill='#111'/>
+          <path d='M16.6 18.2V8.2l6.4 8.8h-6.4' fill='#f3ece0' stroke='#111' stroke-width='1.4' stroke-linejoin='round'/>
+          <path d='M6.5 27q2.6-2 5.2 0t5.2 0t5.2 0t5.2 0' stroke='#111' stroke-width='1.4' stroke-linecap='round'/>
+        </svg>
+      </span>
+    </div>
+    <div class='free-shipping-message mt-17 cart-thres cart_thres_1 opacity-0'>
+      {{ 'general.cart.cart_thres1_html' | t: price: shipping_rate_price }}
+    </div>
+  </free-ship-progress-bar>
+{%- endif -%}
+<div id='minicart-form' class='minicart-form flex-1 flex flex-column grow relative overflow-hidden color-default'>
+  <div class='flex-1 overflow-y-scroll custom-scrollbar'>
+    <form
+      id='minicart'
+      action='{{ routes.cart_url }}'
+      method='post'
+      class='minicart-form flex-1 flex flex-column grow relative overflow-hidden color-default'
+      novalidate
+    >
+      {%- if cart.items.size > 0 -%}
+        <div class='minicart-body flex-1 grow pt-30 px-30 overflow-x-hidden pb-30'>
+          <div class='items'>
+            {%- for item in cart.items -%}
+              {%- render 'cart-item', item: item -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- else -%}
+        <div class='cart-body'>
+          <div class='cart-empty alo-empty'>
+            {%- if settings.logo != blank -%}
+              {{ settings.logo | image_url: width: 320 | image_tag: class: 'alo-empty__logo', alt: shop.name, loading: 'lazy' }}
+            {%- endif -%}
+            <p class='alo-empty__title'>Ton panier est encore vide</p>
+            <p class='alo-empty__text'>Laisse-toi porter par la vague : nos coups de cœur t'attendent.</p>
+            <div class='alo-empty__actions'>
+              <a href='{{ routes.collections_url }}/meilleures-ventes' class='alo-pill alo-pill--dark'>Voir les meilleures ventes</a>
+              <a href='{{ routes.collections_url }}/nouveautes' class='alo-pill'>Découvrir les nouveautés</a>
+            </div>
+            <ul class='alo-empty__perks'>
+              <li>Livraison offerte dès {{ shipping_rate_price }}</li>
+              <li>-10 % sur ta première commande avec BIENVENUE10</li>
+            </ul>
+          </div>
+        </div>
+      {%- endif -%}
+    </form>
+    {%- if cart.items.size > 0 and action_after_add_cart == 'open_drawer' and minicart_type == 'show_beside' -%}
+      {%- if product_recommendations_type == 'auto' -%}
+        <minicart-recommendations-beside
+          data-url='{{ routes.product_recommendations_url }}?product_id={{ cart.items.first.product_id }}&limit=6&section_id=cart-upsell'
+          class='cart-recommend pb-30 px-30 block fixed-1025 gradient inset-y-0 z-2 beside invisible-1025 pointer-none-1025 cart-recommend-beside-mobile color-default no-js-hidden'
+        >
+      {%- else -%}
+        <div class='cart-recommend cart-recommend-custom pb-30 px-30 fixed-1025 inset-y-0 z-2 beside invisible-1025 pointer-none-1025 cart-recommend-beside-mobile color-default{% if select_product_recommendations == blank %} hidden{% endif %}'>
+      {%- endif -%}
+      {%- if recommendations_heading -%}
+        <minicart-recommendations-heading class='flex gap-10 justify-between recommend-heading'>
+          <h4 class='minicart-heading mt-0 mb-15 fs-18 heading-letter-spacing'>{{ recommendations_heading }}</h4>
+          <button-close-beside class='btn-reset button-close button-close-beside pointer hover-svg-zoom hidden block-1025'>
+            <svg width='13' height='13' viewBox='0 0 13 13' fill='none' class='transition'><use href='#icon-close' /></svg>
+          </button-close-beside>
+        </minicart-recommendations-heading>
+      {%- endif -%}
+      <grid-custom
+        class='cart-upsell-wrapper flex gap flex-wrap custom-scrollbar'
+        data-mobile='1'
+        data-spacing='15'
+        data-section-id='cart-upsell-beside'
+      >
+        {%- if product_recommendations_type != 'auto' -%}
+          {%- for item in select_product_recommendations -%}
+            {%- liquid
+              assign hidden = false
+              for itemcart in cart.items
+                if itemcart.product_id == item.id
+                  assign hidden = true
+                endif
+              endfor
+            -%}
+            {%- if hidden == false -%}
+              <div class='cart-upsell-item w-full'>
+                {%- render 'product-item',
+                  card_product: item,
+                  template_enable_price: true,
+                  template_enable_add_cart: true,
+                  template_enable_product_vendor: false,
+                  template_enable_rate: false,
+                  template_enable_product_short_description: false,
+                  template_enable_color_swatches: false,
+                  type: 'list'
+                -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </grid-custom>
+      {%- if product_recommendations_type == 'auto' -%}
+        </minicart-recommendations-beside>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  {%- if cart.items.size > 0 -%}
+    <div class='cart-footer'>
+      {%- if action_after_add_cart == 'open_drawer' -%}
+        {%- render 'cart-addons' -%}
+      {%- endif -%}
+      {%- render 'alo-cart-coupon' -%}
+      {%- if hidden_price == false -%}
+        <div class='cart-summary' data-cart-summary>
+          <div data-discounts>
+            <ul class='cart-discounts list-unstyled fs-small light-dark-grey px-30' data-discounts-list>
+              {%- for discount in cart.cart_level_discount_applications -%}
+                <li><span>{{ discount.title | upcase }}&nbsp;(-{{ discount.total_allocated_amount | money }})</span></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      {%- endif -%}
+      <div class='drawer-bottom cart__ctas px-30 pt-20 pb-30 grey-bg'>
+        <div class='subtotal flex gap-10 justify-between align-center' data-cart-subtotal>
+          <h5 class='heading-color my-0'>{{ 'general.cart.subtotal' | t }}</h5>
+          <span class='subtotal-price h5 my-5' data-cart-subtotal-price>
+            {%- if show_currency_code -%}{{ cart.total_price | money_with_currency }}{%- else -%}{{ cart.total_price | money }}{%- endif -%}
+          </span>
+        </div>
+        <div class='alo-ship-line'>
+          <span>Livraison</span>
+          {%- if shipping_rate > 0 and cart.items_subtotal_price >= shipping_rate_cents -%}
+            <strong class='alo-ok'>Offerte ✓</strong>
+          {%- else -%}
+            <span>Calculée au paiement</span>
+          {%- endif -%}
+        </div>
+        {%- if theme_st.show_check_box_in_cart and theme_st.enable_catalog_mode == false -%}
+          <terms-conditions class='terms-conditions flex mt-17 mb-25' data-custom-class='term-and-condition'>
+            <div class='checkbox-group relative'>
+              <input class='input w-20 h-20 m-0 opacity-0 absolute inset-0 pointer conditions_form_minicart' type='checkbox' name='conditions' id='conditions_form_minicart'>
+              <span class='checkmark relative me-10 pointer-none pointer inline-flex'></span>
+            </div>
+            <label class='label pointer rich__text-m0' for='conditions_form_minicart' style='--color-link: var(--color-heading);'>
+              {{ theme_st.text_terms_conditions }}
+            </label>
+          </terms-conditions>
+        {%- endif -%}
+        {%- if theme_st.enable_catalog_mode == false -%}
+          <button
+            type='submit'
+            class='btn-primary w-full btn-checkout'
+            name='checkout'
+            form='minicart'
+            {% if theme_st.show_check_box_in_cart %}disabled{% endif %}
+          >
+            <svg aria-hidden='true'><use href='#alo-icon-lock'></use></svg>
+            <span>Commander en toute sécurité</span>
+          </button>
+          <a class='alo-viewcart viewcart' href='{{ routes.cart_url }}'>Voir le panier complet</a>
+        {%- endif -%}
+        {%- render 'alo-cart-trust' -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>

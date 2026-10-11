@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-heading",
+      "blocks": {
+        "breadcrumb_MJHLQb": {"type": "breadcrumb", "settings": {}},
+        "heading_fntt9G": {"type": "heading", "settings": {"page_title": "", "header_size": "default"}},
+        "description_FAmcR8": {"type": "description", "settings": {}}
+      },
+      "block_order": ["breadcrumb_MJHLQb", "heading_fntt9G", "description_FAmcR8"],
+      "settings": {"section_width": "stretch_width", "color_scheme": "", "alignment": "center", "show_collection_image": false, "overlay_opacity": 0, "height": "adapt", "padding_top": 60, "padding_bottom": 0}
+    },
+    "main": {
+      "type": "main-collection-product",
+      "blocks": {
+        "filter_giBtHK": {"type": "filter", "settings": {}}
+      },
+      "block_order": ["filter_giBtHK"],
+      "settings": {
+        "section_width": "fluid_container",
+        "enable_filtering": true,
+        "show_filter_counts": true,
+        "filter_layout": "horizontal",
+        "vertical_posion": "left",
+        "number_products_per_page": false,
+        "sorting": true,
+        "grid_list": false,
+        "items_to_show": 12,
+        "items_per_row": 4,
+        "column_gap": 30,
+        "pagination": "load_more_button",
+        "button_show_more": "Voir plus",
+        "promotion_link": "",
+        "promotion_postion": 6,
+        "items_per_row_mobile": "2",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": ["banner", "main"]
+}

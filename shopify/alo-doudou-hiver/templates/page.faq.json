@@ -1,0 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page-heading": {
+      "type": "page-heading",
+      "blocks": {
+        "breadcrumb_fq01": {"type": "breadcrumb", "settings": {}},
+        "heading_fq01": {"type": "heading", "settings": {"page_title": "", "header_size": "default"}}
+      },
+      "block_order": ["breadcrumb_fq01", "heading_fq01"],
+      "settings": {"section_width": "container", "color_scheme": "", "alignment": "center", "overlay_opacity": 0, "height": "adapt", "padding_top": 60, "padding_bottom": 0}
+    },
+    "main": {"type": "page-default", "settings": {}},
+    "faq_fq01": {
+      "type": "faq",
+      "blocks": {
+        "faq_1": {"type": "faq-items", "settings": {"faq_title": "Combien coûte la livraison ?", "faq_content": "La livraison est <strong>offerte dès 40 €</strong> d'achat. En dessous, elle coûte 4,90 €. Le montant exact est toujours affiché avant le paiement."}},
+        "faq_2": {"type": "faq-items", "settings": {"faq_title": "Quels sont les délais de livraison ?", "faq_content": "Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison. Tu reçois un e-mail de confirmation, puis un e-mail dès l'expédition de ton colis."}},
+        "faq_3": {"type": "faq-items", "settings": {"faq_title": "Dans quels pays livrez-vous ?", "faq_content": "En France et dans la plupart des pays de l'Union européenne. La liste complète est sur notre <a href=\"/pages/livraison\">page Livraison</a>."}},
+        "faq_4": {"type": "faq-items", "settings": {"faq_title": "Puis-je retourner un article ?", "faq_content": "Oui : tu disposes de <strong>14 jours après réception</strong> pour changer d'avis, sans avoir à te justifier. Toutes les étapes sur notre <a href=\"/pages/retours-et-remboursements\">page Retours</a>."}},
+        "faq_5": {"type": "faq-items", "settings": {"faq_title": "Quand serai-je remboursé ?", "faq_content": "Dans les 14 jours suivant ta demande de retour, sur le moyen de paiement utilisé. Nous pouvons attendre la réception de l'article ou la preuve de son expédition."}},
+        "faq_6": {"type": "faq-items", "settings": {"faq_title": "Le paiement est-il sécurisé ?", "faq_content": "Oui. Le paiement est traité par des prestataires sécurisés via une connexion chiffrée : nous n'avons jamais accès à tes coordonnées bancaires."}},
+        "faq_7": {"type": "faq-items", "settings": {"faq_title": "Comment utiliser mon code de bienvenue ?", "faq_content": "Saisis le code <strong>BIENVENUE10</strong> au moment du paiement pour obtenir -10 % sur ta première commande."}},
+        "faq_8": {"type": "faq-items", "settings": {"faq_title": "Mon colis est abimé ou en retard, que faire ?", "faq_content": "Écris-nous avec ton numéro de commande (et une photo si le colis est abimé) via notre <a href=\"/pages/contact\">page contact</a>. On fait le point avec le transporteur."}}
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6", "faq_7", "faq_8"],
+      "settings": {"section_width": "container", "color_scheme": "", "heading": "", "description": "", "header_size": "medium", "header_alignment": "center", "padding_top": 0, "padding_bottom": 0, "reset_spacing": false}
+    }
+  },
+  "order": ["page-heading", "main", "faq_fq01"]
+}

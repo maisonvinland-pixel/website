@@ -1,0 +1,193 @@
+{%- comment -%}
+  Alo Doudou : newsletter hiver en bas de toutes les pages.
+  Inscription = client Shopify abonné au marketing (tag « newsletter »).
+  Après l'inscription, le code de bienvenue s'affiche avec un bouton « Copier ».
+{%- endcomment -%}
+{%- assign st = section.settings -%}
+{{ 'alo-boutique.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'alo-boutique.js' | asset_url }}" defer="defer"></script>
+
+<section class="alo-nl" style="--alo-pt: {{ st.padding_top }}px; --alo-pb: {{ st.padding_bottom }}px;">
+  <span class="alo-nl__aurora" aria-hidden="true"></span>
+  <span class="alo-nl__flakes" aria-hidden="true"></span>
+  <div class="alo-nl__wrap">
+    <div class="alo-nl__copy">
+      {%- if st.kicker != blank -%}
+        <p class="alo-nl__kicker">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17l17.4-10"/></svg>
+          {{ st.kicker }}
+        </p>
+      {%- endif -%}
+      <h2 class="alo-nl__title">{{ st.heading }}</h2>
+      {%- if st.text != blank -%}<div class="alo-nl__text">{{ st.text }}</div>{%- endif -%}
+      <ul class="alo-nl__perks" role="list">
+        {%- if st.perk_1 != blank -%}<li>{{ st.perk_1 }}</li>{%- endif -%}
+        {%- if st.perk_2 != blank -%}<li>{{ st.perk_2 }}</li>{%- endif -%}
+        {%- if st.perk_3 != blank -%}<li>{{ st.perk_3 }}</li>{%- endif -%}
+      </ul>
+    </div>
+
+    <div class="alo-nl__box">
+      <span class="alo-nl__ticket" aria-hidden="true">
+        <span class="alo-nl__ticket-off">{{ st.ticket_value }}</span>
+        <span class="alo-nl__ticket-txt">{{ st.ticket_text }}</span>
+      </span>
+      {%- form 'customer', id: 'AloNewsletter', class: 'alo-nl__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <div class="alo-nl__success" role="status" tabindex="-1" data-alo-nl-success>
+            <p class="alo-nl__success-title">Bienvenue dans le cercle ❄️</p>
+            {%- if st.code != blank -%}
+              <p class="alo-nl__success-text">Voici ton code, à saisir au moment du paiement :</p>
+              <div class="alo-nl__code">
+                <span data-alo-nl-code>{{ st.code }}</span>
+                <button type="button" class="alo-nl__copybtn" data-alo-nl-copy>Copier</button>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <label class="visually-hidden" for="AloNewsletter-email">{{ st.placeholder }}</label>
+          <div class="alo-nl__field">
+            <input
+              id="AloNewsletter-email"
+              type="email"
+              name="contact[email]"
+              placeholder="{{ st.placeholder | escape }}"
+              autocomplete="email"
+              autocapitalize="off"
+              autocorrect="off"
+              required
+              {% if form.errors %}aria-invalid="true" aria-describedby="AloNewsletter-error"{% endif %}
+            >
+            <button type="submit" class="alo-nl__btn">
+              <span>{{ st.button_label }}</span>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 6h13M9.5 1.5 14 6l-4.5 4.5"/></svg>
+            </button>
+          </div>
+          {%- if form.errors -%}
+            <div class="alo-nl__error" id="AloNewsletter-error" role="alert">
+              {%- if form.errors contains 'email' -%}
+                Oups, cette adresse e-mail ne semble pas valide. Vérifie-la et réessaie.
+              {%- else -%}
+                {{ form.errors | default_errors }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if st.note != blank -%}<p class="alo-nl__note">{{ st.note }}</p>{%- endif -%}
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter hiver",
+  "tag": "div",
+  "class": "section-alo-newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Petit titre",
+      "default": "Le cercle Alo Doudou"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "-10 % sur ta première commande, rien que pour toi"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Inscris-toi et reçois ton code tout de suite. Ensuite, on t'écrit seulement quand ça vaut vraiment le coup.</p>"
+    },
+    {
+      "type": "text",
+      "id": "perk_1",
+      "label": "Avantage 1",
+      "default": "Les nouveautés en avant-première"
+    },
+    {
+      "type": "text",
+      "id": "perk_2",
+      "label": "Avantage 2",
+      "default": "Des offres réservées aux abonnées"
+    },
+    {
+      "type": "text",
+      "id": "perk_3",
+      "label": "Avantage 3",
+      "default": "Zéro spam, désinscription en un clic"
+    },
+    {
+      "type": "header",
+      "content": "Formulaire"
+    },
+    {
+      "type": "text",
+      "id": "ticket_value",
+      "label": "Ticket : valeur",
+      "default": "-10 %"
+    },
+    {
+      "type": "text",
+      "id": "ticket_text",
+      "label": "Ticket : texte",
+      "default": "sur ta 1re commande"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Texte du champ e-mail",
+      "default": "Ton adresse e-mail"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton",
+      "default": "Je veux mes -10 %"
+    },
+    {
+      "type": "text",
+      "id": "code",
+      "label": "Code affiché après l'inscription",
+      "info": "Le code doit exister dans Réductions. Laisse vide pour ne rien afficher.",
+      "default": "BIENVENUE10"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "note",
+      "label": "Mention sous le formulaire",
+      "default": "En t'inscrivant, tu acceptes de recevoir nos e-mails et notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge du haut",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge du bas",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter hiver"
+    }
+  ]
+}
+{% endschema %}

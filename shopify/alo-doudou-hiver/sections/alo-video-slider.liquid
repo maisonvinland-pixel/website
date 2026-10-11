@@ -1,0 +1,137 @@
+{%- comment -%}
+  Alo Doudou : slider de vidéos verticales (style réseaux sociaux), avec produit lié.
+{%- endcomment -%}
+{{ 'alo-sections.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'alo-sections.js' | asset_url }}" defer="defer"></script>
+{%- assign st = section.settings -%}
+<div
+  class="alo-vs color-{{ st.color_scheme }} gradient"
+  data-alo-vs
+  data-autoplay="{{ st.autoplay }}"
+  style="--alo-pt: {{ st.padding_top }}px; --alo-pb: {{ st.padding_bottom }}px;"
+>
+  <div class="alo-wrap">
+    {%- if st.heading != blank or st.subheading != blank -%}
+      <div class="alo-head">
+        {%- if st.heading != blank -%}<h2 class="alo-head__title">{{ st.heading }}</h2>{%- endif -%}
+        {%- if st.subheading != blank -%}
+          <p class="alo-head__sub">
+            {%- if st.subheading_link != blank -%}
+              <a href="{{ st.subheading_link }}" target="_blank" rel="noopener">{{ st.subheading }}</a>
+            {%- else -%}
+              {{ st.subheading }}
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="alo-slider">
+      <button type="button" class="alo-arrow alo-arrow--prev" data-alo-prev aria-label="Vidéo précédente">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+      </button>
+      <div class="alo-track alo-vs__track" data-alo-track tabindex="0" aria-label="Vidéos">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign b = block.settings
+            assign p = b.product
+          -%}
+          <div class="alo-vs__card" {{ block.shopify_attributes }}>
+            <div class="alo-vs__media" data-alo-video-card>
+              {%- if b.video != blank -%}
+                {{ b.video | video_tag: muted: true, loop: true, playsinline: true, controls: false, preload: 'metadata', image_size: '720x', class: 'alo-vs__video' }}
+              {%- elsif b.video_url != blank -%}
+                <video
+                  class="alo-vs__video"
+                  src="{{ b.video_url }}"
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                  {% if b.poster != blank %}poster="{{ b.poster | image_url: width: 720 }}"{% endif %}
+                ></video>
+              {%- elsif b.poster != blank -%}
+                {{ b.poster | image_url: width: 720 | image_tag: class: 'alo-vs__video', loading: 'lazy' }}
+              {%- else -%}
+                <div class="alo-vs__placeholder">
+                  {%- if settings.logo != blank -%}
+                    {{ settings.logo | image_url: width: 240 | image_tag: loading: 'lazy', alt: shop.name }}
+                  {%- endif -%}
+                  <span>Ajoute ta vidéo ici</span>
+                </div>
+              {%- endif -%}
+              {%- if b.video != blank or b.video_url != blank -%}
+                <span class="alo-vs__play" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+                </span>
+                <button type="button" class="alo-vs__sound" data-alo-sound aria-label="Activer le son">
+                  <svg class="alo-vs__muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></svg>
+                  <svg class="alo-vs__unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9a4.5 4.5 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+                </button>
+              {%- endif -%}
+              {%- if b.caption != blank -%}<span class="alo-vs__caption">{{ b.caption }}</span>{%- endif -%}
+            </div>
+            {%- if p != blank -%}
+              <a class="alo-vs__product" href="{{ p.url }}">
+                {%- if p.featured_image != blank -%}
+                  {{ p.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: p.title }}
+                {%- endif -%}
+                <span class="alo-vs__ptxt">
+                  <span class="alo-vs__pname">{{ p.title }}</span>
+                  <span class="alo-vs__pprice">{{ p.price | money }}</span>
+                </span>
+                <span class="alo-vs__pgo">Voir</span>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+      <button type="button" class="alo-arrow alo-arrow--next" data-alo-next aria-label="Vidéo suivante">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Alo · Slider vidéo",
+  "tag": "section",
+  "class": "section alo-section",
+  "disabled_on": { "groups": ["header", "footer", "custom.overlay"] },
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Inspire-toi" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre", "default": "Nos coups de cœur en vidéo" },
+    { "type": "url", "id": "subheading_link", "label": "Lien du sous-titre (ex. ton Instagram ou TikTok)" },
+    { "type": "checkbox", "id": "autoplay", "label": "Lecture automatique sans son quand la vidéo est visible", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Couleurs" },
+    { "type": "range", "id": "padding_top", "label": "Marge haute", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Marge basse", "min": 0, "max": 100, "step": 5, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Vidéo",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Vidéo (format vertical 9:16 conseillé)" },
+        { "type": "text", "id": "video_url", "label": "Ou lien direct vers un fichier .mp4" },
+        { "type": "image_picker", "id": "poster", "label": "Image de couverture (facultatif)" },
+        { "type": "text", "id": "caption", "label": "Légende sur la vidéo" },
+        { "type": "product", "id": "product", "label": "Produit à mettre en avant" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Alo · Slider vidéo",
+      "blocks": [
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" },
+        { "type": "video" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,540 @@
+/* ==========================================================
+   Alo Doudou : sections et blocs personnalisés
+   Style « sticker » : contours noirs, ombre décalée sable, crème.
+   ========================================================== */
+:root {
+  --alo-ink: #111111;
+  --alo-cream: #f3ece0;
+  --alo-paper: #fbf7f0;
+  --alo-sand: #d6c9b4;
+  --alo-ok: #1f7a4d;
+  --alo-star: #e8a317;
+  --alo-font: 'Righteous', var(--font-heading-family, sans-serif);
+}
+
+/* ---------- Commun ---------- */
+.alo-vs,
+.alo-testi {
+  padding-top: var(--alo-pt, 40px);
+  padding-bottom: var(--alo-pb, 40px);
+}
+.alo-wrap {
+  max-width: var(--fluid-container-width, 1410px);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.alo-head {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.alo-head__title {
+  font-family: var(--alo-font);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 4vw, 3.8rem);
+  line-height: 1.15;
+  margin: 0 0 8px;
+  color: var(--color-heading, var(--alo-ink));
+}
+.alo-head__sub {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.alo-head__sub a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alo-slider {
+  position: relative;
+}
+.alo-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 10px 4px 18px;
+  -webkit-overflow-scrolling: touch;
+}
+.alo-track::-webkit-scrollbar { display: none; }
+.alo-track > * { scroll-snap-align: start; }
+.alo-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--alo-ink);
+  background: #fff;
+  color: var(--alo-ink);
+  box-shadow: 3px 3px 0 var(--alo-sand);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.alo-arrow:hover { transform: translateY(-50%) scale(1.06); }
+.alo-arrow--prev { left: -8px; }
+.alo-arrow--next { right: -8px; }
+.alo-arrow[disabled] { opacity: 0; pointer-events: none; }
+.alo-stars {
+  --alo-rating: 5;
+  display: inline-block;
+  font-size: 1.3rem;
+  line-height: 1;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--alo-star) calc(var(--alo-rating) / 5 * 100%), #d9d9d9 0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.alo-stars::before { content: '★★★★★'; }
+.alo-progress {
+  width: 120px;
+  height: 3px;
+  margin: 10px auto 0;
+  background: #e2dccf;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.alo-progress span {
+  display: block;
+  height: 100%;
+  width: 25%;
+  background: var(--alo-ink);
+  border-radius: 3px;
+  transition: transform .3s ease, width .3s ease;
+}
+
+/* ---------- Slider vidéo ---------- */
+.alo-vs__card {
+  flex: 0 0 clamp(200px, 19vw, 260px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.alo-vs__media {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1.5px solid var(--alo-ink);
+  box-shadow: 4px 4px 0 var(--alo-sand);
+  background: var(--alo-cream);
+  cursor: pointer;
+}
+.alo-vs__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.alo-vs__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #555;
+  background:
+    repeating-linear-gradient(170deg, transparent 0 22px, rgba(17, 17, 17, .05) 22px 24px),
+    var(--alo-cream);
+}
+.alo-vs__placeholder img { width: 70%; height: auto; }
+.alo-vs__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  padding-left: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .85);
+  color: var(--alo-ink);
+  transform: translate(-50%, -50%);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+}
+.alo-vs__media.is-playing .alo-vs__play { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+.alo-vs__sound {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(17, 17, 17, .55);
+  color: #fff;
+  cursor: pointer;
+}
+.alo-vs__unmuted { display: none; }
+.alo-vs__media.is-sound .alo-vs__muted { display: none; }
+.alo-vs__media.is-sound .alo-vs__unmuted { display: block; }
+.alo-vs__caption {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.3;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, .55);
+  pointer-events: none;
+}
+.alo-vs__product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1.5px solid var(--alo-ink);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--alo-ink);
+  text-decoration: none;
+}
+.alo-vs__product img {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+.alo-vs__ptxt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.alo-vs__pname {
+  font-size: 1.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.alo-vs__pprice { font-weight: 700; font-size: 1.3rem; }
+.alo-vs__pgo {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: var(--alo-ink);
+  color: #fff;
+}
+
+/* ---------- Avis clients ---------- */
+.alo-testi__title em { font-style: italic; }
+.alo-testi__score {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0 0;
+  font-size: 1.4rem;
+}
+.alo-testi__score strong { font-size: 1.8rem; }
+.alo-testi__count { color: #666; }
+.alo-testi__track { padding: 18px 8px 22px; gap: 18px; }
+.alo-testi__card {
+  flex: 0 0 clamp(240px, 22vw, 300px);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #fff;
+  border: 1.5px solid var(--alo-ink);
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 var(--alo-sand);
+  transform: rotate(-1.6deg);
+  transition: transform .3s ease;
+}
+.alo-testi__card:nth-child(2n) { transform: rotate(1.4deg) translateY(-4px); }
+.alo-testi__card:nth-child(3n) { transform: rotate(-.6deg) translateY(-8px); }
+.alo-testi__card:hover { transform: rotate(0) translateY(-6px); }
+.alo-testi__product {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #777;
+}
+.alo-testi__text {
+  flex: 1;
+  margin: 0;
+  font-size: 1.45rem;
+  line-height: 1.5;
+  color: var(--alo-ink);
+}
+.alo-testi__author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.alo-testi__avatar {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--alo-ink);
+}
+.alo-testi__avatar--initial,
+.alo-atcr__img--initial {
+  display: grid;
+  place-items: center;
+  background: var(--alo-cream);
+  font-family: var(--alo-font);
+  font-size: 1.6rem;
+  color: var(--alo-ink);
+}
+.alo-testi__who {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 1.35rem;
+}
+.alo-testi__quote {
+  font-family: var(--alo-font);
+  font-size: 3.4rem;
+  line-height: .5;
+  align-self: flex-start;
+  padding-top: 10px;
+}
+.alo-testi__more {
+  text-align: center;
+  margin: 16px 0 0;
+  font-size: 1.4rem;
+}
+.alo-testi__more a { color: inherit; text-underline-offset: 3px; }
+
+/* ---------- Bloc produit : avis près du bouton ---------- */
+.alo-atcr {
+  position: relative;
+  margin: 0 0 16px;
+  background: var(--alo-paper);
+  border: 1.5px solid var(--alo-ink);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.alo-atcr__track {
+  display: flex;
+  transition: transform .45s cubic-bezier(.4, 0, .2, 1);
+}
+.alo-atcr__item {
+  flex: 0 0 100%;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 0;
+  padding: 14px 48px 14px 14px;
+}
+.alo-atcr__img {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.alo-atcr__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.alo-atcr__text {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.45;
+}
+.alo-atcr__next {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--alo-ink);
+  background: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+/* ---------- Bloc produit : upsell à cocher ---------- */
+.alo-upsell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+  padding: 10px 14px 10px 10px;
+  background: var(--alo-cream);
+  border: 1.5px solid var(--alo-ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--alo-sand);
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+.alo-upsell:has(.alo-upsell__input:checked) { background: #fff; }
+.alo-upsell__media {
+  flex: 0 0 68px;
+  height: 68px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.alo-upsell__media img { width: 100%; height: 100%; object-fit: cover; }
+.alo-upsell__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.3;
+}
+.alo-upsell__kicker { font-size: 1.15rem; color: #666; }
+.alo-upsell__title {
+  font-family: var(--alo-font);
+  font-size: 1.6rem;
+  color: var(--alo-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.alo-upsell__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+.alo-upsell__price s { font-weight: 400; color: #888; }
+.alo-upsell__badge {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: var(--alo-ink);
+  color: var(--alo-cream);
+}
+.alo-upsell__link { font-size: 1.15rem; color: #555; text-underline-offset: 2px; }
+.alo-upsell__input { position: absolute; opacity: 0; pointer-events: none; }
+.alo-upsell__switch {
+  position: relative;
+  flex: 0 0 50px;
+  height: 28px;
+  border-radius: 28px;
+  border: 1.5px solid var(--alo-ink);
+  background: #fff;
+  transition: background-color .25s ease;
+}
+.alo-upsell__switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--alo-ink);
+  transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), background-color .25s ease;
+}
+.alo-upsell__input:checked + .alo-upsell__switch { background: var(--alo-ink); }
+.alo-upsell__input:checked + .alo-upsell__switch::after { transform: translateX(22px); background: #fff; }
+.alo-upsell__input:focus-visible + .alo-upsell__switch { outline: 2px solid var(--alo-ink); outline-offset: 2px; }
+
+/* ---------- Bloc produit : icônes de paiement ---------- */
+.alo-payicons { margin: 0 0 22px; text-align: center; }
+.alo-payicons__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  color: var(--alo-ink);
+}
+.alo-payicons__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.alo-payicons__item {
+  display: grid;
+  place-items: center;
+  padding: 5px 7px;
+  background: #fff;
+  border: 1px solid #e3ddd2;
+  border-radius: 8px;
+}
+.alo-payicons__item svg { height: 22px; width: auto; display: block; }
+
+/* ---------- Bloc produit : onglets d'infos ---------- */
+.alo-tabs {
+  margin: 0 0 24px;
+  border-top: 1.5px solid var(--alo-ink);
+}
+.alo-tabs__row { border-bottom: 1px solid #e3ddd2; }
+.alo-tabs__summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 2px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--alo-ink);
+}
+.alo-tabs__summary::-webkit-details-marker { display: none; }
+.alo-tabs__icon {
+  flex: 0 0 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--alo-cream);
+}
+.alo-tabs__title { flex: 1; font-weight: 600; font-size: 1.5rem; }
+.alo-tabs__chevron { transition: transform .25s ease; }
+.alo-tabs__row[open] .alo-tabs__chevron { transform: rotate(180deg); }
+.alo-tabs__content {
+  padding: 0 2px 18px 54px;
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+.alo-tabs__content > :first-child { margin-top: 0; }
+.alo-tabs__content > :last-child { margin-bottom: 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 767px) {
+  .alo-vs__card { flex-basis: 62vw; }
+  .alo-testi__card { flex-basis: 78vw; }
+  .alo-arrow { display: none; }
+  .alo-tabs__content { padding-left: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alo-track { scroll-behavior: auto; }
+  .alo-testi__card,
+  .alo-atcr__track { transition: none; }
+}

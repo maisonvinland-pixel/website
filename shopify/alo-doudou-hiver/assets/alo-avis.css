@@ -1,0 +1,16 @@
+/* Alo Doudou : styles des avis clients */
+/* Avis clients : date, mention légale, résumé près du bouton */
+.alo-testi__date { font-size: 1.15rem; color: #8a7a83; }
+.alo-testi__product a { color: var(--alo-berry); text-decoration: none; }
+.alo-testi__product a:hover { text-decoration: underline; }
+.alo-testi__legal { margin: 14px auto 0; max-width: 560px; text-align: center; font-size: 1.15rem; color: #8a7a83; }
+.alo-atcr__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  color: var(--alo-ink);
+  text-decoration: none;
+}
+.alo-atcr__summary:hover span:last-child { text-decoration: underline; }

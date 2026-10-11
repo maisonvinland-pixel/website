@@ -1,0 +1,77 @@
+{%- comment -%}
+  Alo Doudou : avis clients réels affichés près du bouton d'achat.
+  Si les champs du bloc sont vides, affiche automatiquement les 3 premiers avis
+  du produit saisis dans Contenu > Métaobjets > Avis client (statut Actif).
+{%- endcomment -%}
+{%- liquid
+  assign st = block.settings
+  assign manual = 0
+  for i in (1..3)
+    assign key = 'text_' | append: i
+    assign txt = st[key] | strip
+    if txt != blank
+      unless txt contains 'Remplace ce texte' or txt contains 'Exemple :'
+        assign manual = manual | plus: 1
+      endunless
+    endif
+  endfor
+
+  assign auto_count = 0
+  assign auto_sum = 0
+  if manual == 0 and product
+    for review in shop.metaobjects.avis_client.values limit: 50
+      if review.produit.value.id == product.id and review.texte != blank
+        assign auto_count = auto_count | plus: 1
+        assign auto_sum = auto_sum | plus: review.note.value
+      endif
+    endfor
+  endif
+  assign count = manual | plus: auto_count
+-%}
+{%- if count > 0 -%}
+  {{ 'alo-sections.css' | asset_url | stylesheet_tag }}
+  {{ 'alo-avis.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'alo-sections.js' | asset_url }}" defer="defer"></script>
+  {%- if auto_count > 0 -%}
+    {%- assign auto_avg = auto_sum | times: 1.0 | divided_by: auto_count | round: 1 -%}
+    <a class="alo-atcr__summary" href="#alo-avis">
+      <span class="alo-stars" style="--alo-rating: {{ auto_avg }};" aria-hidden="true"></span>
+      <strong>{{ auto_avg | replace: '.', ',' }}/5</strong>
+      <span>· {{ auto_count }} avis</span>
+    </a>
+  {%- endif -%}
+  <div class="alo-atcr" data-alo-atcr {{ block.shopify_attributes }}>
+    <div class="alo-atcr__track">
+      {%- if manual > 0 -%}
+        {%- for i in (1..3) -%}
+          {%- liquid
+            assign k_text = 'text_' | append: i
+            assign k_name = 'name_' | append: i
+            assign k_rating = 'rating_' | append: i
+            assign k_image = 'image_' | append: i
+            assign txt = st[k_text] | strip
+          -%}
+          {%- if txt != blank -%}
+            {%- unless txt contains 'Remplace ce texte' or txt contains 'Exemple :' -%}
+              {%- render 'alo-atc-review-item', text: txt, author: st[k_name], rating: st[k_rating], image: st[k_image] -%}
+            {%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign shown = 0 -%}
+        {%- for review in shop.metaobjects.avis_client.values limit: 50 -%}
+          {%- if shown >= 3 -%}{%- break -%}{%- endif -%}
+          {%- if review.produit.value.id == product.id and review.texte != blank -%}
+            {%- render 'alo-atc-review-item', text: review.texte.value, author: review.prenom.value, rating: review.note.value, image: review.photo.value -%}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+    {%- if count > 1 -%}
+      <button type="button" class="alo-atcr__next" aria-label="Avis suivant">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+    {%- endif -%}
+  </div>
+{%- endif -%}

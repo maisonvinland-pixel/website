@@ -1,0 +1,364 @@
+/* ==========================================================
+   Alo Doudou : section « Vu sur TikTok » (style hiver)
+   ========================================================== */
+.alo-tt {
+  --a-ink: var(--alo-ink, #15203a);
+  --a-night: var(--alo-plum, #1e3360);
+  --a-ice: var(--alo-cream, #e5effa);
+  --a-shadow: var(--alo-sand, #c7d9ee);
+  --a-accent: var(--alo-berry, #3b82c4);
+  --a-gold: var(--alo-star, #e0a43a);
+  --a-font: var(--alo-font, var(--font-heading-family, sans-serif));
+  --a-ease: cubic-bezier(.34, 1.56, .64, 1);
+  position: relative;
+  padding: var(--alo-pt, 50px) 0 var(--alo-pb, 50px);
+  overflow: hidden;
+}
+.alo-tt__wrap {
+  max-width: var(--fluid-container-width, 1410px);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- En-tête ---------- */
+.alo-tt__head {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 28px;
+}
+.alo-tt__title {
+  margin: 0 0 10px;
+  font-family: var(--a-font);
+  font-size: clamp(3.2rem, 6vw, 5.2rem);
+  line-height: 1.02;
+  color: var(--a-ink);
+}
+.alo-tt__sub {
+  margin: 0 0 20px;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: rgba(var(--color-text-rgb, 60, 70, 96), .85);
+}
+.alo-tt__sub strong { color: var(--a-ink); font-weight: 700; }
+.alo-tt__follow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 30px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  background: var(--a-ink);
+  border: 2px solid var(--a-ink);
+  border-radius: 40px;
+  box-shadow: 4px 4px 0 var(--a-shadow);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.alo-tt__follow:hover {
+  color: #fff;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--a-shadow);
+}
+.alo-tt__follow svg { filter: drop-shadow(1.5px 0 0 #25f4ee) drop-shadow(-1.5px 0 0 #fe2c55); }
+
+/* ---------- Carrousel ---------- */
+.alo-tt__slider { position: relative; }
+.alo-tt__track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 6px 6px 14px;
+  margin: 0 -6px;
+  -webkit-overflow-scrolling: touch;
+}
+.alo-tt__track::-webkit-scrollbar { display: none; }
+.alo-tt__card {
+  flex: 0 0 min(72vw, 300px);
+  scroll-snap-align: start;
+}
+@media (min-width: 990px) {
+  .alo-tt__card { flex-basis: calc((100% - 4 * 16px) / 4.4); }
+}
+.alo-tt__media {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(170deg, #1e3360, #121d38);
+  border: 1.5px solid var(--a-ink);
+  box-shadow: 5px 5px 0 var(--a-shadow);
+  cursor: pointer;
+  transition: transform .4s var(--a-ease), box-shadow .4s ease;
+}
+.alo-tt__card:hover .alo-tt__media {
+  transform: translateY(-4px);
+  box-shadow: 7px 9px 0 var(--a-shadow);
+}
+.alo-tt__media::after {
+  content: '';
+  position: absolute;
+  inset: 45% 0 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent, rgba(8, 14, 32, .78));
+  pointer-events: none;
+}
+.alo-tt__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #121d38;
+}
+.alo-tt__ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(1.5px 1.5px at 20% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 75% 30%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 40% 75%, #fff, transparent),
+    radial-gradient(60% 40% at 50% 35%, rgba(110, 150, 255, .35), transparent 70%),
+    linear-gradient(170deg, #1e3360, #121d38);
+}
+.alo-tt__ph strong { font-size: 1.6rem; }
+.alo-tt__ph small { font-size: 1.15rem; opacity: .7; }
+
+/* Logo TikTok en haut à gauche */
+.alo-tt__logo {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, .45);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.alo-tt__logo svg { filter: drop-shadow(1px 0 0 #25f4ee) drop-shadow(-1px 0 0 #fe2c55); }
+
+/* Son */
+.alo-tt__sound {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, .45);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+.alo-tt__unmuted { display: none; }
+.alo-tt__card.is-sound .alo-tt__muted { display: none; }
+.alo-tt__card.is-sound .alo-tt__unmuted { display: block; }
+
+/* Bouton lecture (visible quand la vidéo est en pause) */
+.alo-tt__play {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  padding-left: 3px;
+  border-radius: 50%;
+  color: var(--a-ink);
+  background: rgba(255, 255, 255, .9);
+  transform: translate(-50%, -50%);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+}
+.alo-tt__card.is-playing .alo-tt__play {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.6);
+}
+
+/* Carte produit sur la vidéo */
+.alo-tt__product {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 48px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 8px 8px;
+  border-radius: 16px;
+  color: var(--a-ink);
+  text-decoration: none;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 10px 26px rgba(5, 12, 30, .3);
+  transition: transform .3s var(--a-ease);
+}
+.alo-tt__product:hover { color: var(--a-ink); transform: translateY(-3px); }
+.alo-tt__pimg {
+  flex: 0 0 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  overflow: hidden;
+  color: var(--a-accent);
+  background: var(--a-ice);
+}
+.alo-tt__pimg img { width: 100%; height: 100%; object-fit: cover; }
+.alo-tt__pinfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.alo-tt__ptitle {
+  font-family: var(--a-font);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.alo-tt__pprice {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--a-accent);
+}
+.alo-tt__pprice s { font-size: 1.15rem; font-weight: 500; color: #8a93a6; }
+.alo-tt__parrow { flex: 0 0 auto; transition: transform .25s ease; }
+.alo-tt__product:hover .alo-tt__parrow { transform: translateX(3px); }
+
+/* Vues + créatrice */
+.alo-tt__meta {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .45);
+  pointer-events: none;
+}
+.alo-tt__views { display: inline-flex; align-items: center; gap: 6px; }
+.alo-tt__creator {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Flèches (ordinateur) */
+.alo-tt__arrow {
+  position: absolute;
+  top: 45%;
+  z-index: 4;
+  width: 46px;
+  height: 46px;
+  display: none;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--a-ink);
+  background: #fff;
+  border: 1.5px solid var(--a-ink);
+  box-shadow: 3px 3px 0 var(--a-shadow);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.alo-tt__arrow:hover { transform: translateY(-50%) scale(1.06); }
+.alo-tt__arrow[disabled] { opacity: 0; pointer-events: none; }
+.alo-tt__arrow--prev { left: -6px; }
+.alo-tt__arrow--next { right: -6px; }
+@media (min-width: 990px) {
+  .alo-tt__arrow { display: grid; }
+}
+
+/* ---------- Chiffres clés ---------- */
+.alo-tt__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 34px 0 0;
+  border-top: 1.5px solid var(--a-ink);
+  border-bottom: 1.5px solid var(--a-ink);
+}
+@media (min-width: 750px) {
+  .alo-tt__stats { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+}
+.alo-tt__stat {
+  padding: 22px 10px;
+  text-align: center;
+}
+.alo-tt__stat + .alo-tt__stat { border-left: 1px dashed var(--a-shadow); }
+@media (max-width: 749px) {
+  .alo-tt__stat:nth-child(3) { border-left: 0; }
+  .alo-tt__stat:nth-child(n + 3) { border-top: 1px dashed var(--a-shadow); }
+}
+.alo-tt__stat-value {
+  font-family: var(--a-font);
+  font-size: clamp(2.8rem, 4.5vw, 4rem);
+  line-height: 1.05;
+  color: var(--a-ink);
+}
+.alo-tt__stat-label {
+  margin: 6px 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(var(--color-text-rgb, 60, 70, 96), .75);
+}
+
+/* ---------- Défilement automatique (boucle infinie) ---------- */
+.alo-tt.is-auto .alo-tt__track {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+.alo-tt.is-auto .alo-tt__slider {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+.alo-tt.is-auto .alo-tt__arrow[disabled] { opacity: 1; pointer-events: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .alo-tt__track { scroll-behavior: auto; }
+  .alo-tt__media,
+  .alo-tt__product { transition: none; }
+}

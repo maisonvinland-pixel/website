@@ -1,0 +1,31 @@
+{%- comment -%}
+  Alo Doudou : infos produit en accordéon avec icônes (sans JavaScript).
+{%- endcomment -%}
+{%- assign st = block.settings -%}
+{{ 'alo-sections.css' | asset_url | stylesheet_tag }}
+<div class="alo-tabs" {{ block.shopify_attributes }}>
+  {%- for i in (1..4) -%}
+    {%- liquid
+      assign k_title = 'title_' | append: i
+      assign k_icon = 'icon_' | append: i
+      assign k_content = 'content_' | append: i
+      assign k_desc = 'use_description_' | append: i
+      assign body = st[k_content]
+      if st[k_desc]
+        assign body = product.description
+      endif
+    -%}
+    {%- if st[k_title] != blank and body != blank -%}
+      <details class="alo-tabs__row"{% if forloop.first and st.open_first %} open{% endif %}>
+        <summary class="alo-tabs__summary">
+          <span class="alo-tabs__icon" aria-hidden="true">{%- render 'alo-icon', name: st[k_icon] -%}</span>
+          <span class="alo-tabs__title">{{ st[k_title] }}</span>
+          <span class="alo-tabs__chevron" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </span>
+        </summary>
+        <div class="alo-tabs__content rte">{{ body }}</div>
+      </details>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

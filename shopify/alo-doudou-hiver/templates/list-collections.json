@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "page-heading",
+      "blocks": {
+        "heading_B3DXTc": {"type": "heading", "settings": {"page_title": "Nos collections", "header_size": "default"}},
+        "description_tLPCVn": {"type": "description", "settings": {"description": "<p>Retrouve toute la sélection Alo Doudou, classée pour trouver plus vite ton bonheur.</p>"}}
+      },
+      "block_order": ["heading_B3DXTc", "description_tLPCVn"],
+      "settings": {"section_width": "fluid_container", "color_scheme": "", "alignment": "center", "overlay_opacity": 0, "height": "adapt", "padding_top": 60, "padding_bottom": 0}
+    },
+    "main": {
+      "type": "main-list-collections",
+      "blocks": {
+        "collection_GawBmm": {"type": "collection", "settings": {"collection": "meilleures-ventes", "collection_title": ""}},
+        "collection_k6UJWD": {"type": "collection", "settings": {"collection": "nouveautes", "collection_title": ""}}
+      },
+      "block_order": ["collection_GawBmm", "collection_k6UJWD"],
+      "settings": {
+        "section_width": "fluid_container",
+        "color_scheme": "",
+        "type": "selected",
+        "sort_collections": "alphabetical",
+        "image_ratio": "adapt",
+        "show_product_count": false,
+        "design": "default",
+        "text_alignment": "center",
+        "font_size": 16,
+        "items_to_show": 8,
+        "items_per_row": 4,
+        "column_gap": 30,
+        "pagination": "load_more_button",
+        "button_show_more": "Voir plus",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": ["heading", "main"]
+}

@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "heading": {
+      "type": "page-heading",
+      "blocks": {
+        "breadcrumb_fkLpBa": {"type": "breadcrumb", "settings": {}},
+        "heading_f6yAbL": {"type": "heading", "settings": {"page_title": "Mon panier", "header_size": "default"}},
+        "description_Uyfq9Y": {"type": "description", "settings": {"description": "<p>Vérifie tes articles avant de passer au paiement sécurisé.</p>"}}
+      },
+      "block_order": ["breadcrumb_fkLpBa", "heading_f6yAbL", "description_Uyfq9Y"],
+      "settings": {"section_width": "stretch_width", "color_scheme": "", "alignment": "center", "overlay_opacity": 0, "height": "adapt", "padding_top": 60, "padding_bottom": 0}
+    },
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {
+        "section_width": "fluid_container",
+        "enable_cart_note": true,
+        "show_estimate_shipping": true,
+        "icon_svg_1": "question",
+        "heading_1": "Une question ?",
+        "description_1": "<p>Écris-nous via la <a href=\"/pages/contact\">page contact</a>, on te répond rapidement.</p>",
+        "icon_svg_2": "secure",
+        "heading_2": "Paiement sécurisé",
+        "description_2": "<p>Toutes les transactions sont chiffrées.</p>",
+        "icon_svg_3": "protection",
+        "heading_3": "Données protégées",
+        "description_3": "<p>Tes informations personnelles restent confidentielles.</p>",
+        "heading_delivery": "Livraison",
+        "description_delivery": "<p>Offerte dès 40 € d'achat (4,90 € en dessous). Délai : 13 à 15 jours.</p>",
+        "heading_guarantee": "14 jours pour changer d'avis",
+        "description_guarantee": "<p>Tu peux nous retourner un article dans les 14 jours suivant sa réception.</p>",
+        "heading_payment": "Moyens de paiement",
+        "payment_width": 340,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": ["heading", "cart-items"]
+}

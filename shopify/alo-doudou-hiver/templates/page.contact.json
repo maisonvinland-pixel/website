@@ -1,0 +1,52 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page-heading": {
+      "type": "page-heading",
+      "blocks": {
+        "breadcrumb_kg6gTP": {"type": "breadcrumb", "settings": {}},
+        "heading_fmyy8C": {"type": "heading", "settings": {"page_title": "Contacte-nous", "header_size": "default"}},
+        "description_TfxHmk": {"type": "description", "settings": {"description": "<p>Une question sur un article, une livraison ou ta commande ? On te répond rapidement.</p>"}}
+      },
+      "block_order": ["breadcrumb_kg6gTP", "heading_fmyy8C", "description_TfxHmk"],
+      "settings": {"section_width": "container", "color_scheme": "", "alignment": "center", "overlay_opacity": 0, "height": "adapt", "padding_top": 60, "padding_bottom": 0}
+    },
+    "main": {
+      "type": "page-contact",
+      "blocks": {
+        "text_block_bYNRjF": {
+          "type": "text_block",
+          "settings": {
+            "heading_text_block": "Service client",
+            "description_text_block": "<p>Tu peux nous écrire à tout moment, nous répondons à chaque message.</p>",
+            "content": "<p><strong>Par e-mail :</strong><br/><a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a></p><p><strong>Pour une commande :</strong><br/>Indique ton numéro de commande (par exemple #1001) : on te répondra plus vite.</p><p><strong>Infos utiles :</strong><br/><a href=\"/pages/livraison\">Livraison</a> • <a href=\"/pages/retours-et-remboursements\">Retours</a> • <a href=\"/pages/faq\">FAQ</a></p>"
+          }
+        },
+        "contact_E6FKVE": {
+          "type": "contact",
+          "settings": {
+            "heading": "Écris-nous",
+            "description": "<p>Remplis le formulaire ci-dessous, nous revenons vers toi au plus vite.</p>",
+            "show_privacy": true,
+            "name": "Ton nom",
+            "email": "Ton e-mail",
+            "your_comment": "Ton message",
+            "button_label": "Envoyer"
+          }
+        }
+      },
+      "block_order": ["text_block_bYNRjF", "contact_E6FKVE"],
+      "custom_css": [".support_customer p strong {font-size: 16px; margin-block-end: 15px;}"],
+      "settings": {"section_width": "container", "color_scheme": "", "iframe": "", "column_gap": 100, "padding_top": 0, "padding_bottom": 0, "reset_spacing": false}
+    }
+  },
+  "order": ["page-heading", "main"]
+}
