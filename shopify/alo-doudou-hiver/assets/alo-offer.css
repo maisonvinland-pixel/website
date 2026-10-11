@@ -1,0 +1,155 @@
+/* ==========================================================
+   Alo Doudou : offre sac cabas offert (panier, fiche produit,
+   collections, bannière d'accueil) + lignes « Offert » du panier
+   ========================================================== */
+.alo-gift {
+  --alo-gift-ink: var(--alo-plum, #1e3360);
+  --alo-gift-accent: var(--alo-berry, #3b82c4);
+  --alo-gift-bg: var(--alo-cream, #e5effa);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--alo-gift-bg);
+  color: var(--alo-gift-ink);
+  line-height: 1.4;
+}
+.alo-gift[hidden] { display: none !important; }
+.alo-gift p { margin: 0; }
+.alo-gift__icon {
+  flex: 0 0 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--alo-gift-ink);
+}
+.alo-gift__body { flex: 1; min-width: 0; }
+.alo-gift__title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--alo-gift-ink);
+}
+.alo-gift__text {
+  font-size: 13px;
+  color: var(--color-text, #3c4660);
+  margin-top: 2px;
+}
+.alo-gift__text strong { color: var(--alo-gift-ink); }
+.alo-gift__link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--alo-gift-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.alo-gift__bar {
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+}
+.alo-gift__bar span {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: var(--alo-gift-accent);
+  transition: width 0.4s ease;
+}
+.alo-gift__add {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 30px;
+  background: var(--alo-gift-ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.alo-gift__add:disabled { opacity: 0.6; cursor: progress; }
+.alo-gift.is-eligible { background: #e3f3ea; }
+.alo-gift.is-eligible .alo-gift__icon { color: var(--alo-ok, #1f7a4d); }
+
+/* Tiroir panier : aligné sur les marges du tiroir */
+.minicart-body .alo-gift--cart { margin-bottom: 20px; }
+
+/* Page panier */
+.page-cart .alo-gift--cart { margin-bottom: 25px; }
+
+/* Fiche produit */
+.alo-gift--product { margin: 4px 0 20px; }
+
+/* Collections : bandeau compact */
+.alo-gift--strip {
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 24px;
+}
+.alo-gift--strip .alo-gift__title { flex: 1; min-width: 200px; }
+.alo-gift--strip .alo-gift__text { display: block; font-weight: 400; }
+.alo-gift--strip .alo-gift__link { margin-top: 0; }
+
+/* Ligne « Offert » dans le panier */
+.alo-free-tag {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #e3f3ea;
+  color: var(--alo-ok, #1f7a4d);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ---------- Bannière d'accueil (sections/alo-offer.liquid) ---------- */
+.alo-offer { padding: var(--alo-offer-pt, 30px) 0 var(--alo-offer-pb, 30px); }
+.alo-offer__card {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--alo-cream, #e5effa);
+  color: var(--alo-plum, #1e3360);
+}
+.alo-offer__media {
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+.alo-offer__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.alo-offer__kicker {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--alo-berry, #3b82c4);
+}
+.alo-offer__title {
+  margin: 0;
+  font-size: clamp(20px, 4.6vw, 30px);
+  line-height: 1.15;
+  color: var(--alo-plum, #1e3360);
+}
+.alo-offer__text { margin: 6px 0 0; font-size: 14px; color: var(--color-text, #3c4660); }
+.alo-offer__cta { grid-column: 1 / -1; }
+.alo-offer__cta .btn-primary { width: 100%; text-align: center; }
+@media (min-width: 768px) {
+  .alo-offer__card {
+    grid-template-columns: 150px 1fr auto;
+    gap: 28px;
+    padding: 22px 30px;
+  }
+  .alo-offer__cta { grid-column: auto; }
+  .alo-offer__cta .btn-primary { width: auto; white-space: nowrap; }
+}

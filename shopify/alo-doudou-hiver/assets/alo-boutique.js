@@ -41,6 +41,22 @@
       .catch(function () {});
   }
 
+  // Re-rend le contenu du tiroir panier puis l'ouvre (comme après un ajout natif du thème)
+  function refreshDrawer(open) {
+    var form = document.getElementById('minicart-form');
+    var notif = document.querySelector('cart-notification');
+    if (!form) return Promise.resolve();
+    return fetch('/?section_id=minicart-form', { credentials: 'same-origin' })
+      .then(function (res) { return res.text(); })
+      .then(function (html) {
+        var fresh = new DOMParser().parseFromString(html, 'text/html').getElementById('minicart-form');
+        if (fresh) form.innerHTML = fresh.innerHTML;
+        if (notif && typeof notif.cartAction === 'function') notif.cartAction();
+        if (open && notif && typeof notif.open === 'function') notif.open();
+      })
+      .catch(function () {});
+  }
+
   /* ---------- 1. Upsell ---------- */
   function initUpsell(box) {
     if (box.dataset.aloReady) return;
@@ -209,6 +225,7 @@
           msg.innerHTML = 'Ajouté au panier ✓ <a href="' + ((window.routes && window.routes.cart_url) || '/cart') + '">Voir mon panier</a>';
         }
         refreshCartCount();
+        refreshDrawer(true);
         setTimeout(function () {
           btn.classList.remove('is-done');
           if (btn.classList.contains('alo-card__add')) btn.textContent = label;

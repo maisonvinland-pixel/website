@@ -14,18 +14,18 @@
     "alo_newsletter": {
       "type": "alo-newsletter",
       "settings": {
-        "kicker": "Le cercle Alo Doudou",
-        "heading": "-10 % sur ta première commande, rien que pour toi",
-        "text": "<p>Inscris-toi et reçois ton code tout de suite. Ensuite, on t'écrit seulement quand ça vaut vraiment le coup.</p>",
-        "perk_1": "Les nouveautés en avant-première",
-        "perk_2": "Des offres réservées aux abonnées",
-        "perk_3": "Zéro spam, désinscription en un clic",
+        "kicker": "La newsletter Alo Doudou",
+        "heading": "-10 % sur ta première commande",
+        "text": "<p>Laisse ton e-mail : ton code s'affiche tout de suite. Ensuite, on t'écrit seulement pour les nouveautés et les offres de la boutique.</p>",
+        "perk_1": "Ton code -10 % affiché immédiatement",
+        "perk_2": "Désinscription en un clic, à tout moment",
+        "perk_3": "",
         "ticket_value": "-10 %",
         "ticket_text": "sur ta 1re commande",
         "placeholder": "Ton adresse e-mail",
-        "button_label": "Je veux mes -10 %",
+        "button_label": "S'inscrire",
         "code": "BIENVENUE10",
-        "note": "En t'inscrivant, tu acceptes de recevoir nos e-mails et notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>.",
+        "note": "En t'inscrivant, tu acceptes de recevoir nos e-mails marketing. Tu peux te désinscrire à tout moment. Voir notre <a href=\"/policies/privacy-policy\">politique de confidentialité</a>.",
         "padding_top": 70,
         "padding_bottom": 70
       }
@@ -47,14 +47,26 @@
         },
         "link_list_JTq77M": {
           "type": "link_list",
-          "settings": {"heading": "Boutique", "menu": "boutique", "content_width": "16%"}
+          "settings": {
+            "heading": "Boutique",
+            "menu": "boutique",
+            "content_width": "16%"
+          }
         },
         "link_list_x4zwRH": {
           "type": "link_list",
-          "settings": {"heading": "Informations", "menu": "footer", "content_width": "16%"}
+          "settings": {
+            "heading": "Informations",
+            "menu": "footer",
+            "content_width": "16%"
+          }
         }
       },
-      "block_order": ["store_info_tUhcyD", "link_list_JTq77M", "link_list_x4zwRH"],
+      "block_order": [
+        "store_info_tUhcyD",
+        "link_list_JTq77M",
+        "link_list_x4zwRH"
+      ],
       "settings": {
         "section_width": "fluid_container",
         "color_scheme": "scheme-2b5c6c91-201d-4fb1-aba3-e6d562656976",
@@ -74,5 +86,8 @@
       }
     }
   },
-  "order": ["alo_newsletter", "footer"]
+  "order": [
+    "alo_newsletter",
+    "footer"
+  ]
 }

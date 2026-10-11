@@ -12,6 +12,8 @@
 {%- capture cards -%}
   {%- for up in pool -%}
     {%- if up.id == product.id or up.available == false -%}{%- continue -%}{%- endif -%}
+    {%- comment -%} Le produit offert par l'offre sac cabas n'est pas proposé à la vente ici. {%- endcomment -%}
+    {%- if settings.alo_gift_enable and settings.alo_gift_product != blank and up.id == settings.alo_gift_product.id -%}{%- continue -%}{%- endif -%}
     {%- assign v = up.selected_or_first_available_variant -%}
     {%- assign shown = shown | plus: 1 -%}
     <div class="alo-ups__card" data-alo-ups-item data-variant-id="{{ v.id }}">

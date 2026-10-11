@@ -65,13 +65,13 @@
       {%- endif -%}
       <h2 class="alo-cat__title">{{ st.heading }}</h2>
       {%- if st.subheading != blank -%}<p class="alo-cat__sub">{{ st.subheading }}</p>{%- endif -%}
-      <p class="alo-cat__count"><strong data-alo-cat-count>{{ total }}</strong> pièce{% if total > 1 %}s{% endif %} à shopper</p>
+      <p class="alo-cat__count">{{ 'alo.catalogue.count_html' | t: count: total }}</p>
     </header>
 
     {%- if st.show_filters and type_list.size > 1 -%}
-      <div class="alo-cat__filters" role="tablist" aria-label="Filtrer le catalogue">
+      <div class="alo-cat__filters" role="tablist" aria-label="{{ 'alo.catalogue.filter_label' | t }}">
         <button type="button" class="alo-cat__chip is-active" data-alo-cat-filter="*" role="tab" aria-selected="true">
-          Tout <span>{{ total }}</span>
+          {{ 'alo.catalogue.all' | t }} <span>{{ total }}</span>
         </button>
         {%- for t in type_list -%}
           {%- assign n = 0 -%}
@@ -114,22 +114,15 @@
                 <span class="alo-card__ph" aria-hidden="true">
                   <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M24 4v40M6.7 14l34.6 20M6.7 34l34.6-20M24 4l-4 4M24 4l4 4M24 44l-4-4M24 44l4-4M6.7 14l1.5 5.4M6.7 14l5.4-1.5M41.3 34l-1.5-5.4M41.3 34l-5.4 1.5M6.7 34l5.4 1.5M6.7 34l1.5-5.4M41.3 14l-5.4-1.5M41.3 14l-1.5 5.4"/></svg>
                   <span>{{ p.type | default: 'Alo Doudou' }}</span>
-                  <small>Photo bientôt disponible</small>
+
                 </span>
               {%- endif -%}
               {%- unless p.available -%}
-                <span class="alo-card__soon">Bientôt de retour</span>
+                <span class="alo-card__soon">{{ 'products.product.sold_out' | t }}</span>
               {%- endunless -%}
               {%- if off > 0 -%}
                 <span class="alo-card__off" aria-label="Réduction de {{ off }} %">-{{ off }}%</span>
               {%- endif -%}
-              <span class="alo-tag" aria-hidden="true">
-                <span class="alo-tag__string"></span>
-                <span class="alo-tag__body">
-                  <span class="alo-tag__price">{{ v.price | money }}</span>
-                  {%- if off > 0 -%}<s class="alo-tag__was">{{ v.compare_at_price | money }}</s>{%- endif -%}
-                </span>
-              </span>
             </a>
             <div class="alo-card__body">
               {%- if p.type != blank -%}<p class="alo-card__type">{{ p.type }}</p>{%- endif -%}
@@ -141,10 +134,10 @@
               <div class="alo-card__qa">
                 {%- if p.has_only_default_variant -%}
                   <button type="button" class="alo-card__add" data-alo-qa="{{ v.id }}"{% unless v.available %} disabled{% endunless %}>
-                    {%- if v.available -%}Ajouter au panier{%- else -%}Épuisé{%- endif -%}
+                    {%- if v.available -%}{{ 'products.product.add_to_cart' | t }}{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}
                   </button>
                 {%- else -%}
-                  <p class="alo-card__qa-label">{% if p.available %}Ajout express{% else %}Tailles bientôt de retour{% endif %}</p>
+                  <p class="alo-card__qa-label">{% if p.available %}{{ 'alo.catalogue.pick_size' | t }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</p>
                   <div class="alo-card__sizes">
                     {%- for variant in p.variants -%}
                       <button
@@ -152,7 +145,7 @@
                         class="alo-card__size"
                         data-alo-qa="{{ variant.id }}"
                         {% unless variant.available %}disabled{% endunless %}
-                        aria-label="Ajouter {{ p.title | escape }} – {{ variant.title | escape }} au panier"
+                        aria-label="{{ 'alo.catalogue.add_size_label' | t: product: p.title, size: variant.title | escape }}"
                       >{{ variant.title }}</button>
                     {%- endfor -%}
                   </div>

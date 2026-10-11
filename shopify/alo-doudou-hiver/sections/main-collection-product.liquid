@@ -92,6 +92,7 @@
             collection_url: collection.url
           -%}
         {% endif %}
+        {%- render 'alo-gift-offer', context: 'strip' -%}
         {%- render 'collection-toolbar',
           section_st: section_st,
           pageurl: view,

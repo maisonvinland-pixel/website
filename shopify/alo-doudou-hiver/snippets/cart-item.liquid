@@ -5,10 +5,17 @@
   assign show_message_when_remove = theme_st.show_message_when_remove
   assign show_currency_code = theme_st.show_currency_code
 -%}
+{%- liquid
+  assign is_free_gift = false
+  if item.properties['_alo_gift'] != blank and item.final_line_price == 0
+    assign is_free_gift = true
+  endif
+-%}
 <div
   id="minicart__product-{{ item.key }}"
   product-handle="{{ item.product.handle }}"
   class="cart-item flex mb-20 pb-20 gap-15 border-bottom-dashed"
+  {% if item.properties['_alo_gift'] != blank %}data-alo-gift-line{% endif %}
 >
   <div class="minicart__product__image global-media-settings w-custom fs-0" style="--custom-width: 9rem">
     <a href="{{- item.url -}}" class="rounded-5 fs-0" aria-label="{{ item.product.title | escape }}">
@@ -66,6 +73,9 @@
         </li>
       {%- endfor -%}
     </ul>
+    {%- if is_free_gift -%}
+      <span class="alo-free-tag">{{ 'alo.gift.free_tag' | t }}</span>
+    {%- endif -%}
     {% if hidden_price == false %}
       <div class="minicart__item-prices mt-3 flex flex-wrap grow-1">
         {%- assign current_variant = item.variant -%}
@@ -134,7 +144,7 @@
           <span class="cart-item__error-text cart-item__error-text-{{ item.id }}"></span>
           {%- render 'icon-error' -%}
         </div>
-        {% if show_add_cart == true and theme_st.enable_catalog_mode == false %}
+        {% if show_add_cart == true and theme_st.enable_catalog_mode == false and is_free_gift == false %}
           <div class="minicart__actions mt-6 flex grow-1 bottom-left w-full">
             <quantity-input class="quantity rounded-3 border inline-flex text-center grey-bg">
               <button
@@ -143,7 +153,7 @@
                 type="button"
                 data-id="{{- item.key -}}"
                 style="--custom-width: 3rem"
-                arial-label="minus"
+                aria-label="{{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}"
               >
                 <svg width="9" height="1" fill="none">
                   <path fill="#111" d="M9 0v1H0V0h9Z"/>
@@ -169,7 +179,7 @@
                 type="button"
                 data-id="{{- item.key -}}"
                 style="--custom-width: 3rem"
-                arial-label="plus"
+                aria-label="{{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}"
               >
                 <svg width="9" height="9" fill="none">
                   <path fill="#111" fill-rule="evenodd" d="M4 9h1V5h4V4H5V0H4v4H0v1h4v4Z" clip-rule="evenodd"/>
@@ -177,6 +187,8 @@
               </button>
             </quantity-input>
           </div>
+        {% elsif is_free_gift %}
+          <input type="hidden" name="updates[]" data-id="{{- item.key -}}" value="{{- item.quantity -}}">
         {% endif %}
       </div>
     {% endif %}
@@ -215,8 +227,7 @@
         <a
           href="{{ item.url_to_remove }}"
           class="cart-remove button--tertiary"
-          arial-label="{{- 'general.cart.remove' | t -}}"
-          name="{{- 'general.cart.remove' | t -}}"
+          aria-label="{{- 'general.cart.remove' | t -}} : {{ item.product.title | escape }}"
         >
           <svg width="14" height="14" class="dark-grey hover-heading-color transition">
             <use href="#icon-trash" />

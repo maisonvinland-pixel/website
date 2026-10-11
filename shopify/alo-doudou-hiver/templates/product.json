@@ -61,7 +61,8 @@
             "name_3": "",
             "rating_3": 5,
             "text_3": ""
-          }
+          },
+          "disabled": true
         },
         "buy_buttons_LcQGtR": {
           "type": "buy_buttons",
@@ -76,7 +77,7 @@
           "type": "alo_upsell",
           "settings": {
             "heading": "Complète ton look",
-            "badge": "Offre limitée",
+            "badge": "",
             "checked": false
           }
         },
@@ -91,11 +92,11 @@
           "settings": {
             "delivery_design": "vertical",
             "delivery_content_icon": "truck",
-            "delivery_content": "<p>Livraison estimée : <strong>13 à 15 jours</strong>, suivi par e-mail.</p>",
+            "delivery_content": "<p>Expédition sous <strong>3 à 7 jours</strong>, puis <strong>13 à 20 jours</strong> de livraison, avec suivi par e-mail.</p>",
             "discount_content_icon": "discount",
-            "discount_content": "<p>Code « <strong>BIENVENUE10</strong> » : -10 % sur ta première commande.</p>",
+            "discount_content": "<p>Première commande : <strong>-10 %</strong> avec le code <strong>BIENVENUE10</strong>.</p>",
             "return_content_icon": "free_shipping",
-            "return_content": "<p>Livraison <strong>offerte dès 40 €</strong> • 14 jours pour changer d'avis.</p>"
+            "return_content": "<p>Livraison <strong>offerte dès 100 €</strong> (8,90 € en dessous) • 14 jours pour changer d'avis.</p>"
           }
         },
         "alo_info_tabs_1": {
@@ -108,11 +109,11 @@
             "icon_2": "truck",
             "title_2": "Livraison",
             "use_description_2": false,
-            "content_2": "<p>Livraison <strong>offerte dès 40 €</strong> d'achat (4,90 € en dessous). Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison, avec suivi par e-mail. Tous les détails sur notre <a href=\"/pages/livraison\">page Livraison</a>.</p>",
+            "content_2": "<p>Livraison <strong>offerte dès 100 €</strong> d'achat (8,90 € en dessous). Ta commande est expédiée sous <strong>3 à 7 jours</strong>, puis compte <strong>13 à 20 jours</strong> de livraison, avec suivi par e-mail. Tous les détails sur notre <a href=\"/policies/shipping-policy\">politique de livraison</a>.</p>",
             "icon_3": "return",
             "title_3": "Retours et remboursements",
             "use_description_3": false,
-            "content_3": "<p>Tu as <strong>14 jours après réception</strong> pour changer d'avis, sans te justifier. Remboursement sur ton moyen de paiement. Tous les détails sur notre <a href=\"/pages/retours-et-remboursements\">page Retours</a>.</p>",
+            "content_3": "<p>Tu as <strong>14 jours après réception</strong> pour changer d'avis, sans te justifier. Les frais de retour sont à ta charge (sauf article défectueux). Tous les détails sur notre <a href=\"/policies/refund-policy\">politique de retour</a>.</p>",
             "icon_4": "lock",
             "title_4": "Paiement sécurisé",
             "use_description_4": false,
@@ -137,12 +138,17 @@
             "show_pagination": true,
             "enable_quick_add": false
           }
+        },
+        "alo_gift_offer_1": {
+          "type": "alo_gift_offer",
+          "settings": {}
         }
       },
       "block_order": [
         "badges_RwfTMp",
         "title_G6tU8U",
         "price_VJ4N8m",
+        "alo_gift_offer_1",
         "short_description_9BGxVm",
         "variant_picker_tcCihG",
         "alo_atc_reviews_1",
@@ -215,7 +221,8 @@
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 20
-      }
+      },
+      "disabled": true
     },
     "alo_testimonials_product": {
       "type": "alo-testimonials",
@@ -232,7 +239,8 @@
         "color_scheme": "scheme-bb1431b0-be4a-4b03-a450-f572c07e3904",
         "padding_top": 50,
         "padding_bottom": 50
-      }
+      },
+      "disabled": true
     },
     "related_products": {
       "type": "related-products",

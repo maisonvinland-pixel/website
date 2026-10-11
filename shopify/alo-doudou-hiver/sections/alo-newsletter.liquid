@@ -36,12 +36,12 @@
         <input type="hidden" name="contact[tags]" value="newsletter">
         {%- if form.posted_successfully? -%}
           <div class="alo-nl__success" role="status" tabindex="-1" data-alo-nl-success>
-            <p class="alo-nl__success-title">Bienvenue dans le cercle ❄️</p>
+            <p class="alo-nl__success-title">{{ 'alo.newsletter.success_title' | t }}</p>
             {%- if st.code != blank -%}
-              <p class="alo-nl__success-text">Voici ton code, à saisir au moment du paiement :</p>
+              <p class="alo-nl__success-text">{{ 'alo.newsletter.success_code' | t }}</p>
               <div class="alo-nl__code">
                 <span data-alo-nl-code>{{ st.code }}</span>
-                <button type="button" class="alo-nl__copybtn" data-alo-nl-copy>Copier</button>
+                <button type="button" class="alo-nl__copybtn" data-alo-nl-copy>{{ 'alo.newsletter.copy' | t }}</button>
               </div>
             {%- endif -%}
           </div>
@@ -67,7 +67,7 @@
           {%- if form.errors -%}
             <div class="alo-nl__error" id="AloNewsletter-error" role="alert">
               {%- if form.errors contains 'email' -%}
-                Oups, cette adresse e-mail ne semble pas valide. Vérifie-la et réessaie.
+                {{ 'alo.newsletter.error_email' | t }}
               {%- else -%}
                 {{ form.errors | default_errors }}
               {%- endif -%}

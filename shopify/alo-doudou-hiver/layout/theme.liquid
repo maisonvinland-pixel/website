@@ -44,6 +44,9 @@
     {{ 'product-card.css' | asset_url | stylesheet_tag }}
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
     {{ 'judgeme-reviews.css' | asset_url | stylesheet_tag }}
+    {%- if settings.alo_gift_enable -%}
+      {{ 'alo-offer.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
     {% render 'font-variables' %}
     {% if request.design_mode %}
       {{ 'design-mode.css' | asset_url | stylesheet_tag: preload: true }}
@@ -196,13 +199,15 @@
     {% sections 'footer-group' %}
     {%- liquid
       sections 'overlay-group'
-      section 'mobile-navigation-bar'
       section 'product-quickview'
       section 'custom-colors'
       section 'fake-order'
       section 'alo-hiver'
     -%}
     {%- render 'scripts-tag' -%}
+    {%- if settings.alo_gift_enable -%}
+      <script src="{{ 'alo-offer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
     {%- render 'sprite-svg' -%}
     {%- render 'content-bottom' -%}
   </body>

@@ -30,7 +30,7 @@
     "mobile_navigation_bar_GG8UWc": {
       "type": "mobile-navigation-bar",
       "settings": {
-        "eb_mobile_navbar": true,
+        "eb_mobile_navbar": false,
         "show_homepage": true,
         "show_shop": true,
         "show_account": true,
@@ -39,5 +39,8 @@
       }
     }
   },
-  "order": ["before_you_leave_xTQDb4", "mobile_navigation_bar_GG8UWc"]
+  "order": [
+    "before_you_leave_xTQDb4",
+    "mobile_navigation_bar_GG8UWc"
+  ]
 }

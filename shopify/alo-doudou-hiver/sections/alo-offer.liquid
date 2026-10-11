@@ -1,0 +1,113 @@
+{%- comment -%}
+  Alo Doudou : bannière de l'offre « ensembles achetés = sac cabas offert ».
+  Le produit offert, la collection éligible et la quantité se règlent dans
+  Paramètres du thème > « Offre sac cabas offert ». Rien ne s'affiche si
+  l'offre y est désactivée ou si le sac est épuisé.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign gift_product = settings.alo_gift_product
+  assign gift_collection = settings.alo_gift_collection
+  assign min_qty = settings.alo_gift_min_qty | default: 2
+  assign show = false
+  if settings.alo_gift_enable and gift_product != blank and gift_collection != blank and gift_product.available
+    assign show = true
+  endif
+  assign gift_value = gift_product.selected_or_first_available_variant.price | money_without_trailing_zeros
+  assign headline = settings.alo_gift_headline
+  if headline == blank
+    assign headline = 'alo.gift.headline_default' | t: count: min_qty
+  endif
+-%}
+{%- if show -%}
+  <div
+    class="alo-offer color-{{ st.color_scheme | default: 'default' }}"
+    style="--alo-offer-pt: {{ st.padding_top }}px; --alo-offer-pb: {{ st.padding_bottom }}px;"
+    data-alo-gift-ui
+  >
+    <div class="container">
+      <div class="alo-offer__card">
+        <div class="alo-offer__media">
+          {%- assign img = st.image | default: gift_product.featured_image -%}
+          {%- if img != blank -%}
+            {{ img | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '150px', alt: gift_product.title }}
+          {%- endif -%}
+        </div>
+        <div class="alo-offer__content">
+          {%- if st.kicker != blank -%}
+            <p class="alo-offer__kicker">{{ st.kicker }}</p>
+          {%- endif -%}
+          <h2 class="alo-offer__title">{{ headline }}</h2>
+          <p class="alo-offer__text">{{ 'alo.gift.banner_text' | t: count: min_qty, value: gift_value }}</p>
+        </div>
+        <div class="alo-offer__cta">
+          <a class="btn-primary inline-block no-underline" href="{{ gift_collection.url }}">
+            {%- if st.button_label != blank -%}{{ st.button_label }}{%- else -%}{{ 'alo.gift.see_sets' | t }}{%- endif -%}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Alo · Offre sac offert",
+  "class": "section-alo-offer",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Le titre, le produit offert et la collection éligible se règlent dans Paramètres du thème > « Offre sac cabas offert »."
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Surtitre",
+      "default": "Offre hiver"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Par défaut : la photo du sac offert."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texte du bouton",
+      "default": "Choisir mes ensembles"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette de couleurs",
+      "default": "default"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Marge haute",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Marge basse",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Alo · Offre sac offert"
+    }
+  ]
+}
+{% endschema %}

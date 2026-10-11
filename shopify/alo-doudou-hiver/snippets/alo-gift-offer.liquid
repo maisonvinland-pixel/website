@@ -1,0 +1,190 @@
+{%- comment -%}
+  Alo Doudou : offre « X ensembles achetés = 1 sac cabas offert ».
+
+  La gratuité est appliquée par Shopify (réduction automatique « Achetez X,
+  obtenez Y » à créer dans Remises). Ce snippet affiche l'offre et indique au
+  script alo-offer.js s'il faut ajouter ou retirer le sac du panier.
+
+  Paramètres :
+  - context : 'cart' (tiroir et page panier), 'product' (fiche produit),
+    'strip' (bandeau compact des collections)
+  - product : produit affiché (context 'product')
+
+  Réglages : Personnaliser > Paramètres du thème > « Offre sac cabas offert ».
+{%- endcomment -%}
+{%- liquid
+  assign gift_product = settings.alo_gift_product
+  assign gift_collection = settings.alo_gift_collection
+  assign min_qty = settings.alo_gift_min_qty | default: 2
+
+  assign offer_on = false
+  if settings.alo_gift_enable and gift_product != blank and gift_collection != blank and gift_product.available
+    assign offer_on = true
+  endif
+
+  assign gift_variant = gift_product.selected_or_first_available_variant
+  assign gift_value = gift_variant.price | money_without_trailing_zeros
+
+  assign eligible_qty = 0
+  assign gift_qty = 0
+  assign auto_gift_key = ''
+  assign auto_gift_discounted = false
+  for item in cart.items
+    if item.product_id == gift_product.id
+      assign gift_qty = gift_qty | plus: item.quantity
+      if item.properties['_alo_gift'] != blank
+        assign auto_gift_key = item.key
+        if item.line_level_total_discount > 0
+          assign auto_gift_discounted = true
+        endif
+      endif
+      continue
+    endif
+    for c in item.product.collections
+      if c.id == gift_collection.id
+        assign eligible_qty = eligible_qty | plus: item.quantity
+        break
+      endif
+    endfor
+  endfor
+
+  assign remaining = min_qty | minus: eligible_qty
+  if remaining < 0
+    assign remaining = 0
+  endif
+  assign eligible = false
+  if remaining == 0
+    assign eligible = true
+  endif
+
+  comment
+    État transmis à alo-offer.js :
+    add    -> éligible et pas de sac dans le panier : l'ajouter
+    remove -> sac ajouté automatiquement mais plus éligible : le retirer
+    paid   -> sac ajouté automatiquement mais non remisé : réduction absente, le retirer
+    ok     -> rien à faire
+  endcomment
+  assign gift_state = 'ok'
+  if eligible and gift_qty == 0
+    assign gift_state = 'add'
+  elsif eligible == false and auto_gift_key != ''
+    assign gift_state = 'remove'
+  elsif auto_gift_key != '' and auto_gift_discounted == false
+    assign gift_state = 'paid'
+  endif
+
+  assign progress = eligible_qty | times: 100 | divided_by: min_qty
+  if progress > 100
+    assign progress = 100
+  endif
+
+  assign product_is_eligible = false
+  assign product_is_gift = false
+  if context == 'product' and product
+    if product.id == gift_product.id
+      assign product_is_gift = true
+    else
+      for c in product.collections
+        if c.id == gift_collection.id
+          assign product_is_eligible = true
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  assign headline = settings.alo_gift_headline
+  if headline == blank
+    assign headline = 'alo.gift.headline_default' | t: count: min_qty
+  endif
+-%}
+
+{%- if offer_on -%}
+{%- case context -%}
+  {%- when 'cart' -%}
+    {%- if cart.item_count > 0 -%}
+      <div
+        class="alo-gift alo-gift--cart{% if eligible %} is-eligible{% endif %}"
+        data-alo-gift
+        data-alo-gift-ui
+        data-state="{{ gift_state }}"
+        data-variant-id="{{ gift_variant.id }}"
+        data-line-key="{{ auto_gift_key }}"
+        data-auto-add="{{ settings.alo_gift_auto_add }}"
+      >
+        <span class="alo-gift__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
+        </span>
+        <div class="alo-gift__body">
+          {%- if eligible -%}
+            {%- if gift_qty > 0 -%}
+              <p class="alo-gift__title">{{ 'alo.gift.cart_unlocked' | t }}</p>
+              <p class="alo-gift__text">{{ 'alo.gift.cart_unlocked_text' | t }}</p>
+            {%- else -%}
+              <p class="alo-gift__title">{{ 'alo.gift.cart_claim' | t }}</p>
+              <button type="button" class="alo-gift__add" data-alo-gift-add>
+                {{ 'alo.gift.cart_add_button' | t }}
+              </button>
+            {%- endif -%}
+          {%- else -%}
+            <p class="alo-gift__title">
+              {%- if eligible_qty == 0 -%}
+                {{ headline }}
+              {%- else -%}
+                {{ 'alo.gift.cart_remaining' | t: count: remaining }}
+              {%- endif -%}
+            </p>
+            <div
+              class="alo-gift__bar"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="{{ min_qty }}"
+              aria-valuenow="{{ eligible_qty }}"
+              aria-label="{{ 'alo.gift.progress_label' | t: count: eligible_qty, total: min_qty }}"
+            >
+              <span style="width: {{ progress }}%"></span>
+            </div>
+            <a class="alo-gift__link" href="{{ gift_collection.url }}">{{ 'alo.gift.see_sets' | t }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  {%- when 'product' -%}
+    {%- if product_is_eligible or product_is_gift -%}
+      <div class="alo-gift alo-gift--product" data-alo-gift-ui>
+        <span class="alo-gift__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
+        </span>
+        <div class="alo-gift__body">
+          <p class="alo-gift__title">{{ headline }}</p>
+          <p class="alo-gift__text">
+            {%- if product_is_gift -%}
+              {{ 'alo.gift.product_is_gift_html' | t: count: min_qty, url: gift_collection.url }}
+            {%- elsif eligible -%}
+              {{ 'alo.gift.product_already_eligible' | t }}
+            {%- elsif eligible_qty > 0 -%}
+              {{ 'alo.gift.product_in_cart' | t: count: eligible_qty, remaining: remaining }}
+            {%- else -%}
+              {{ 'alo.gift.product_text' | t: count: min_qty, value: gift_value }}
+            {%- endif -%}
+          </p>
+        </div>
+      </div>
+    {%- endif -%}
+
+  {%- when 'strip' -%}
+    <div class="alo-gift alo-gift--strip" data-alo-gift-ui>
+      <span class="alo-gift__icon" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
+      </span>
+      <p class="alo-gift__title">
+        {{ headline }}
+        <span class="alo-gift__text">{{ 'alo.gift.strip_text' | t: value: gift_value }}</span>
+      </p>
+      {%- unless collection.id == gift_collection.id -%}
+        <a class="alo-gift__link" href="{{ gift_collection.url }}">{{ 'alo.gift.see_sets' | t }}</a>
+      {%- endunless -%}
+    </div>
+{%- endcase -%}
+{%- endif -%}

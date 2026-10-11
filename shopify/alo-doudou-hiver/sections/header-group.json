@@ -17,10 +17,10 @@
         "text_slider_LFaC38": {
           "type": "text_slider",
           "settings": {
-            "text1": "Livraison offerte dès 100€ d'achat🚚",
-            "text2": "<strong>Offre limitée d’hiver!</strong> -10% sur toute la boutique❄️&nbsp;",
-            "text3": "Paiement 100 % sécurisé • Suivie de livraison✅",
-            "change_every": 3,
+            "text1": "<strong>2 ensembles achetés = 1 sac cabas offert</strong> 🎁",
+            "text2": "Livraison offerte dès 100 € d'achat 🚚",
+            "text3": "Paiement 100 % sécurisé • Suivi de livraison ✅",
+            "change_every": 5,
             "hidden_on_mobile": false
           }
         }

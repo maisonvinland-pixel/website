@@ -1587,5 +1587,53 @@
         "label": "t:settings_schema.terms_conditions.settings.page_terms_conditions.label"
       }
     ]
+  },
+  {
+    "name": "Offre sac cabas offert",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Affiche l'offre (bannière d'accueil, collections, fiches produits, panier) et ajoute automatiquement le produit offert au panier. La gratuité est appliquée par une réduction automatique Shopify « Achetez X, obtenez Y » (Remises) : sans elle, le sac est retiré du panier et l'offre masquée, pour qu'aucune cliente ne le paie par erreur."
+      },
+      {
+        "type": "checkbox",
+        "id": "alo_gift_enable",
+        "label": "Activer l'offre",
+        "default": false
+      },
+      {
+        "type": "collection",
+        "id": "alo_gift_collection",
+        "label": "Collection des produits à acheter",
+        "info": "Doit être la même que dans la réduction automatique (ex. : Nos ensembles)."
+      },
+      {
+        "type": "range",
+        "id": "alo_gift_min_qty",
+        "label": "Nombre de produits à acheter",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 2
+      },
+      {
+        "type": "product",
+        "id": "alo_gift_product",
+        "label": "Produit offert",
+        "info": "Doit être le même que dans la réduction automatique (ex. : le sac cabas)."
+      },
+      {
+        "type": "checkbox",
+        "id": "alo_gift_auto_add",
+        "label": "Ajouter automatiquement le produit offert au panier",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "alo_gift_headline",
+        "label": "Message de l'offre",
+        "info": "Laisser vide pour : « 2 ensembles achetés = 1 sac cabas offert »."
+      }
+    ]
   }
 ]

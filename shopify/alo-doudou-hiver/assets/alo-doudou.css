@@ -431,3 +431,13 @@
     animation: none !important;
   }
 }
+
+/* Mention CGV sous le bouton de commande (remplace la case à cocher bloquante) */
+.alo-legal {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--color-text, #3c4660);
+}
+.alo-legal a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }

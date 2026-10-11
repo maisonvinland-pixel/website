@@ -14,9 +14,6 @@
     assign reset_spacing = ' remove_spacing'
   endif
 %}
-{%- capture video_attribute -%}
-    muted autoplay
-{%- endcapture -%}
 {%- capture style -%}
 --section-pt: {{ section_st.padding_top }};--section-pb: {{ section_st.padding_bottom }}; {%- if slide_height == 'custom' -%}
   --height: {{ section_st.mobile_height }}px;--height-desktop: {{ section_st.desktop_height }}px;
@@ -91,42 +88,23 @@
                 >
                   {%- if image != blank or image_mobile != blank or local_video != blank -%}
                     {% if local_video != blank %}
-                      {%- liquid
-                        assign source = local_video.sources
-                        assign source_url = ''
-                        for s in source
-                          if s.format == 'mp4'
-                            assign source_url = s.url
-                            break
-                          endif
-                        endfor
-                        assign mobile_url = ""
-                        assign desktop_url = "" 
-                        if image_mobile 
-                         assign mobile_url = image_mobile
-                          endif
-                        if image 
-                          assign desktop_url = image
-                        endif
-                        assign poster = local_video.preview_image | image_url: width: 1100
-                        assign poster_desktop = image | default: mobile_url
-                        assign poster_mobile = image_mobile | default: desktop_url
-
-                      -%}
-                      <video
-                        class="slideshow"
-                        loop="true" 
-                        {% if poster_mobile != blank  %} 
-                        data-posterMobile= "{{ poster_mobile | image_url: width: 1100 }}"     
-                        {% endif %}                 
-                        {% if poster_desktop != blank %}
-                        data-posterDesktop= "{{ poster_desktop | image_url: width: 1100 }}"        
-                         {%endif %}                                
-                        data-src="{{ source_url }}"
-                        poster="{{ poster }}"
-                        playsinline="true"
-                        {{ video_attribute }}
-                      ></video>
+                      {%- comment -%}
+                        Vidéo décorative : lecture automatique, muette, en boucle, sans
+                        contrôles. La source est déclarée dans le HTML (pas de chargement
+                        différé en JavaScript) pour démarrer dès l'arrivée sur la page ;
+                        l'image d'aperçu de la vidéo s'affiche pendant le chargement.
+                      {%- endcomment -%}
+                      {{
+                        local_video
+                        | video_tag:
+                          class: 'slideshow alo-hero-video',
+                          autoplay: true,
+                          loop: true,
+                          muted: true,
+                          playsinline: true,
+                          preload: 'auto',
+                          image_size: '1400x'
+                      }}
                       {%  else  %}
                       {%- liquid
                         if block.settings.image.alt == blank
@@ -240,6 +218,47 @@
     {% endif %}
   </div>
 </div>
+
+{%- if section.blocks.size > 0 -%}
+  <script>
+    /* Alo Doudou : garantit la lecture muette en boucle de la vidéo d'accueil
+       (relance si le navigateur la met en pause, au retour sur l'onglet ou au
+       premier geste). Respecte le réglage « réduire les animations » du système. */
+    (function () {
+      var section = document.getElementById('{{ section.id }}');
+      if (!section) return;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      section.querySelectorAll('video.alo-hero-video').forEach(function (video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+        video.setAttribute('aria-hidden', 'true');
+        video.setAttribute('tabindex', '-1');
+        video.setAttribute('disablepictureinpicture', '');
+        if (reduce) {
+          video.removeAttribute('autoplay');
+          video.pause();
+          return;
+        }
+        function play() {
+          var p = video.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        }
+        if (video.readyState >= 2) play();
+        else video.addEventListener('canplay', play, { once: true });
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden && video.paused) play();
+        });
+        ['touchstart', 'pointerdown', 'scroll'].forEach(function (type) {
+          window.addEventListener(type, function retry() {
+            window.removeEventListener(type, retry);
+            if (video.paused) play();
+          }, { passive: true });
+        });
+      });
+    })();
+  </script>
+{%- endif -%}
 
 {% schema %}
 {

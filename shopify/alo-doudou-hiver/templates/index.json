@@ -179,7 +179,8 @@
         "color_scheme": "default",
         "padding_top": 50,
         "padding_bottom": 50
-      }
+      },
+      "disabled": true
     },
     "alo_catalogue": {
       "type": "alo-catalogue",
@@ -205,7 +206,7 @@
           "settings": {
             "product_label": "",
             "text": "l'ensemble bleu/gris moule trop bien, la matière est archi douce. taille S parfaite foncez.",
-            "author": "{{ metaobjects.avis_client.lea.prenom.value }}",
+            "author": "Léa",
             "rating": 5
           }
         },
@@ -277,81 +278,64 @@
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 40
-      }
+      },
+      "disabled": true
     },
     "alo_faq": {
       "type": "alo-faq",
       "blocks": {
-        "question_01": {
+        "off1": {
           "type": "question",
           "settings": {
-            "category": "Commande & paiement",
-            "question": "Comment passer commande ?",
-            "answer": "<p>Choisis ta taille sur la fiche produit, ajoute l'article au panier puis valide ta commande en quelques clics. Tu reçois aussitôt un <strong>e-mail de confirmation</strong> avec le récapitulatif.</p>"
+            "category": "Offres",
+            "question": "Comment obtenir le sac cabas offert ?",
+            "answer": "<p>Ajoute <strong>2 ensembles</strong> de la collection <a href=\"/collections/ensembles\">Nos ensembles</a> à ton panier : le sac cabas Studio s'ajoute automatiquement et passe à <strong>0 €</strong>. Un sac offert par commande. Si tu le retires, un bouton te permet de le remettre.</p>"
           }
         },
-        "question_02": {
-          "type": "question",
-          "settings": {
-            "category": "Commande & paiement",
-            "question": "Le paiement est-il sécurisé ?",
-            "answer": "<p>Oui. Le paiement est traité par des prestataires certifiés via une connexion chiffrée : <strong>nous n'avons jamais accès à tes coordonnées bancaires</strong>. Les moyens de paiement disponibles sont affichés sur chaque fiche produit et au moment du paiement.</p>"
-          }
-        },
-        "question_04": {
+        "liv1": {
           "type": "question",
           "settings": {
             "category": "Livraison",
             "question": "Combien coûte la livraison ?",
-            "answer": "<p>La livraison est <strong>offerte dès 40 €</strong> d'achat. En dessous, elle coûte 4,90 €. Le montant exact est toujours affiché avant le paiement.</p>"
+            "answer": "<p>La livraison coûte <strong>8,90 €</strong> et elle est <strong>offerte dès 100 €</strong> d'achat. Le montant exact est toujours affiché avant le paiement : aucun frais n'est ajouté ensuite.</p>"
           }
         },
-        "question_05": {
+        "liv2": {
           "type": "question",
           "settings": {
             "category": "Livraison",
             "question": "Quels sont les délais de livraison ?",
-            "answer": "<p>Compte <strong>13 à 15 jours</strong> entre ta commande et la livraison. Tous les détails sont sur notre <a href=\"/pages/livraison\">page Livraison</a>.</p>"
+            "answer": "<p>Ta commande est expédiée sous <strong>3 à 7 jours</strong>, puis compte <strong>13 à 20 jours</strong> de livraison. Tu reçois un e-mail dès l'expédition de ton colis.</p>"
           }
         },
-        "question_06": {
+        "ret1": {
           "type": "question",
           "settings": {
-            "category": "Livraison",
-            "question": "Comment suivre ma commande ?",
-            "answer": "<p>Dès que ton colis part, tu reçois un <strong>e-mail d'expédition</strong> avec ton lien de suivi. Pense à vérifier tes courriers indésirables si tu ne le vois pas.</p>"
+            "category": "Retours & remboursements",
+            "question": "Puis-je retourner un article ?",
+            "answer": "<p>Oui : tu as <strong>14 jours à compter de la réception</strong> pour changer d'avis, sans te justifier. Écris-nous avec ton numéro de commande, nous te répondons avec l'adresse de retour. Renvoie ensuite l'article dans son état d'origine, complet, dans les 14 jours.</p>"
           }
         },
-        "question_11": {
-          "type": "question",
-          "settings": {
-            "category": "Produits & tailles",
-            "question": "Comment choisir ma taille ?",
-            "answer": "<p>Chaque fiche produit précise la coupe (ajustée, oversize, crop…). Tu hésites entre deux tailles ? <a href=\"/pages/contact\">Écris-nous avant de commander</a> : on te conseille avec plaisir.</p>"
-          }
-        },
-        "question_13": {
+        "con1": {
           "type": "question",
           "settings": {
             "category": "Contact",
             "question": "Comment vous contacter ?",
-            "answer": "<p>Via notre <a href=\"/pages/contact\">page contact</a> ou par e-mail à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a>. Pense à indiquer ton numéro de commande si tu en as un : une vraie personne te répond.</p>"
+            "answer": "<p>Via notre <a href=\"/pages/contact\">page contact</a> ou par e-mail à <a href=\"mailto:maison.vinland@gmail.com\">maison.vinland@gmail.com</a>. Indique ton numéro de commande si tu en as un : on te répond plus vite.</p>"
           }
         }
       },
       "block_order": [
-        "question_01",
-        "question_02",
-        "question_04",
-        "question_05",
-        "question_06",
-        "question_11",
-        "question_13"
+        "off1",
+        "liv1",
+        "liv2",
+        "ret1",
+        "con1"
       ],
       "settings": {
         "kicker": "Centre d'aide",
         "heading": "Tes questions, nos réponses",
-        "text": "<p>Tout ce qu'il faut savoir avant de commander. Tape un mot-clé pour trouver ta réponse en un instant.</p>",
+        "text": "<p>Les réponses aux questions qu'on nous pose le plus. Toutes les autres sont dans notre <a href=\"/pages/faq\">centre d'aide</a>.</p>",
         "search_placeholder": "Livraison, taille, retour…",
         "open_first": true,
         "contact_text": "Tu ne trouves pas ta réponse ? Une vraie personne te répond.",
@@ -360,10 +344,22 @@
         "padding_top": 50,
         "padding_bottom": 60
       }
+    },
+    "alo_offer": {
+      "type": "alo-offer",
+      "settings": {
+        "kicker": "Offre hiver",
+        "image": "",
+        "button_label": "Choisir mes ensembles",
+        "color_scheme": "default",
+        "padding_top": 24,
+        "padding_bottom": 10
+      }
     }
   },
   "order": [
     "slideshow_8KKtNU",
+    "alo_offer",
     "1791414949afccd616",
     "products_carousel_AdKeFt",
     "alo_tiktok",

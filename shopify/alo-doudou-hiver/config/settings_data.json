@@ -41,10 +41,10 @@
     "popular_key_word": "nouveautés, meilleures ventes, cadeau",
     "collection_suggestion": "meilleures-ventes",
     "show_search_price": true,
-    "show_message_when_remove": true,
+    "show_message_when_remove": false,
     "action_after_add_cart": "open_drawer",
     "show_on_minicart_cart_page": true,
-    "free_shipping_minimum": "40",
+    "free_shipping_minimum": "100",
     "choose_gift_wrap_product": "",
     "product_recommendations_type": "auto",
     "product_recommendations_heading": "Tu vas aussi adorer…",
@@ -60,7 +60,7 @@
     "vimeo": "",
     "linkedin": "",
     "whatsapp": "",
-    "scroll_animation": "slide_in",
+    "scroll_animation": "fade_in",
     "store_phone": "",
     "store_email": "maison.vinland@gmail.com",
     "store_page": "",
@@ -133,15 +133,15 @@
         "type": "alo-hiver",
         "settings": {
           "enable": true,
-          "density": 90,
-          "crystals": true,
+          "density": 50,
+          "crystals": false,
           "tint": "#9fc3e6",
-          "interact": true,
-          "burst": true,
+          "interact": false,
+          "burst": false,
           "aurora": true,
           "icicles": true,
           "drift": true,
-          "frost": true
+          "frost": false
         }
       }
     },
@@ -256,7 +256,20 @@
         }
       }
     },
-    "enable_cookies": false
+    "enable_cookies": false,
+    "enable_browser_tab_notifications": false,
+    "show_duration_on_minicart_cart_page": false,
+    "show_check_box_in_cart": false,
+    "show_compare": false,
+    "show_wishlist": false,
+    "alo_gift_enable": true,
+    "alo_gift_collection": "ensembles",
+    "alo_gift_product": "sac-cabas-studio-tie-dye-gris-nuage",
+    "alo_gift_min_qty": 2,
+    "alo_gift_auto_add": true,
+    "alo_gift_headline": "",
+    "enable_cart_note": false,
+    "show_estimate_shipping_rates": false
   },
   "presets": {
     "Default": {}

@@ -92,6 +92,7 @@
               </div>
             {% endif %}
             {%- if cart != empty -%}
+              {%- render 'alo-gift-offer', context: 'cart' -%}
               <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
                 <table class="cart-items w-full border-0">
                   <caption class="visually-hidden">
@@ -131,8 +132,15 @@
                   </thead>
                   <tbody>
                     {%- for item in cart.items -%}
+                      {%- liquid
+                        assign is_free_gift = false
+                        if item.properties['_alo_gift'] != blank and item.final_line_price == 0
+                          assign is_free_gift = true
+                        endif
+                      -%}
                       <tr
                         class="cart-item page__cart-item"
+                        {% if item.properties['_alo_gift'] != blank %}data-alo-gift-line{% endif %}
                         id="CartItem-{{ item.index | plus: 1 }}"
                         style="--custom-width: 8rem"
                       >
@@ -220,6 +228,9 @@
                                 </li>
                               {%- endfor -%}
                             </ul>
+                            {%- if is_free_gift -%}
+                              <span class="alo-free-tag">{{ 'alo.gift.free_tag' | t }}</span>
+                            {%- endif -%}
                             <cart-remove-button
                               id="Remove-{{ item.index | plus: 1 }}"
                               data-index="{{ item.index | plus: 1 }}"
@@ -285,6 +296,10 @@
                           data-title="{{ 'general.cart.headings.quantity' | t }}"
                         >
                           <div class="cart-item__quantity-wrapper">
+                            {%- if is_free_gift -%}
+                              <span class="h6">{{ item.quantity }}</span>
+                              <input type="hidden" name="updates[]" data-id="{{- item.key -}}" value="{{- item.quantity -}}" data-index="{{ item.index | plus: 1 }}">
+                            {%- else -%}
                             <quantity-input class="quantity btn-rounded border inline-flex text-center grey-bg overflow-hidden">
                               <button
                                 class="quantity__button pointer border-0 no-js-hidden w-custom grey-bg ps-20"
@@ -292,18 +307,19 @@
                                 type="button"
                                 data-id="{{- item.key -}}"
                                 style="--custom-width: 4rem"
-                                arial-label="minus"
+                                aria-label="{{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}"
                               >
                                 <svg width="11" height="12" viewBox="0 0 11 2" fill="none">
                                   <path d="M11 0.5L11 1.5L-4.37114e-08 1.5L0 0.5L11 0.5Z" fill="currentColor"></path>
                                 </svg>
                               </button>
-                              <label class="visually-hidden" for="{{- item.quantity -}}">
+                              <label class="visually-hidden" for="Quantity-{{ item.index | plus: 1 }}">
                                 {{ 'general.cart.headings.quantity' | t }}
                               </label>
                               <input
                                 class="quantity-input bg-unset text-center appearance-none p-0-important w-custom"
                                 type="number"
+                                id="Quantity-{{ item.index | plus: 1 }}"
                                 name="updates[]"
                                 data-id="{{- item.key -}}"
                                 value="{{- item.quantity -}}"
@@ -318,13 +334,14 @@
                                 type="button"
                                 data-id="{{- item.key -}}"
                                 style="--custom-width: 4rem"
-                                arial-label="plus"
+                                aria-label="{{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}"
                               >
                                 <svg width="11" height="12" viewBox="0 0 11 12" fill="none">
                                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5 11.5H6L6 6.5H11V5.5H6L6 0.5H5L5 5.5H0V6.5H5L5 11.5Z" fill="currentColor"></path>
                                 </svg>
                               </button>
                             </quantity-input>
+                            {%- endif -%}
                           </div>
                         </td>
                         <td
@@ -559,7 +576,7 @@
               {%- if free_shipping and shipping_rate > 0 -%}
                 {%- liquid
                   assign items_subtotal_price = cart.items_subtotal_price
-                  assign shipping_price = shipping_rate
+                  assign shipping_price = shipping_rate | times: 100
                 -%}
                 <free-ship-progress-bar
                   data-order="{{ cart.items_subtotal_price }}"
@@ -729,6 +746,7 @@
                       {{ 'general.page_cart.checkout' | t }}
                     </span>
                   </button>
+                  <p class="alo-legal">{{ 'alo.cart.terms_html' | t: url: '/policies/terms-of-sale' }}</p>
                 </div>
                 {%- if additional_checkout_buttons -%}
                   <div class="cart__dynamic-checkout-buttons mt-10 additional-checkout-buttons">
