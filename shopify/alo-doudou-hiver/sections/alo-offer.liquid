@@ -14,7 +14,7 @@
     assign show = true
   endif
   assign gift_value = gift_product.selected_or_first_available_variant.price | money_without_trailing_zeros
-  assign headline = settings.alo_gift_headline
+  assign headline = st.heading | default: settings.alo_gift_headline
   if headline == blank
     assign headline = 'alo.gift.headline_default' | t: count: min_qty
   endif
@@ -64,6 +64,12 @@
       "id": "kicker",
       "label": "Surtitre",
       "default": "Offre hiver"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "info": "Laisser vide pour reprendre le message de l'offre défini dans les paramètres du thème."
     },
     {
       "type": "image_picker",
